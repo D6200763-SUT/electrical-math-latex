@@ -9,6 +9,32 @@
 \ProvidesPackage{styles/custom}[2026/07/05 E Math teaching document style]
 
 % ==============================
+% ตัวเลือกฟอนต์
+% ==============================
+\newif\ifemath@font@auto
+\newif\ifemath@font@sarabun
+\newif\ifemath@font@cmprasanmit
+\emath@font@autotrue
+
+\DeclareOption{auto}{
+  \emath@font@autotrue
+  \emath@font@sarabunfalse
+  \emath@font@cmprasanmitfalse
+}
+\DeclareOption{sarabun}{
+  \emath@font@autofalse
+  \emath@font@sarabuntrue
+  \emath@font@cmprasanmitfalse
+}
+\DeclareOption{cmprasanmit}{
+  \emath@font@autofalse
+  \emath@font@sarabunfalse
+  \emath@font@cmprasanmittrue
+}
+\ExecuteOptions{auto}
+\ProcessOptions\relax
+
+% ==============================
 % ตรวจสอบ Engine
 % ==============================
 \RequirePackage{iftex}
@@ -24,7 +50,7 @@
     a4paper,
     top=2.5cm,
     bottom=2.5cm,
-    left=3.0cm,
+    left=2.5cm,
     right=2.5cm
 ]{geometry}
 
@@ -38,84 +64,146 @@
 \XeTeXlinebreaklocale "th"
 \XeTeXlinebreakskip=0pt plus 1pt
 
-% ลำดับการเลือกฟอนต์:
-% 1) CmPrasanmit ในโฟลเดอร์ fonts/ ตามตัวอย่างเอกสารเดิม
-% 2) TH Sarabun New / TH Sarabun PSK หากมีในระบบ
-% 3) Garuda เป็นตัวสำรองสำหรับ Overleaf/TeX Live
-\IfFileExists{fonts/CmPrasanmit-Regular.ttf}{
-  \setmainfont[
-    Path = fonts/,
-    Extension = .ttf,
-    UprightFont = *-Regular,
-    BoldFont = *-Bold,
-    ItalicFont = *-Italic,
-    BoldItalicFont = *-Bold-Italic,
-    Script = Thai,
-    Scale = 1.10
-  ]{CmPrasanmit}
-  \newfontfamily\thaifont[
-    Path = fonts/,
-    Extension = .ttf,
-    UprightFont = *-Regular,
-    BoldFont = *-Bold,
-    ItalicFont = *-Italic,
-    BoldItalicFont = *-Bold-Italic,
-    Script = Thai,
-    Scale = 1
-  ]{CmPrasanmit}
-  \newfontfamily\thaifonttt[
-    Path = fonts/,
-    Extension = .ttf,
-    UprightFont = *-Regular,
-    BoldFont = *-Bold,
-    ItalicFont = *-Italic,
-    BoldItalicFont = *-Bold-Italic,
-    Script = Thai,
-    Scale = 0.95
-  ]{CmPrasanmit}
-  \setmonofont[
-    Path = fonts/,
-    Extension = .ttf,
-    UprightFont = *-Regular,
-    BoldFont = *-Bold,
-    ItalicFont = *-Italic,
-    BoldItalicFont = *-Bold-Italic,
-    Script = Thai,
-    Scale = 0.95
-  ]{CmPrasanmit}
-}{
-  \IfFontExistsTF{TH Sarabun New}{
-    \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun New}
-    \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun New}
-  }{
-    \IfFontExistsTF{TH Sarabun PSK}{
-      \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun PSK}
-      \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun PSK}
-    }{
-      \setmainfont[Script=Thai,Scale=1.08]{Garuda}
-      \newfontfamily\thaifont[Script=Thai,Scale=1.08]{Garuda}
-    }
-  }
+\newcommand{\emath@setcmprasanmit}{%
+  \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
+    \setmainfont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 1.10
+    ]{CmPrasanmit}%
+    \newfontfamily\thaifont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 1
+    ]{CmPrasanmit}%
+    \newfontfamily\thaifonttt[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 0.95
+    ]{CmPrasanmit}%
+    \setmonofont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 0.95
+    ]{CmPrasanmit}%
+  }{%
+    \PackageError{styles/custom}{CmPrasanmit font files not found}{Install fonts/CmPrasanmit-*.ttf or switch to package option sarabun.}%
+  }%
 }
 
-\IfFileExists{fonts/CmPrasanmit-Regular.ttf}{}{
-  \IfFontExistsTF{TH Sarabun New}{
-    \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun New}
-    \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun New}
-  }{
-    \IfFontExistsTF{TH Sarabun PSK}{
-      \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun PSK}
-      \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun PSK}
-    }{
-      \IfFontExistsTF{Garuda}{
-        \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{Garuda}
-        \setmonofont[Script=Thai,Scale=0.95]{Garuda}
-      }{
-        \PackageError{styles/custom}{No Thai monospace font found}{Install the bundled fonts/CmPrasanmit-*.ttf or a Thai font such as TH Sarabun New.}
-      }
-    }
-  }
+\newcommand{\emath@setsarabun}{%
+  \IfFileExists{fonts/THSarabunNew.ttf}{%
+    \setmainfont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 1.25
+    ]{THSarabunNew.ttf}%
+    \newfontfamily\thaifont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 1.25
+    ]{THSarabunNew.ttf}%
+    \newfontfamily\thaifonttt[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 0.95
+    ]{THSarabunNew.ttf}%
+    \setmonofont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 0.95
+    ]{THSarabunNew.ttf}%
+  }{%
+    \IfFontExistsTF{TH Sarabun New}{%
+      \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun New}%
+      \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun New}%
+      \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun New}%
+      \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun New}%
+    }{%
+      \IfFontExistsTF{TH Sarabun PSK}{%
+        \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun PSK}%
+        \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun PSK}%
+        \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
+        \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
+      }{%
+        \PackageError{styles/custom}{TH Sarabun font not found}{Install fonts/THSarabunNew*.ttf, install TH Sarabun New in the system, or switch to package option cmprasanmit.}%
+      }%
+    }%
+  }%
 }
+
+\newcommand{\emath@setfallbackfont}{%
+  \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
+    \emath@setcmprasanmit
+  }{%
+    \IfFileExists{fonts/THSarabunNew.ttf}{%
+      \emath@setsarabun
+    }{%
+      \IfFontExistsTF{TH Sarabun New}{%
+        \emath@setsarabun
+      }{%
+        \IfFontExistsTF{TH Sarabun PSK}{%
+          \emath@setsarabun
+        }{%
+          \setmainfont[Script=Thai,Scale=1.08]{Garuda}%
+          \newfontfamily\thaifont[Script=Thai,Scale=1.08]{Garuda}%
+          \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{Garuda}%
+          \setmonofont[Script=Thai,Scale=0.95]{Garuda}%
+        }%
+      }%
+    }%
+  }%
+}
+
+% ลำดับการเลือกฟอนต์:
+% - auto: CmPrasanmit -> TH Sarabun -> Garuda
+% - cmprasanmit: บังคับใช้ CmPrasanmit
+% - sarabun: บังคับใช้ TH Sarabun
+\ifemath@font@cmprasanmit
+  \emath@setcmprasanmit
+\else
+  \ifemath@font@sarabun
+    \emath@setsarabun
+  \else
+    \emath@setfallbackfont
+  \fi
+\fi
 
 % ==============================
 % คณิตศาสตร์

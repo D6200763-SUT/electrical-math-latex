@@ -26,6 +26,20 @@ xelatex -interaction=nonstopmode -halt-on-error main.tex
 
 รันสองรอบเมื่อเปิดสารบัญหรือมีการอ้างอิงภายในเอกสาร เพื่อให้เลขหน้าในสารบัญอัปเดตครบ
 
+## การเลือกฟอนต์
+
+เปลี่ยนฟอนต์ได้ที่ `main.tex`
+
+```tex
+\usepackage[cmprasanmit]{styles/custom}
+```
+
+ค่าที่รองรับ:
+
+- `cmprasanmit` ใช้ฟอนต์ในโฟลเดอร์ `fonts/`
+- `sarabun` ใช้ `TH Sarabun New` จากโฟลเดอร์ `fonts/` หรือจากฟอนต์ที่ติดตั้งในระบบ
+- `auto` ให้เอกสารเลือกอัตโนมัติ โดยเรียงลำดับ `CmPrasanmit -> TH Sarabun -> Garuda`
+
 ## ไฟล์หลัก
 
 - `main.tex` เป็น entry point ของเอกสาร
