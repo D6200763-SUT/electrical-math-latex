@@ -1,0 +1,40 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.xdv
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.idx
+*.ilg
+*.ind
+*.nav
+*.snm
+*.vrb
+
+# Build folders
+_build/
+build/
+output/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code / LaTeX Workshop cache
+*.pdfsync
+missfont.log

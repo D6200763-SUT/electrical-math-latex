@@ -1,0 +1,30 @@
+name: Compile LaTeX
+
+on:
+  push:
+    paths:
+      - "**.tex"
+      - "**.sty"
+      - "fonts/**"
+      - ".github/workflows/compile-latex.yml"
+  pull_request:
+    paths:
+      - "**.tex"
+      - "**.sty"
+      - "fonts/**"
+      - ".github/workflows/compile-latex.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          compiler: xelatex
+          args: -interaction=nonstopmode -halt-on-error

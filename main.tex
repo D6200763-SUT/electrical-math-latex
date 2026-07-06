@@ -1,0 +1,48 @@
+% !TEX program = xelatex
+\documentclass[17pt,a4paper]{extarticle}
+
+% เรียกใช้ไฟล์ style หลักของเอกสาร
+\usepackage{styles/custom}
+
+\begin{document}
+
+% ==========================
+% หน้าปก
+% ==========================
+\begin{titlepage}
+\begin{center}
+    \vspace*{1.2cm}
+    {\Huge\bfseries เอกสารประกอบการสอน}\\[0.6em]
+    {\LARGE\bfseries รายวิชา 5571102 คณิตศาสตร์วิศวกรรมไฟฟ้า}\\[0.25em]
+    {\Large\bfseries Electrical Engineering Mathematics}\\[1.5em]
+    \rule{0.82\textwidth}{0.8pt}\\[1.2em]
+    \rule{0.82\textwidth}{0.8pt}
+
+    \vfill
+
+    \begin{tabular}{rl}
+        ชื่อผู้เรียน: & \rule{9cm}{0.4pt} \\[1em]
+        หมู่เรียน: & \rule{9cm}{0.4pt} \\[1em]
+        ภาคเรียน/ปีการศึกษา: & \rule{9cm}{0.4pt}
+    \end{tabular}
+
+    \vfill
+    {\large สาขาวิชาเทคโนโลยีวิศวกรรมไฟฟ้า}\\[0.25em]
+    {\large คณะเทคโนโลยีอุตสาหกรรม มหาวิทยาลัยราชภัฏบุรีรัมย์}
+\end{center}
+\end{titlepage}
+
+% ==========================
+% สารบัญ
+% ==========================
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% ==========================
+% เนื้อหาแต่ละบท
+% ==========================
+\input{chapters/ch2_complex_phasor}
+
+\end{document}
