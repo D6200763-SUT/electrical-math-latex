@@ -205,6 +205,9 @@
   \fi
 \fi
 
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
 % ==============================
 % คณิตศาสตร์
 % ==============================
@@ -216,6 +219,7 @@
 % ==============================
 \RequirePackage{graphicx}
 \RequirePackage{xcolor}
+\RequirePackage{float}
 
 % ==============================
 % สีหลัก ให้สอดคล้องกับตัวอย่างเอกสาร E Math
@@ -242,6 +246,7 @@
 \RequirePackage{indentfirst}
 \RequirePackage{titlesec}
 \RequirePackage{listings}
+\RequirePackage{fancyvrb}
 \RequirePackage{hyperref}
 
 \hypersetup{
@@ -250,6 +255,21 @@
   urlcolor=mainblue,
   citecolor=mainblue
 }
+
+% Compatibility helpers for Pandoc-generated LaTeX fragments.
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+}
+\providecommand{\real}[1]{#1}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newenvironment{Shaded}{}{}
+\providecommand{\NormalTok}[1]{#1}
+\providecommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\providecommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.10,0.10}{#1}}
+\providecommand{\OperatorTok}[1]{\textcolor[rgb]{0.10,0.10,0.10}{#1}}
+\providecommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.45,0.70}{#1}}
+\providecommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.64,0.08,0.08}{#1}}
 
 % ==============================
 % ระยะห่างและย่อหน้า
