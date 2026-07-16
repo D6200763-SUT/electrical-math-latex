@@ -1,69 +1,95 @@
 % ==============================
 % styles/custom.sty
-% Package ตั้งค่าหลักสำหรับเอกสารรายวิชา
+% ไฟล์สไตล์หลักสำหรับเอกสารรายวิชา
 % 5571102 คณิตศาสตร์วิศวกรรมไฟฟ้า
-% Compile ด้วย XeLaTeX
+% ต้องคอมไพล์ด้วย XeLaTeX เพราะใช้ fontspec และฟอนต์ภาษาไทย
 % ==============================
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{styles/custom}[2026/07/05 E Math teaching document style]
+\ProvidesPackage{styles/custom}[2026/07/16 Clean E Math teaching document style]
 
 % ==============================
 % ตัวเลือกฟอนต์
 % ==============================
+% สร้างตัวแปรตรรกะสำหรับเลือกฟอนต์ผ่าน \usepackage[...]{styles/custom}
+% auto        = เลือกฟอนต์ที่พบในเครื่องตามลำดับ CmPrasanmit -> TH Sarabun -> Garuda
+% sarabun     = บังคับใช้ TH Sarabun New/TH Sarabun PSK
+% cmprasanmit = บังคับใช้ CmPrasanmit
 \newif\ifemath@font@auto
 \newif\ifemath@font@sarabun
 \newif\ifemath@font@cmprasanmit
 \emath@font@autotrue
 
-\DeclareOption{auto}{
+% option auto: ใช้เมื่อต้องการให้ไฟล์เลือกฟอนต์ที่มีให้เอง
+\DeclareOption{auto}{%
   \emath@font@autotrue
   \emath@font@sarabunfalse
   \emath@font@cmprasanmitfalse
 }
-\DeclareOption{sarabun}{
+
+% option sarabun: ใช้เมื่อต้องการเอกสารแนวฟอนต์ราชการ/อ่านง่าย
+\DeclareOption{sarabun}{%
   \emath@font@autofalse
   \emath@font@sarabuntrue
   \emath@font@cmprasanmitfalse
 }
-\DeclareOption{cmprasanmit}{
+
+% option cmprasanmit: ใช้เมื่อต้องการฟอนต์ CmPrasanmit จากโฟลเดอร์ fonts/
+\DeclareOption{cmprasanmit}{%
   \emath@font@autofalse
   \emath@font@sarabunfalse
   \emath@font@cmprasanmittrue
 }
+
+% หากผู้ใช้ไม่ระบุตัวเลือก ให้ใช้ auto เป็นค่าเริ่มต้น
 \ExecuteOptions{auto}
 \ProcessOptions\relax
 
 % ==============================
-% ตรวจสอบ Engine
+% ตรวจสอบเครื่องมือคอมไพล์
 % ==============================
+% iftex: ใช้ตรวจว่าเอกสารถูกคอมไพล์ด้วย XeLaTeX หรือไม่
+% เหตุผลที่ต้องบังคับ XeLaTeX: fontspec ใช้เลือกฟอนต์ .ttf และฟอนต์ระบบโดยตรง
 \RequirePackage{iftex}
 \ifXeTeX
 \else
-  \PackageError{styles/custom}{This style requires XeLaTeX}{Please compile with XeLaTeX on Overleaf.}
+  \PackageError{styles/custom}{This style requires XeLaTeX}{Please compile with XeLaTeX.}
 \fi
 
 % ==============================
 % ตั้งค่าหน้ากระดาษ
 % ==============================
+% geometry: กำหนดขนาดกระดาษและระยะขอบทั้งหมด
+% แก้ระยะขอบได้ที่ค่า top/bottom/left/right เช่น top=2cm
 \RequirePackage[
-    a4paper,
-    top=2.5cm,
-    bottom=2.5cm,
-    left=2.5cm,
-    right=2.5cm
+  a4paper,
+  top=2.5cm,
+  bottom=2.5cm,
+  left=2.5cm,
+  right=2.5cm
 ]{geometry}
 
 % ==============================
-% ภาษาและฟอนต์ไทย ใช้กับ XeLaTeX
+% ภาษาและฟอนต์ไทย
 % ==============================
+% fontspec: เลือกฟอนต์ OpenType/TrueType เช่น .ttf ใช้ได้เฉพาะ XeLaTeX/LuaLaTeX
+% polyglossia: ตั้งค่าภาษาเอกสารให้รองรับภาษาไทยและภาษาอังกฤษ
 \RequirePackage{fontspec}
 \RequirePackage{polyglossia}
+
+% ตั้งภาษาไทยเป็นภาษาหลัก และภาษาอังกฤษเป็นภาษาเสริม
 \setmainlanguage{thai}
 \setotherlanguage{english}
+
+% เปิดการตัดบรรทัดภาษาไทยของ XeTeX
+% ค่า linebreakskip ยิ่งมากยิ่งยืดช่องไฟเพื่อช่วยจัดบรรทัดให้พอดี
 \XeTeXlinebreaklocale "th"
 \XeTeXlinebreakskip=0pt plus 1pt
 
+% \emath@setcmprasanmit:
+% ตั้งฟอนต์หลัก ฟอนต์ไทย และฟอนต์ monospace เป็น CmPrasanmit จากโฟลเดอร์ fonts/
+% ถ้าต้องการปรับขนาดทั้งเอกสาร ให้แก้ Scale ของ \setmainfont
+% ถ้าต้องการปรับขนาดโค้ด ให้แก้ Scale ของ \thaifonttt และ \setmonofont
 \newcommand{\emath@setcmprasanmit}{%
   \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
     \setmainfont[
@@ -74,7 +100,7 @@
       ItalicFont = *-Italic,
       BoldItalicFont = *-Bold-Italic,
       Script = Thai,
-      Scale = 1.10
+      Scale = 1.0
     ]{CmPrasanmit}%
     \newfontfamily\thaifont[
       Path = fonts/,
@@ -84,7 +110,7 @@
       ItalicFont = *-Italic,
       BoldItalicFont = *-Bold-Italic,
       Script = Thai,
-      Scale = 1
+      Scale = 1.0
     ]{CmPrasanmit}%
     \newfontfamily\thaifonttt[
       Path = fonts/,
@@ -111,6 +137,9 @@
   }%
 }
 
+% \emath@setsarabun:
+% ตั้งฟอนต์หลักเป็น TH Sarabun โดยลองจากไฟล์ใน fonts/ ก่อน แล้วจึงลองฟอนต์ระบบ
+% TH Sarabun มีขนาดตัวอักษรเล็กกว่า CmPrasanmit จึงตั้ง Scale ของ \setmainfont เป็น 1.10
 \newcommand{\emath@setsarabun}{%
   \IfFileExists{fonts/THSarabunNew.ttf}{%
     \setmainfont[
@@ -120,7 +149,7 @@
       ItalicFont = THSarabunNew Italic.ttf,
       BoldItalicFont = THSarabunNew BoldItalic.ttf,
       Script = Thai,
-      Scale = 1.25
+      Scale = 1.10
     ]{THSarabunNew.ttf}%
     \newfontfamily\thaifont[
       Path = fonts/,
@@ -129,7 +158,7 @@
       ItalicFont = THSarabunNew Italic.ttf,
       BoldItalicFont = THSarabunNew BoldItalic.ttf,
       Script = Thai,
-      Scale = 1.25
+      Scale = 1.0
     ]{THSarabunNew.ttf}%
     \newfontfamily\thaifonttt[
       Path = fonts/,
@@ -151,14 +180,14 @@
     ]{THSarabunNew.ttf}%
   }{%
     \IfFontExistsTF{TH Sarabun New}{%
-      \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun New}%
-      \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun New}%
+      \setmainfont[Script=Thai,Scale=1.10]{TH Sarabun New}%
+      \newfontfamily\thaifont[Script=Thai,Scale=1.10]{TH Sarabun New}%
       \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun New}%
       \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun New}%
     }{%
       \IfFontExistsTF{TH Sarabun PSK}{%
-        \setmainfont[Script=Thai,Scale=1.25]{TH Sarabun PSK}%
-        \newfontfamily\thaifont[Script=Thai,Scale=1.25]{TH Sarabun PSK}%
+        \setmainfont[Script=Thai,Scale=1.10]{TH Sarabun PSK}%
+        \newfontfamily\thaifont[Script=Thai,Scale=1.0]{TH Sarabun PSK}%
         \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
         \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
       }{%
@@ -168,6 +197,9 @@
   }%
 }
 
+% \emath@setfallbackfont:
+% ใช้กับ option auto เพื่อเลือกฟอนต์ที่มีอยู่จริงโดยไม่ให้เอกสารหยุดตั้งแต่แรก
+% Garuda เป็นฟอนต์สำรองสุดท้ายที่มักมีในระบบ TeX Live บางชุด
 \newcommand{\emath@setfallbackfont}{%
   \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
     \emath@setcmprasanmit
@@ -191,10 +223,7 @@
   }%
 }
 
-% ลำดับการเลือกฟอนต์:
-% - auto: CmPrasanmit -> TH Sarabun -> Garuda
-% - cmprasanmit: บังคับใช้ CmPrasanmit
-% - sarabun: บังคับใช้ TH Sarabun
+% เลือกฟอนต์ตาม option ที่ผู้ใช้ส่งเข้ามา
 \ifemath@font@cmprasanmit
   \emath@setcmprasanmit
 \else
@@ -205,50 +234,91 @@
   \fi
 \fi
 
+% secnumdepth=0: ไม่แสดงเลขลำดับหน้าหัวข้อ เช่น 1, 1.1
+% tocdepth=3: ให้สารบัญแสดงถึงระดับ subsubsection
 \setcounter{secnumdepth}{0}
 \setcounter{tocdepth}{3}
 
 % ==============================
 % คณิตศาสตร์
 % ==============================
-\RequirePackage{amsmath,amssymb,amsfonts}
+% mathtools: ขยายความสามารถของ amsmath และโหลด amsmath ให้โดยอัตโนมัติ
+% amssymb: เพิ่มสัญลักษณ์คณิตศาสตร์ เช่น \mathbb, \leqslant, \therefore
 \RequirePackage{mathtools}
+\RequirePackage{amssymb}
 
 % ==============================
-% ตาราง รูปภาพ รายการ และเครื่องมือทั่วไป
+% ปรับขนาดและระยะห่างสัญลักษณ์ใน Math Mode
 % ==============================
+% 	extfont/ scriptfont/ scriptscriptfont: ปรับให้สัญลักษณ์คณิตศาสตร์มีขนาดสมดุลกับข้อความ
+% elowdisplayskip และ elowdisplayshortskip: ลดช่องว่างระหว่างสูตรกับข้อความภายหลัง
+% elowdisplayskip และ elowdisplayshortskip: เพิ่มเว้นระยะให้สูตรดูไม่แน่นเกินไป
+\DeclareMathSizes{10}{10}{7}{5}
+%\DeclareMathSizes{11}{11}{8}{6}
+%\DeclareMathSizes{12}{12}{9}{7}
+\AtBeginDocument{%
+  \setlength{\abovedisplayskip}{0.65em}
+  \setlength{\belowdisplayskip}{0.65em}
+  \setlength{\abovedisplayshortskip}{0.35em}
+  \setlength{\belowdisplayshortskip}{0.35em}
+  \setlength{\jot}{4pt}
+}
+
+% ==============================
+% รูปภาพ ตาราง รายการ และโค้ด
+% ==============================
+% graphicx: ใช้คำสั่ง \includegraphics สำหรับแทรกรูปภาพ
 \RequirePackage{graphicx}
+
+% xcolor: กำหนดสีและใช้สีในหัวข้อ ลิงก์ และ syntax highlighting
 \RequirePackage{xcolor}
+
+% float: เพิ่มตำแหน่งรูป/ตารางแบบ [H] เพื่อบังคับให้อยู่ตรงตำแหน่งที่เขียน
 \RequirePackage{float}
 
-% ==============================
-% สีหลัก ให้สอดคล้องกับตัวอย่างเอกสาร E Math
-% ต้องประกาศสีก่อนเรียกใช้กับหัวข้อ กล่อง และ hyperref
-% ==============================
-\definecolor{mainblue}{RGB}{30,100,180}
-\definecolor{lightblue}{RGB}{230,245,255}
-\definecolor{mainorange}{RGB}{230,120,20}
-\definecolor{lightorange}{RGB}{255,245,230}
-\definecolor{maingreen}{RGB}{40,150,90}
-\definecolor{lightgreen}{RGB}{235,255,245}
-\definecolor{mainpurple}{RGB}{130,80,170}
-\definecolor{lightpurple}{RGB}{250,240,255}
-
-\RequirePackage[most]{tcolorbox}
+% array: ปรับรูปแบบคอลัมน์ตาราง และจำเป็นต่อ column type L ด้านล่าง
 \RequirePackage{array}
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% booktabs: เพิ่มเส้นตารางคุณภาพสูง เช่น \toprule, \midrule, \bottomrule
 \RequirePackage{booktabs}
+
+% longtable: สร้างตารางยาวข้ามหน้า ใช้ในบทที่แปลงมาจาก Pandoc
 \RequirePackage{longtable}
+
+% tabularx: สร้างตารางที่ยืดความกว้างเต็มบรรทัดและใช้คอลัมน์ชนิด X
 \RequirePackage{tabularx}
+
+% enumitem: ปรับระยะห่างของ itemize/enumerate ผ่าน \setlist
 \RequirePackage{enumitem}
-\RequirePackage{multicol}
+
+% setspace: ใช้คำสั่ง \setstretch เพื่อกำหนดระยะบรรทัดทั้งเอกสาร
 \RequirePackage{setspace}
+
+% indentfirst: ให้ย่อหน้าบรรทัดแรกหลังหัวข้อ section/subsection ด้วย
 \RequirePackage{indentfirst}
+
+% titlesec: ปรับขนาด สี และระยะของหัวข้อ section/subsection
 \RequirePackage{titlesec}
+
+% listings: แสดงโค้ดใน lstlisting และตั้ง style pythonstyle
 \RequirePackage{listings}
+
+% fancyvrb: สร้าง environment Highlighting สำหรับโค้ดที่แปลงมาจาก Pandoc
 \RequirePackage{fancyvrb}
+
+% hyperref: ทำลิงก์ในสารบัญและ \url ให้คลิกได้ ควรโหลดหลังแพ็กเกจส่วนใหญ่
 \RequirePackage{hyperref}
 
+% ==============================
+% สีหลักของเอกสาร
+% ==============================
+% mainblue: ใช้กับหัวข้อและลิงก์ แก้ RGB เพื่อเปลี่ยนโทนหลักของเอกสาร
+% maingreen: ใช้กับสี string ในโค้ด listings
+\definecolor{mainblue}{RGB}{30,100,180}
+\definecolor{maingreen}{RGB}{40,150,90}
+
+% hypersetup: ตั้งค่าสีและรูปแบบลิงก์
+% colorlinks=true ทำให้ข้อความลิงก์มีสีแทนการวาดกรอบรอบลิงก์
 \hypersetup{
   colorlinks=true,
   linkcolor=mainblue,
@@ -256,14 +326,33 @@
   citecolor=mainblue
 }
 
-% Compatibility helpers for Pandoc-generated LaTeX fragments.
+% ==============================
+% รูปแบบตารางที่ใช้ซ้ำ
+% ==============================
+% L{ความกว้าง}: คอลัมน์แบบกำหนดความกว้าง ชิดซ้าย และตัดบรรทัดได้
+% ตัวอย่าง: L{0.25\textwidth}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+% Y: คอลัมน์ของ tabularx ที่ยืดหดตามพื้นที่ว่าง ชิดซ้าย และตัดบรรทัดได้
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% ==============================
+% ตัวช่วยสำหรับไฟล์ LaTeX ที่สร้างจาก Pandoc
+% ==============================
+% \tightlist: ลดช่องไฟใน list ที่ Pandoc สร้าง
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}%
   \setlength{\parskip}{0pt}%
 }
+
+% \real{...}: ใช้ในสูตรคำนวณความกว้างคอลัมน์จาก Pandoc เช่น \real{0.25}
 \providecommand{\real}[1]{#1}
+
+% Highlighting/Shaded: environment สำหรับบล็อกโค้ดที่ Pandoc ส่งออกมา
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
 \newenvironment{Shaded}{}{}
+
+% Token commands: คำสั่งสี syntax ของ Pandoc สำหรับโค้ด MATLAB/Python
 \providecommand{\NormalTok}[1]{#1}
 \providecommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
 \providecommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.10,0.10}{#1}}
@@ -274,105 +363,45 @@
 % ==============================
 % ระยะห่างและย่อหน้า
 % ==============================
-\setstretch{1.18}
+% \setstretch: ระยะห่างบรรทัดทั้งเอกสาร 1.18 คือโปร่งกว่า single space เล็กน้อย
+\setstretch{1.10}
+
+% \parindent: ระยะย่อหน้าบรรทัดแรก
 \setlength{\parindent}{1.5em}
+
+% \parskip: ระยะห่างระหว่างย่อหน้า
 \setlength{\parskip}{0.25em}
+
+% \tabcolsep: ระยะซ้าย-ขวาภายในแต่ละช่องตาราง ลดลงเพื่อให้ตารางกว้าง ๆ พอดีหน้า
 \setlength{\tabcolsep}{4pt}
+
+% \emergencystretch: ช่วยลดปัญหา overfull hbox โดยยอมยืดช่องไฟเมื่อจัดบรรทัดยาก
 \setlength{\emergencystretch}{2em}
-\setlist[enumerate]{itemsep=0.15em, topsep=0.25em}
-\setlist[itemize]{itemsep=0.15em, topsep=0.25em}
+
+% ระยะรายการ enumerate/itemize
+% itemsep คือช่องไฟระหว่างรายการ, topsep คือช่องไฟก่อนและหลัง list
+\setlist[enumerate]{itemsep=0.10em, topsep=0.50em}
+\setlist[itemize]{itemsep=0.10em, topsep=0.50em}
 
 % ==============================
 % รูปแบบหัวข้อ
 % ==============================
-\titleformat{\section}{\Large\bfseries\color{mainblue}}{\thesection}{0.8em}{}
-\titleformat{\subsection}{\large\bfseries\color{mainblue}}{\thesubsection}{0.8em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries\color{mainblue}}{\thesubsubsection}{0.8em}{}
+% \titleformat{...}: กำหนดขนาด ฟอนต์ สี และการจัดวางหัวข้อ
+% \Large/\large/\normalsize คือขนาดตัวอักษร, \bfseries คือหนา, mainblue คือสีหัวข้อ
+\titleformat{\section}{\Large\bfseries\color{black}\raggedright}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries\color{black}\raggedright}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{black}\raggedright}{\thesubsubsection}{0.8em}{}
+\titleformat{\paragraph}[block]{\normalsize\bfseries\color{black}\raggedright}{\theparagraph}{0.8em}{}
 
-% ==============================
-% กล่องหัวข้อและกิจกรรม
-% ==============================
-% topicbox: กล่องเน้นหัวข้อหลักหรือข้อความสำคัญแบบไม่มีชื่อกล่อง
-\newtcolorbox{topicbox}{
-    colback=white,
-    colframe=mainblue,
-    arc=2mm,
-    boxrule=1pt,
-    left=8pt,
-    right=8pt,
-    top=8pt,
-    bottom=8pt,
-    fontupper=\bfseries\color{mainblue}
-}
-
-% contentbox{ชื่อกล่อง}: กล่องเนื้อหาทั่วไป ใช้สีหลักของเอกสาร
-\newtcolorbox{contentbox}[1]{
-    colback=white,
-    colframe=mainblue,
-    coltitle=white,
-    colbacktitle=mainblue,
-    title=#1,
-    fonttitle=\bfseries,
-    arc=2mm,
-    boxrule=0.8pt,
-    left=8pt,
-    right=8pt,
-    top=8pt,
-    bottom=8pt
-}
-
-% examplebox{ชื่อกล่อง}: กล่องตัวอย่าง ใช้สีส้มเพื่อแยกจากเนื้อหาหลัก
-\newtcolorbox{examplebox}[1]{
-    colback=white,
-    colframe=mainorange,
-    coltitle=white,
-    colbacktitle=mainorange,
-    title=#1,
-    fonttitle=\bfseries,
-    arc=2mm,
-    boxrule=0.8pt,
-    left=8pt,
-    right=8pt,
-    top=8pt,
-    bottom=8pt
-}
-
-% exercisebox{ชื่อกล่อง}: กล่องแบบฝึกหัดหรือโจทย์ให้นักศึกษาทำ
-\newtcolorbox{exercisebox}[1]{
-    colback=white,
-    colframe=maingreen,
-    coltitle=white,
-    colbacktitle=maingreen,
-    title=#1,
-    fonttitle=\bfseries,
-    arc=2mm,
-    boxrule=0.8pt,
-    left=8pt,
-    right=8pt,
-    top=8pt,
-    bottom=8pt
-}
-
-% specialbox{ชื่อกล่อง}: กล่องหมายเหตุพิเศษ ทฤษฎีสำคัญ หรือข้อควรระวัง
-\newtcolorbox{specialbox}[1]{
-    colback=white,
-    colframe=mainpurple,
-    coltitle=white,
-    colbacktitle=mainpurple,
-    title=#1,
-    fonttitle=\bfseries,
-    arc=2mm,
-    boxrule=0.8pt,
-    left=8pt,
-    right=8pt,
-    top=8pt,
-    bottom=8pt
-}
+% \titlespacing*{\paragraph}: ปรับระยะก่อนและหลังหัวข้อระดับ paragraph
+% รูปแบบคือ {หัวข้อ}{ระยะเยื้องซ้าย}{ระยะก่อนหัวข้อ}{ระยะหลังหัวข้อ}
+\titlespacing*{\paragraph}{0pt}{0.5em}{0.35em}
 
 % ==============================
 % รูปแบบโค้ด Python/MATLAB
 % ==============================
-% pythonstyle: รูปแบบการแสดงโค้ดด้วย listings เน้นอ่านง่ายและตัดบรรทัดอัตโนมัติ
+% pythonstyle: style หลักของ listings
+% basicstyle ใช้ \thaifonttt เพื่อให้โค้ดที่มีภาษาไทยยังแสดงผลได้
 \lstdefinestyle{pythonstyle}{
   language=Python,
   basicstyle=\thaifonttt\small,
@@ -384,16 +413,8 @@
   columns=fullflexible,
   showstringspaces=false
 }
-\lstset{style=pythonstyle}
 
-% ==============================
-% คำสั่งลัด
-% ==============================
-% \vect{v}: แสดงเวกเตอร์หรือตัวแปรเมทริกซ์เป็นตัวหนาในโหมดคณิตศาสตร์
-\newcommand{\vect}[1]{\mathbf{#1}}
-% \answerline: สร้างเส้นคำตอบพร้อมระยะห่างก่อนและหลัง
-\newcommand{\answerline}{\vspace{1em}\hrule\vspace{1em}}
-% \workingspace{ระยะ}: เว้นพื้นที่สำหรับแสดงวิธีทำ เช่น \workingspace{3cm}
-\newcommand{\workingspace}[1]{\vspace{#1}}
+% ตั้งค่าเริ่มต้นให้ lstlisting ทุกอันใช้ pythonstyle
+\lstset{style=pythonstyle}
 
 \endinput

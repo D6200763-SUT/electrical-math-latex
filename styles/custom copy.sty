@@ -1,0 +1,402 @@
+% ==============================
+% styles/custom.sty
+% Package ตั้งค่าหลักสำหรับเอกสารรายวิชา
+% 5571102 คณิตศาสตร์วิศวกรรมไฟฟ้า
+% Compile ด้วย XeLaTeX
+% ==============================
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{styles/custom}[2026/07/05 E Math teaching document style]
+
+% ==============================
+% ตัวเลือกฟอนต์
+% ==============================
+\newif\ifemath@font@auto
+\newif\ifemath@font@sarabun
+\newif\ifemath@font@cmprasanmit
+\emath@font@autotrue
+
+\DeclareOption{auto}{
+  \emath@font@autotrue
+  \emath@font@sarabunfalse
+  \emath@font@cmprasanmitfalse
+}
+\DeclareOption{sarabun}{
+  \emath@font@autofalse
+  \emath@font@sarabuntrue
+  \emath@font@cmprasanmitfalse
+}
+\DeclareOption{cmprasanmit}{
+  \emath@font@autofalse
+  \emath@font@sarabunfalse
+  \emath@font@cmprasanmittrue
+}
+\ExecuteOptions{auto}
+\ProcessOptions\relax
+
+% ==============================
+% ตรวจสอบ Engine
+% ==============================
+\RequirePackage{iftex}
+\ifXeTeX
+\else
+  \PackageError{styles/custom}{This style requires XeLaTeX}{Please compile with XeLaTeX on Overleaf.}
+\fi
+
+% ==============================
+% ตั้งค่าหน้ากระดาษ
+% ==============================
+\RequirePackage[
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+]{geometry}
+
+% ==============================
+% ภาษาและฟอนต์ไทย ใช้กับ XeLaTeX
+% ==============================
+\RequirePackage{fontspec}
+\RequirePackage{polyglossia}
+\setmainlanguage{thai}
+\setotherlanguage{english}
+\XeTeXlinebreaklocale "th"
+\XeTeXlinebreakskip=0pt plus 1pt
+
+\newcommand{\emath@setcmprasanmit}{%
+  \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
+    \setmainfont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 1.0
+    ]{CmPrasanmit}%
+    \newfontfamily\thaifont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 1
+    ]{CmPrasanmit}%
+    \newfontfamily\thaifonttt[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 0.95
+    ]{CmPrasanmit}%
+    \setmonofont[
+      Path = fonts/,
+      Extension = .ttf,
+      UprightFont = *-Regular,
+      BoldFont = *-Bold,
+      ItalicFont = *-Italic,
+      BoldItalicFont = *-Bold-Italic,
+      Script = Thai,
+      Scale = 0.95
+    ]{CmPrasanmit}%
+  }{%
+    \PackageError{styles/custom}{CmPrasanmit font files not found}{Install fonts/CmPrasanmit-*.ttf or switch to package option sarabun.}%
+  }%
+}
+
+\newcommand{\emath@setsarabun}{%
+  \IfFileExists{fonts/THSarabunNew.ttf}{%
+    \setmainfont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 1.10
+    ]{THSarabunNew.ttf}%
+    \newfontfamily\thaifont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 1
+    ]{THSarabunNew.ttf}%
+    \newfontfamily\thaifonttt[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 0.95
+    ]{THSarabunNew.ttf}%
+    \setmonofont[
+      Path = fonts/,
+      UprightFont = THSarabunNew.ttf,
+      BoldFont = THSarabunNew Bold.ttf,
+      ItalicFont = THSarabunNew Italic.ttf,
+      BoldItalicFont = THSarabunNew BoldItalic.ttf,
+      Script = Thai,
+      Scale = 0.95
+    ]{THSarabunNew.ttf}%
+  }{%
+    \IfFontExistsTF{TH Sarabun New}{%
+      \setmainfont[Script=Thai,Scale=1.10]{TH Sarabun New}%
+      \newfontfamily\thaifont[Script=Thai,Scale=1.10]{TH Sarabun New}%
+      \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun New}%
+      \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun New}%
+    }{%
+      \IfFontExistsTF{TH Sarabun PSK}{%
+        \setmainfont[Script=Thai,Scale=1.10]{TH Sarabun PSK}%
+        \newfontfamily\thaifont[Script=Thai,Scale=1.0]{TH Sarabun PSK}%
+        \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
+        \setmonofont[Script=Thai,Scale=0.95]{TH Sarabun PSK}%
+      }{%
+        \PackageError{styles/custom}{TH Sarabun font not found}{Install fonts/THSarabunNew*.ttf, install TH Sarabun New in the system, or switch to package option cmprasanmit.}%
+      }%
+    }%
+  }%
+}
+
+\newcommand{\emath@setfallbackfont}{%
+  \IfFileExists{fonts/CmPrasanmit-Regular.ttf}{%
+    \emath@setcmprasanmit
+  }{%
+    \IfFileExists{fonts/THSarabunNew.ttf}{%
+      \emath@setsarabun
+    }{%
+      \IfFontExistsTF{TH Sarabun New}{%
+        \emath@setsarabun
+      }{%
+        \IfFontExistsTF{TH Sarabun PSK}{%
+          \emath@setsarabun
+        }{%
+          \setmainfont[Script=Thai,Scale=1.08]{Garuda}%
+          \newfontfamily\thaifont[Script=Thai,Scale=1.08]{Garuda}%
+          \newfontfamily\thaifonttt[Script=Thai,Scale=0.95]{Garuda}%
+          \setmonofont[Script=Thai,Scale=0.95]{Garuda}%
+        }%
+      }%
+    }%
+  }%
+}
+
+% ลำดับการเลือกฟอนต์:
+% - auto: CmPrasanmit -> TH Sarabun -> Garuda
+% - cmprasanmit: บังคับใช้ CmPrasanmit
+% - sarabun: บังคับใช้ TH Sarabun
+\ifemath@font@cmprasanmit
+  \emath@setcmprasanmit
+\else
+  \ifemath@font@sarabun
+    \emath@setsarabun
+  \else
+    \emath@setfallbackfont
+  \fi
+\fi
+
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{3}
+
+% ==============================
+% คณิตศาสตร์
+% ==============================
+\RequirePackage{amsmath,amssymb,amsfonts}
+\RequirePackage{mathtools}
+
+% ==============================
+% ตาราง รูปภาพ รายการ และเครื่องมือทั่วไป
+% ==============================
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+\RequirePackage{float}
+
+% ==============================
+% สีหลัก ให้สอดคล้องกับตัวอย่างเอกสาร E Math
+% ต้องประกาศสีก่อนเรียกใช้กับหัวข้อ กล่อง และ hyperref
+% ==============================
+\definecolor{mainblue}{RGB}{30,100,180}
+\definecolor{lightblue}{RGB}{230,245,255}
+\definecolor{mainorange}{RGB}{230,120,20}
+\definecolor{lightorange}{RGB}{255,245,230}
+\definecolor{maingreen}{RGB}{40,150,90}
+\definecolor{lightgreen}{RGB}{235,255,245}
+\definecolor{mainpurple}{RGB}{130,80,170}
+\definecolor{lightpurple}{RGB}{250,240,255}
+
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\RequirePackage{booktabs}
+\RequirePackage{longtable}
+\RequirePackage{tabularx}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\RequirePackage{enumitem}
+\RequirePackage{multicol}
+\RequirePackage{setspace}
+\RequirePackage{indentfirst}
+\RequirePackage{titlesec}
+\RequirePackage{listings}
+\RequirePackage{fancyvrb}
+\RequirePackage{hyperref}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=mainblue,
+  urlcolor=mainblue,
+  citecolor=mainblue
+}
+
+% Compatibility helpers for Pandoc-generated LaTeX fragments.
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+}
+\providecommand{\real}[1]{#1}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newenvironment{Shaded}{}{}
+\providecommand{\NormalTok}[1]{#1}
+\providecommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\providecommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.10,0.10}{#1}}
+\providecommand{\OperatorTok}[1]{\textcolor[rgb]{0.10,0.10,0.10}{#1}}
+\providecommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.45,0.70}{#1}}
+\providecommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.64,0.08,0.08}{#1}}
+
+% ==============================
+% ระยะห่างและย่อหน้า
+% ==============================
+\setstretch{1.18}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.25em}
+\setlength{\tabcolsep}{4pt}
+\setlength{\emergencystretch}{2em}
+\setlist[enumerate]{itemsep=0.15em, topsep=0.25em}
+\setlist[itemize]{itemsep=0.15em, topsep=0.25em}
+
+% ==============================
+% รูปแบบหัวข้อ
+% ==============================
+\titleformat{\section}{\Large\bfseries\color{mainblue}\raggedright}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries\color{mainblue}\raggedright}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{mainblue}\raggedright}{\thesubsubsection}{0.8em}{}
+\titleformat{\paragraph}[block]{\normalsize\bfseries\color{mainblue}\raggedright}{\theparagraph}{0.8em}{}
+\titlespacing*{\paragraph}{0pt}{0.8em}{0.35em}
+
+% ==============================
+% กล่องหัวข้อและกิจกรรม
+% ==============================
+% topicbox: กล่องเน้นหัวข้อหลักหรือข้อความสำคัญแบบไม่มีชื่อกล่อง
+\newtcolorbox{topicbox}{
+    colback=white,
+    colframe=mainblue,
+    arc=2mm,
+    boxrule=1pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt,
+    fontupper=\bfseries\color{mainblue}
+}
+
+% contentbox{ชื่อกล่อง}: กล่องเนื้อหาทั่วไป ใช้สีหลักของเอกสาร
+\newtcolorbox{contentbox}[1]{
+    colback=white,
+    colframe=mainblue,
+    coltitle=white,
+    colbacktitle=mainblue,
+    title=#1,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.8pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt
+}
+
+% examplebox{ชื่อกล่อง}: กล่องตัวอย่าง ใช้สีส้มเพื่อแยกจากเนื้อหาหลัก
+\newtcolorbox{examplebox}[1]{
+    colback=white,
+    colframe=mainorange,
+    coltitle=white,
+    colbacktitle=mainorange,
+    title=#1,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.8pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt
+}
+
+% exercisebox{ชื่อกล่อง}: กล่องแบบฝึกหัดหรือโจทย์ให้นักศึกษาทำ
+\newtcolorbox{exercisebox}[1]{
+    colback=white,
+    colframe=maingreen,
+    coltitle=white,
+    colbacktitle=maingreen,
+    title=#1,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.8pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt
+}
+
+% specialbox{ชื่อกล่อง}: กล่องหมายเหตุพิเศษ ทฤษฎีสำคัญ หรือข้อควรระวัง
+\newtcolorbox{specialbox}[1]{
+    colback=white,
+    colframe=mainpurple,
+    coltitle=white,
+    colbacktitle=mainpurple,
+    title=#1,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.8pt,
+    left=8pt,
+    right=8pt,
+    top=8pt,
+    bottom=8pt
+}
+
+% ==============================
+% รูปแบบโค้ด Python/MATLAB
+% ==============================
+% pythonstyle: รูปแบบการแสดงโค้ดด้วย listings เน้นอ่านง่ายและตัดบรรทัดอัตโนมัติ
+\lstdefinestyle{pythonstyle}{
+  language=Python,
+  basicstyle=\thaifonttt\small,
+  keywordstyle=\color{mainblue},
+  commentstyle=\color{gray},
+  stringstyle=\color{maingreen},
+  breaklines=true,
+  frame=single,
+  columns=fullflexible,
+  showstringspaces=false
+}
+\lstset{style=pythonstyle}
+
+% ==============================
+% คำสั่งลัด
+% ==============================
+% \vect{v}: แสดงเวกเตอร์หรือตัวแปรเมทริกซ์เป็นตัวหนาในโหมดคณิตศาสตร์
+\newcommand{\vect}[1]{\mathbf{#1}}
+% \answerline: สร้างเส้นคำตอบพร้อมระยะห่างก่อนและหลัง
+\newcommand{\answerline}{\vspace{1em}\hrule\vspace{1em}}
+% \workingspace{ระยะ}: เว้นพื้นที่สำหรับแสดงวิธีทำ เช่น \workingspace{3cm}
+\newcommand{\workingspace}[1]{\vspace{#1}}
+
+\endinput
