@@ -1,0 +1,2869 @@
+\section{บทที่ 8 โปรแกรมคำนวณทางคณิตศาสตร์สำหรับวิศวกรรมไฟฟ้า}
+
+\textbf{ชื่อบทภาษาอังกฤษ:} Mathematical Computing Software for Electrical Engineering \\
+\textbf{รายวิชา:} คณิตศาสตร์วิศวกรรมไฟฟ้า (Electrical Engineering Mathematics) \\
+\textbf{รหัสวิชา:} 5571102 \\
+\textbf{ระดับผู้เรียน:} ปริญญาตรี สาขาวิชาเทคโนโลยีวิศวกรรมไฟฟ้า \\
+\textbf{ช่วงเวลาตามแผนรายวิชา:} สัปดาห์ที่ 14–15 \\
+\textbf{จำนวนชั่วโมงที่แนะนำ:} 6 ชั่วโมง (ข้อเสนอเพื่อการออกแบบการสอนสำหรับ 2 สัปดาห์; จำนวนชั่วโมงทางการไม่ได้ระบุในไฟล์โครงสร้างรายวิชา) \\
+\textbf{ความยาวเป้าหมาย:} 25–30 หน้า A4 เมื่อจัดหน้าด้วย TH Sarabun New หรือเทียบเท่า ขนาดประมาณ 16 pt \\
+\textbf{รูปแบบการเรียน:} บรรยายและฝึกปฏิบัติด้วยโปรแกรมคำนวณ \\
+
+\begin{quote}
+\textbf{หมายเหตุเกี่ยวกับบทนี้:} บทที่ 8 เป็นบทบูรณาการและบทปฏิบัติรวบยอดของรายวิชา เน้นการนำหัวข้อจากบทที่ 2–7 ได้แก่ จำนวนเชิงซ้อนและเฟสเซอร์ การวิเคราะห์เวกเตอร์ อนุกรมฟูเรียร์ การแปลงลาปลาซ และการวิเคราะห์วงจร มาตรวจสอบและสำรวจด้วยโปรแกรมคำนวณ ไม่ได้มุ่งสอนการเขียนโปรแกรมเชิงซอฟต์แวร์อย่างลึกซึ้ง
+\end{quote}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{1. แนวคิดสำคัญของบท}
+
+งานวิศวกรรมไฟฟ้าสมัยใหม่ต้องอาศัยทั้ง \textbf{แบบจำลองทางคณิตศาสตร์ (Mathematical Model)} และ \textbf{เครื่องมือคำนวณ (Computational Tool)} วิศวกรอาจเริ่มจากกฎของโอห์ม สมการเชิงอนุพันธ์ ฟังก์ชันเชิงซ้อน อนุกรมฟูเรียร์ หรือการแปลงลาปลาซ แล้วใช้โปรแกรมช่วยจัดการการคำนวณที่มีจำนวนข้อมูลมาก มีขั้นตอนซ้ำ หรือมีสมการที่ซับซ้อนกว่าที่เหมาะกับการคำนวณด้วยมือ
+
+อย่างไรก็ตาม โปรแกรมคำนวณไม่ใช่สิ่งทดแทนความเข้าใจทางคณิตศาสตร์ ผลลัพธ์จากโปรแกรมจะมีคุณค่าก็ต่อเมื่อผู้ใช้สามารถ
+
+\begin{enumerate}
+    \item สร้างแบบจำลองหรือสมการได้ถูกต้อง
+    \item เลือกเครื่องมือและวิธีคำนวณที่เหมาะสม
+    \item กำหนดหน่วย สมมติฐาน และช่วงข้อมูลได้ถูกต้อง
+    \item อ่านผลลัพธ์ กราฟ และสเปกตรัมได้อย่างมีความหมาย
+    \item ตรวจสอบผลลัพธ์ด้วยการประมาณค่า การคำนวณด้วยมือ หรือหลักทางกายภาพ
+    \item รายงานวิธีคำนวณและผลลัพธ์ให้ผู้อื่นตรวจสอบซ้ำได้
+\end{enumerate}
+
+บทนี้จึงใช้แนวคิด \textbf{Model → Compute → Visualize → Verify → Interpret → Report} เป็นแกนกลางของการเรียนรู้
+
+% [รูปที่ 1: วงจรการแก้ปัญหาทางวิศวกรรมด้วยเครื่องมือคำนวณ]
+% ประเภทภาพ: Flowchart / Infographic
+% ตำแหน่งที่แนะนำ: หลังหัวข้อ 1 แนวคิดสำคัญของบท
+% วัตถุประสงค์การเรียนรู้: ช่วยให้ผู้เรียนเห็นว่าโปรแกรมเป็นส่วนหนึ่งของกระบวนการแก้ปัญหา ไม่ใช่จุดเริ่มต้นหรือคำตอบสุดท้าย
+% คำอธิบายภาพ: แผนภาพวงจร 6 ขั้น ได้แก่ Physical Problem → Mathematical Model → Computational Method → Visualization → Verification → Engineering Interpretation & Report และมีลูกศรวนกลับจาก Verification ไปยัง Model เมื่อผลไม่สมเหตุสมผล
+% องค์ประกอบที่ต้องมี: ปัญหาจริง, สมการ, เครื่องคิดเลข/Python/MATLAB/Octave/GeoGebra, กราฟ, เครื่องหมายตรวจสอบ, รายงาน
+% ข้อความหรือป้ายกำกับ: “ปัญหาทางกายภาพ”, “แบบจำลอง”, “คำนวณ”, “แสดงผล”, “ตรวจสอบ”, “แปลผลและรายงาน”
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Clean engineering education flowchart showing a six-stage computational problem-solving cycle for electrical engineering: Physical Problem, Mathematical Model, Computational Method, Visualization, Verification, Engineering Interpretation and Report. Include icons for an electrical circuit, equations, scientific calculator, Python/MATLAB/Octave, plots, check mark, and technical report. Add a feedback arrow from Verification back to Mathematical Model. Bilingual Thai-English labels, white background, precise vector textbook style, 16:9.
+% Alt Text: แผนภาพกระบวนการแก้ปัญหาทางวิศวกรรมจากปัญหาจริงไปสู่แบบจำลอง การคำนวณ การสร้างกราฟ การตรวจสอบ และการรายงานผล
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-01.png}
+    \caption{วงจรการแก้ปัญหาทางวิศวกรรมด้วยเครื่องมือคำนวณ}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{2. ความรู้พื้นฐานก่อนเรียน}
+
+ก่อนเรียนบทนี้ นักศึกษาควรมีความรู้และทักษะดังต่อไปนี้
+
+\begin{itemize}
+    \item พีชคณิต ฟังก์ชัน กราฟ สมการ และหน่วยทางวิศวกรรม
+    \item จำนวนเชิงซ้อน รูปสี่เหลี่ยม รูปเชิงขั้ว และเฟสเซอร์
+    \item อิมพีแดนซ์ของตัวต้านทาน ตัวเหนี่ยวนำ และตัวเก็บประจุ
+    \item เวกเตอร์ ดอตโปรดักต์ ครอสโปรดักต์ เกรเดียนต์ ไดเวอร์เจนซ์ และเคิร์ลในระดับพื้นฐาน
+    \item ฟังก์ชันเป็นคาบ อนุกรมฟูเรียร์ ฮาร์มอนิก และสเปกตรัม
+    \item นิยามและสมบัติพื้นฐานของการแปลงลาปลาซ
+    \item วงจร RC, RL, RLC ฟังก์ชันถ่ายโอน โพล และซีโรในระดับเบื้องต้น
+    \item การอ่านสูตรและการแทนค่าด้วยหน่วย SI
+    \item การใช้งานคอมพิวเตอร์เบื้องต้น เช่น การสร้างไฟล์ การใช้โฟลเดอร์ และการบันทึกผลลัพธ์
+\end{itemize}
+
+\textbf{แนวคิดสำคัญก่อนเริ่ม:} นักศึกษาควรสามารถคำนวณตัวอย่างขนาดเล็กด้วยมือได้ก่อน แล้วจึงใช้โปรแกรมขยายไปสู่กรณีที่มีข้อมูลจำนวนมากหรือจำเป็นต้องสร้างกราฟ
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{3. คำสำคัญประจำบท}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l}
+        \hline
+        \textbf{คำภาษาไทย} & \textbf{English} & \textbf{ความหมายโดยย่อ} \\
+        \hline
+        โปรแกรมคำนวณทางคณิตศาสตร์ & Mathematical Computing Software & โปรแกรมที่ช่วยคำนวณ วิเคราะห์ และแสดงผลข้อมูลทางคณิตศาสตร์ \\
+        การคำนวณเชิงตัวเลข & Numerical Computation & การหาคำตอบในรูปตัวเลขโดยใช้อัลกอริทึม \\
+        การคำนวณเชิงสัญลักษณ์ & Symbolic Computation & การจัดรูป หาอนุพันธ์ ปริพันธ์ หรือทรานส์ฟอร์มโดยคงตัวแปรเชิงสัญลักษณ์ \\
+        จำนวนเชิงซ้อน & Complex Number & จำนวนรูป $a+jb$ ที่มีส่วนจริงและส่วนจินตภาพ \\
+        เฟสเซอร์ & Phasor & ตัวแทนเชิงซ้อนของสัญญาณไซน์ที่ความถี่คงที่ \\
+        อาร์เรย์ & Array & โครงสร้างข้อมูลตัวเลขหนึ่งมิติหรือหลายมิติ \\
+        เวกเตอร์ไรซ์ & Vectorization & การดำเนินการกับข้อมูลเป็นชุดแทนการคำนวณทีละสมาชิก \\
+        การสร้างกราฟ & Visualization / Plotting & การแสดงข้อมูลหรือฟังก์ชันในรูปกราฟเพื่อช่วยตีความ \\
+        FFT & Fast Fourier Transform & อัลกอริทึมที่คำนวณ DFT ได้อย่างมีประสิทธิภาพ \\
+        สเปกตรัม & Spectrum & การแสดงองค์ประกอบของสัญญาณตามความถี่ \\
+        การแปลงลาปลาซ & Laplace Transform & การแปลงฟังก์ชันจากโดเมนเวลาไปสู่โดเมน $s$ \\
+        ฟังก์ชันถ่ายโอน & Transfer Function & อัตราส่วนเอาต์พุตต่ออินพุตในโดเมนลาปลาซภายใต้เงื่อนไขเริ่มต้นเป็นศูนย์ \\
+        การตรวจสอบผล & Verification & การตรวจว่าผลคำนวณสอดคล้องกับทฤษฎี หน่วย และพฤติกรรมทางกายภาพ \\
+        ความสามารถทำซ้ำ & Reproducibility & ความสามารถในการทำตามขั้นตอนเดิมแล้วได้ผลลัพธ์สอดคล้องกัน \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{4. ผลลัพธ์การเรียนรู้ประจำบท}
+
+เมื่อเรียนจบบทนี้ นักศึกษาสามารถ...
+
+\begin{enumerate}
+    \item \textbf{เลือกใช้} เครื่องคิดเลขวิศวกรรม Python, MATLAB, GNU Octave หรือ GeoGebra ให้เหมาะกับลักษณะปัญหาทางวิศวกรรมไฟฟ้าได้
+    \item \textbf{คำนวณและแสดงผล} จำนวนเชิงซ้อน เฟสเซอร์ และเวกเตอร์ด้วยโปรแกรมได้อย่างถูกต้อง พร้อมกำหนดหน่วยและรูปแบบผลลัพธ์ที่เหมาะสม
+    \item \textbf{สร้างและวิเคราะห์} รูปคลื่น อนุกรมฟูเรียร์ และสเปกตรัมด้วยวิธีเชิงตัวเลขได้ พร้อมอธิบายผลของอัตราการสุ่มตัวอย่างและการกำหนดแกนความถี่
+    \item \textbf{ประยุกต์ใช้} การคำนวณเชิงสัญลักษณ์และเชิงตัวเลขกับการแปลงลาปลาซ ฟังก์ชันถ่ายโอน และการตอบสนองของวงจร RC/RL/RLC ได้
+    \item \textbf{ตรวจสอบและเปรียบเทียบ} ผลลัพธ์จากโปรแกรมกับการคำนวณด้วยมือหรือข้อจำกัดทางกายภาพ และระบุความคลาดเคลื่อนที่สำคัญได้
+    \item \textbf{จัดทำรายงาน} ผลการคำนวณทางวิศวกรรมไฟฟ้าที่ระบุสมการ พารามิเตอร์ หน่วย วิธีคำนวณ กราฟ และข้อสรุปอย่างเป็นระบบได้
+\end{enumerate}
+
+\subsubsection{4.1 ตารางเชื่อมโยง OBE}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l l l}
+        \hline
+        \textbf{ผลลัพธ์การเรียนรู้ประจำบท} & \textbf{เนื้อหาที่เกี่ยวข้อง} & \textbf{กิจกรรมการเรียนรู้} & \textbf{วิธีประเมิน} & \textbf{หลักฐานการเรียนรู้} \\
+        \hline
+        CLO1 เลือกใช้เครื่องมือ & 8.1–8.6 & วิเคราะห์กรณีศึกษาและเลือกเครื่องมือ & คำถามสั้น/ใบงาน & ตารางเหตุผลการเลือกเครื่องมือ \\
+        CLO2 คำนวณจำนวนเชิงซ้อนและเวกเตอร์ & 8.7–8.8 & ทดลองคำนวณด้วยมือและโปรแกรม & แบบฝึกหัดปฏิบัติ & โค้ด/ไฟล์คำนวณและคำตอบที่ตรวจหน่วยแล้ว \\
+        CLO3 วิเคราะห์ฟูเรียร์และสเปกตรัม & 8.9 & สร้างสัญญาณและ FFT & งานปฏิบัติพร้อมกราฟ & กราฟโดเมนเวลาและสเปกตรัมพร้อมคำอธิบาย \\
+        CLO4 ประยุกต์ลาปลาซกับวงจร & 8.10 & Symbolic Laplace + numerical response & แบบฝึกหัด/ชิ้นงาน & สมการ ฟังก์ชันถ่ายโอน โค้ด และกราฟตอบสนอง \\
+        CLO5 ตรวจสอบผล & ทุกหัวข้อ & เปรียบเทียบมือ–โปรแกรมและ error analysis & Rubric การตรวจสอบ & ตารางเปรียบเทียบ ค่าคลาดเคลื่อน และการอภิปราย \\
+        CLO6 จัดทำรายงาน & 8.11–8.12 & Mini computational report & ประเมินรายงาน & รายงาน 2–4 หน้า พร้อมไฟล์ต้นฉบับ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{5. แผนผังเนื้อหาของบท}
+
+ลำดับการเรียนรู้ของบทนี้ควรเป็นดังนี้
+
+\begin{enumerate}
+    \item \textbf{เข้าใจบทบาทของเครื่องมือ} และข้อจำกัดของการคำนวณด้วยโปรแกรม
+    \item \textbf{เลือกเครื่องมือให้ตรงงาน} เริ่มจากเครื่องคิดเลข → Python → MATLAB/Octave → GeoGebra
+    \item \textbf{ทบทวนการคำนวณพื้นฐาน} จำนวนเชิงซ้อน เฟสเซอร์ และเวกเตอร์
+    \item \textbf{เพิ่มมิติของข้อมูล} จากค่าตัวเลขเดี่ยวไปสู่สัญญาณและอาร์เรย์
+    \item \textbf{วิเคราะห์ความถี่} ด้วย Fourier series และ FFT
+    \item \textbf{วิเคราะห์ระบบในโดเมน $s$} ด้วย Laplace transform และฟังก์ชันถ่ายโอน
+    \item \textbf{ตรวจสอบผลลัพธ์} โดยเปรียบเทียบเชิงสัญลักษณ์ เชิงตัวเลข และเหตุผลทางกายภาพ
+    \item \textbf{จัดทำรายงาน} ที่ผู้อื่นสามารถตรวจสอบและทำซ้ำได้
+\end{enumerate}
+
+% [รูปที่ 2: แผนผังการเลือกเครื่องมือคำนวณตามลักษณะปัญหา]
+% ประเภทภาพ: Decision Flowchart
+% ตำแหน่งที่แนะนำ: หลังหัวข้อ 5
+% วัตถุประสงค์การเรียนรู้: ช่วยเลือกเครื่องมือจากชนิดงาน ไม่ใช่เลือกจากความคุ้นเคยเพียงอย่างเดียว
+% คำอธิบายภาพ: เริ่มจากคำถาม “โจทย์ต้องการอะไร?” แตกแขนงเป็น ค่าตัวเลขรวดเร็ว → Scientific Calculator, อาร์เรย์/ข้อมูล/FFT → Python NumPy/SciPy, symbolic → SymPy หรือ MATLAB Symbolic, matrix/engineering workflow → MATLAB/Octave, visualization/interactive concept → GeoGebra
+% องค์ประกอบที่ต้องมี: decision diamonds, calculator, Python, MATLAB/Octave, GeoGebra, graph, matrix, symbolic expression
+% ข้อความหรือป้ายกำกับ: Numerical, Symbolic, Array/Signal, Interactive Graph, Quick Check
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Educational decision flowchart for selecting mathematical computing tools in electrical engineering. Start with “What does the problem require?” Branch to Quick Numerical Check → Scientific Calculator; Arrays, Signals and FFT → Python NumPy/SciPy; Symbolic Algebra and Laplace → SymPy or MATLAB Symbolic; Matrix-Based Engineering Workflow → MATLAB or GNU Octave; Interactive Function Exploration → GeoGebra. Clean bilingual Thai-English labels, white background, vector textbook style, 16:9.
+% Alt Text: แผนผังตัดสินใจเลือกเครื่องมือคำนวณตามความต้องการของโจทย์
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-02.png}
+    \caption{แผนผังการเลือกเครื่องมือคำนวณตามลักษณะปัญหา}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{6. บทนำ}
+
+ในบทก่อนหน้า นักศึกษาใช้คณิตศาสตร์แก้ปัญหาทีละโจทย์ เช่น หาอิมพีแดนซ์ของวงจร AC คำนวณเกรเดียนต์ของศักย์ไฟฟ้า หาอนุกรมฟูเรียร์ของรูปคลื่น หรือใช้การแปลงลาปลาซหาการตอบสนองของวงจร RC เมื่อจำนวนตัวแปรเพิ่มขึ้นหรือจำเป็นต้องสร้างกราฟหลายจุด การคำนวณด้วยมือจะใช้เวลามากและเกิดความผิดพลาดได้ง่าย
+
+โปรแกรมคำนวณช่วยแก้ข้อจำกัดนี้ได้สามรูปแบบหลัก
+
+\begin{itemize}
+    \item \textbf{คำนวณเชิงตัวเลข:} เช่น คำนวณอิมพีแดนซ์ 100 ค่าในช่วงความถี่ 10 Hz–10 kHz
+    \item \textbf{คำนวณเชิงสัญลักษณ์:} เช่น หา $\mathcal{L}\{e^{-at}\sin \omega t\}$ โดยเก็บ $a$ และ $\omega$ เป็นตัวแปร
+    \item \textbf{แสดงผลและสำรวจ:} เช่น ปรับจำนวนฮาร์มอนิก $N$ แล้วสังเกตการเข้าใกล้รูปคลื่นสี่เหลี่ยม
+\end{itemize}
+
+ความเสี่ยงสำคัญคือโปรแกรมสามารถให้ “คำตอบที่คำนวณตามคำสั่งได้ถูกต้อง” แม้ว่าผู้ใช้จะป้อนสมการ หน่วย หรือพารามิเตอร์ผิด ดังนั้นบทนี้จึงเน้น \textbf{การตรวจสอบสามชั้น} ได้แก่
+
+\begin{enumerate}
+    \item \textbf{ตรวจสมการ:} แบบจำลองสอดคล้องกับระบบจริงหรือไม่
+    \item \textbf{ตรวจตัวเลขและหน่วย:} ขนาดและหน่วยสมเหตุสมผลหรือไม่
+    \item \textbf{ตรวจพฤติกรรม:} กราฟและแนวโน้มเป็นไปตามหลักทางไฟฟ้าหรือไม่
+\end{enumerate}
+
+ตัวอย่างเช่น วงจร RC low-pass เมื่อ $\omega \to 0$ ควรมี $|H(j\omega)|\to 1$ และเมื่อ $\omega\to\infty$ ควรมี $|H(j\omega)|\to 0$ หากกราฟจากโปรแกรมขัดกับพฤติกรรมนี้ ต้องตรวจแบบจำลองหรือคำสั่งก่อนยอมรับผลลัพธ์
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{7. เนื้อหาหลัก}
+
+\subsection{7.1 บทบาทของโปรแกรมคำนวณในงานวิศวกรรมไฟฟ้า}
+
+\subsubsection{7.1.1 งานที่โปรแกรมคำนวณช่วยได้}
+
+โปรแกรมคำนวณมีบทบาทสำคัญในงานวิศวกรรมไฟฟ้า เช่น
+
+\begin{itemize}
+    \item คำนวณจำนวนเชิงซ้อนและเฟสเซอร์
+    \item แก้ระบบสมการเชิงเส้นในวงจรหลายโหนด
+    \item คำนวณเวกเตอร์และสนาม
+    \item สร้างรูปคลื่นและวิเคราะห์สเปกตรัม
+    \item คำนวณ FFT จากข้อมูลวัด
+    \item หาปริพันธ์ อนุพันธ์ และทรานส์ฟอร์มเชิงสัญลักษณ์
+    \item แก้สมการเชิงอนุพันธ์เชิงตัวเลข
+    \item คำนวณและแสดงการตอบสนองของระบบ LTI
+    \item สร้างกราฟ Bode, step response หรือเส้นสนามตามความเหมาะสม
+    \item สร้างตารางผลลัพธ์และเตรียมข้อมูลสำหรับรายงาน
+\end{itemize}
+
+\subsubsection{7.1.2 Numerical กับ Symbolic ต่างกันอย่างไร}
+
+ให้พิจารณาสมการ
+
+\[
+Z_L = j\omega L
+\]
+
+หากกำหนด $f=50\ \text{Hz}$ และ $L=50\ \text{mH}$ แล้วคำนวณค่า $Z_L$ เป็นจำนวนเชิงซ้อน นั่นคือ \textbf{การคำนวณเชิงตัวเลข}
+
+แต่ถ้าต้องการเก็บ $\omega$ และ $L$ ไว้เป็นตัวแปรเพื่อจัดรูป เช่น หา
+
+\[
+\frac{d}{d\omega}|Z_L|
+\]
+
+หรือทำ Laplace transform โดยไม่แทนค่าพารามิเตอร์ นั่นคือ \textbf{การคำนวณเชิงสัญลักษณ์}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l}
+        \hline
+        \textbf{ประเด็น} & \textbf{Numerical} & \textbf{Symbolic} \\
+        \hline
+        ผลลัพธ์ & ตัวเลขประมาณ & นิพจน์/สูตร \\
+        เหมาะกับ & ข้อมูลจำนวนมาก การจำลอง กราฟ & จัดรูปสมการ พิสูจน์ หา transform \\
+        ตัวอย่างเครื่องมือ & NumPy, SciPy, MATLAB/Octave & SymPy, MATLAB Symbolic, GeoGebra CAS \\
+        จุดแข็ง & เร็วและเหมาะกับข้อมูลจริง & เห็นโครงสร้างทางคณิตศาสตร์ \\
+        ข้อควรระวัง & rounding, sampling, conditioning & สมมติฐานของตัวแปร รูปคำตอบอาจซับซ้อน \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{7.1.3 หลัก “คำนวณด้วยมือก่อนขยายด้วยโปรแกรม”}
+
+โจทย์เพื่อการเรียนรู้ควรเริ่มจากกรณีขนาดเล็กที่นักศึกษาคำนวณด้วยมือได้ เช่น
+
+\begin{enumerate}
+    \item คำนวณอิมพีแดนซ์ที่ความถี่เดียวด้วยมือ
+    \item เขียนโปรแกรมคำนวณอิมพีแดนซ์ในช่วง 100 ความถี่
+    \item สร้างกราฟ magnitude และ phase
+    \item ตรวจว่าค่าที่ความถี่ที่คำนวณด้วยมือตรงกับโปรแกรม
+\end{enumerate}
+
+วิธีนี้ลดการ “เชื่อโปรแกรมโดยไม่ตรวจสอบ” และสร้างทักษะวิศวกรรมที่สำคัญกว่าการจำคำสั่ง
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.2 การใช้เครื่องคิดเลขวิศวกรรมอย่างมีประสิทธิภาพ}
+
+เครื่องคิดเลขวิศวกรรมยังเป็นเครื่องมือที่มีประโยชน์มากสำหรับการตรวจคำตอบอย่างรวดเร็ว แม้จะมี Python หรือ MATLAB ก็ตาม
+
+\subsubsection{7.2.1 โหมดที่ควรรู้}
+
+\begin{itemize}
+    \item DEG / RAD สำหรับมุม
+    \item Complex mode สำหรับ $a+jb$
+    \item Rectangular ↔ Polar conversion
+    \item Scientific notation
+    \item Matrix / simultaneous equations หากรุ่นรองรับ
+    \item Statistics สำหรับค่าเฉลี่ยและส่วนเบี่ยงเบน
+\end{itemize}
+
+\subsubsection{7.2.2 ความผิดพลาดที่พบบ่อย}
+
+\begin{enumerate}
+    \item ใช้ DEG แทน RAD ในสูตรที่โปรแกรมรับเรเดียน
+    \item ป้อน $50\text{ mH}$ เป็น 50 แทน $50\times10^{-3}$ H
+    \item ลืมวงเล็บ เช่น $1/(2\pi fC)$
+    \item ใช้ค่าพีแบบปัดเศษมากเกินไปในหลายขั้น
+    \item ปัดเลขกลางทางก่อนจบการคำนวณ
+\end{enumerate}
+
+\subsubsection{ตัวอย่างที่ 1 การตรวจสอบวงจร RLC อนุกรมด้วยเครื่องคิดเลข}
+
+\textbf{ตัวอย่างเพิ่มเติมเพื่อการเรียนรู้}
+
+ให้วงจร RLC อนุกรมมี
+
+\begin{itemize}
+    \item $R=20\ \Omega$
+    \item $L=50\ \text{mH}$
+    \item $C=100\ \mu\text{F}$
+    \item $f=50\ \text{Hz}$
+    \item $V=230\ \text{V}_{\text{rms}}$
+\end{itemize}
+
+ต้องการหา $Z$ และกระแสเฟสเซอร์ $I$
+
+\textbf{1) วิเคราะห์ระบบ} \\
+อิมพีแดนซ์รวมของวงจรอนุกรมคือ
+
+\[
+Z = R + j\left(\omega L-\frac{1}{\omega C}\right)
+\]
+
+\textbf{2) กำหนดตัวแปร}
+
+\[
+\omega=2\pi f=2\pi(50)=314.159\ \text{rad/s}
+\]
+
+\textbf{3) คำนวณรีแอกแตนซ์}
+
+\[
+X_L=\omega L=314.159(0.05)=15.708\ \Omega
+\]
+
+\[
+X_C=\frac{1}{\omega C}=\frac{1}{314.159(100\times10^{-6})}=31.831\ \Omega
+\]
+
+ดังนั้น
+
+\[
+Z=20-j16.123\ \Omega
+\]
+
+\textbf{4) แปลงเป็นรูปเชิงขั้ว}
+
+\[
+|Z|=\sqrt{20^2+(-16.123)^2}\approx25.690\ \Omega
+\]
+
+\[
+\angle Z=\tan^{-1}\left(\frac{-16.123}{20}\right)\approx-38.874^\circ
+\]
+
+จึงได้
+
+\[
+Z\approx25.690\angle -38.874^\circ\ \Omega
+\]
+
+\textbf{5) หากกำหนดแรงดันเป็นเฟสอ้างอิง}
+
+\[
+V=230\angle0^\circ\ \text{V}
+\]
+
+\[
+I=\frac{V}{Z}=\frac{230\angle0^\circ}{25.690\angle-38.874^\circ}
+\approx8.953\angle38.874^\circ\ \text{A}
+\]
+
+ในรูปสี่เหลี่ยม
+
+\[
+I\approx6.970+j5.619\ \text{A}
+\]
+
+\textbf{6) ตรวจความสมเหตุสมผล} \\
+วงจรมี $X_C>X_L$ จึงมีลักษณะเชิงเก็บประจุ กระแสควรนำแรงดัน ซึ่งสอดคล้องกับมุมกระแส $+38.874^\circ$
+
+\begin{quote}
+\textbf{ข้อสังเกต:} ตัวอย่างนี้จะถูกใช้ซ้ำในหัวข้อ Python เพื่อยืนยันว่าผลจากโปรแกรมตรงกับการคำนวณด้วยมือ
+\end{quote}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.3 การใช้ Python สำหรับคำนวณทางวิศวกรรมไฟฟ้า}
+
+Python เหมาะกับการเรียนรู้เพราะสามารถเริ่มจากการคำนวณง่าย ๆ แล้วขยายไปสู่อาร์เรย์ กราฟ สัญญาณ และ symbolic computation ได้ในภาษาเดียว โดยในบทนี้ใช้แนวคิดมากกว่าการผูกติดกับ IDE ใด IDE หนึ่ง
+
+\subsubsection{7.3.1 โครงสร้างพื้นฐานที่จำเป็น}
+
+สิ่งที่นักศึกษาควรรู้เพียงพอสำหรับบทนี้ ได้แก่
+
+\begin{itemize}
+    \item ตัวแปรและชนิดข้อมูลตัวเลข
+    \item complex number เช่น \texttt{3+4j}
+    \item list และ array
+    \item การเรียกฟังก์ชัน
+    \item การนำเข้าไลบรารีด้วย \texttt{import}
+    \item การสร้างกราฟ
+    \item การพิมพ์ผลลัพธ์ด้วยรูปแบบที่ควบคุมจำนวนทศนิยม
+\end{itemize}
+
+\subsubsection{7.3.2 จำนวนเชิงซ้อนใน Python}
+
+Python ใช้ \texttt{j} แทนหน่วยจินตภาพ เช่น
+
+\begin{verbatim}
+z = 3 + 4j
+print(z.real)
+print(z.imag)
+print(abs(z))
+\end{verbatim}
+
+สำหรับฟังก์ชันที่ทำงานกับจำนวนเชิงซ้อน สามารถใช้ \texttt{cmath} เช่น phase และการแปลง polar/rectangular
+
+\begin{verbatim}
+import cmath
+import math
+
+z = 3 + 4j
+r, phi = cmath.polar(z)
+print(r)
+print(math.degrees(phi))
+\end{verbatim}
+
+\subsubsection{ตัวอย่างที่ 2 ตรวจสอบวงจร RLC ของตัวอย่างที่ 1 ด้วย Python}
+
+\textbf{ตัวอย่างเพิ่มเติมเพื่อการเรียนรู้}
+
+\begin{verbatim}
+import math
+import cmath
+
+R = 20.0
+L = 50e-3
+C = 100e-6
+f = 50.0
+V = 230.0
+
+w = 2 * math.pi * f
+Z = R + 1j * (w*L - 1/(w*C))
+I = V / Z
+
+print(f"Z = {Z:.4f} ohm")
+print(f"|Z| = {abs(Z):.4f} ohm")
+print(f"angle Z = {math.degrees(cmath.phase(Z)):.4f} deg")
+print(f"I = {I:.4f} A")
+print(f"|I| = {abs(I):.4f} A")
+print(f"angle I = {math.degrees(cmath.phase(I)):.4f} deg")
+\end{verbatim}
+
+ผลที่ควรได้ใกล้เคียง
+
+\begin{verbatim}
+Z = 20.0000-16.1230j ohm
+|Z| = 25.6895 ohm
+angle Z = -38.8741 deg
+I = 6.9702+5.6190j A
+|I| = 8.9531 A
+angle I = 38.8741 deg
+\end{verbatim}
+
+\textbf{การตรวจสอบ}
+
+\begin{itemize}
+    \item ขนาดและมุมตรงกับการคำนวณด้วยมือ
+    \item กระแสนำแรงดันเพราะวงจรเป็น capacitive
+    \item หน่วยต้องกำหนดโดยผู้ใช้ โปรแกรมไม่ทราบโดยอัตโนมัติว่า \texttt{L=50e-3} หมายถึงเฮนรี
+\end{itemize}
+
+\subsubsection{7.3.3 จากค่าจุดเดียวไปสู่ช่วงความถี่}
+
+จุดแข็งของโปรแกรมคือการคำนวณแบบอาร์เรย์ เช่น ต้องการดู $|Z|$ ตั้งแต่ 10 Hz ถึง 1 kHz สามารถสร้างช่วงความถี่แล้วคำนวณทุกจุดพร้อมกันด้วย NumPy
+
+\begin{verbatim}
+import numpy as np
+
+f = np.logspace(1, 3, 300)       # 10 Hz to 1000 Hz
+w = 2*np.pi*f
+Z = R + 1j*(w*L - 1/(w*C))
+Zmag = np.abs(Z)
+\end{verbatim}
+
+จากนั้นจึงนำ \texttt{f} และ \texttt{Zmag} ไปสร้างกราฟได้
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.4 การใช้ไลบรารี NumPy, SciPy, Matplotlib และ SymPy}
+
+ไลบรารีแต่ละตัวมีหน้าที่ต่างกัน การเลือกใช้ควรสัมพันธ์กับชนิดของงาน
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l}
+        \hline
+        \textbf{ไลบรารี} & \textbf{บทบาทหลักในบทนี้} & \textbf{ตัวอย่างงาน} \\
+        \hline
+        NumPy & อาร์เรย์ คำนวณเชิงตัวเลข FFT & รูปคลื่น อิมพีแดนซ์ตามความถี่ สเปกตรัม \\
+        SciPy & อัลกอริทึมวิทยาศาสตร์และ signal/system & step response, frequency response \\
+        Matplotlib & กราฟและการแสดงผล & waveform, spectrum, response curve \\
+        SymPy & คณิตศาสตร์เชิงสัญลักษณ์ & simplify, derivative, integral, Laplace transform \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{7.4.1 NumPy: อาร์เรย์และเวกเตอร์ไรซ์}
+
+ตัวอย่างสร้างสัญญาณไซน์ 50 Hz เป็นเวลา 0.1 s ที่อัตราสุ่มตัวอย่าง 5 kHz
+
+\begin{verbatim}
+import numpy as np
+
+fs = 5000.0
+T = 0.1
+t = np.arange(0, T, 1/fs)
+v = 311*np.sin(2*np.pi*50*t)
+\end{verbatim}
+
+จำนวนตัวอย่างโดยประมาณคือ
+
+\[
+N=f_sT=5000(0.1)=500
+\]
+
+ความสัมพันธ์นี้สำคัญเพราะ FFT จะทำงานบนชุดข้อมูลที่สุ่มตัวอย่างแล้ว ไม่ใช่ฟังก์ชันต่อเนื่องโดยตรง
+
+\subsubsection{7.4.2 Matplotlib: กราฟที่อ่านความหมายได้}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+plt.plot(t, v)
+plt.xlabel("Time (s)")
+plt.ylabel("Voltage (V)")
+plt.title("50-Hz Sinusoidal Voltage")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+กราฟวิศวกรรมที่ดีควรมีอย่างน้อย
+
+\begin{itemize}
+    \item ชื่อกราฟ
+    \item ชื่อแกน
+    \item หน่วย
+    \item legend เมื่อมีหลายเส้น
+    \item ช่วงแกนที่เหมาะสม
+    \item ข้อความอธิบายพารามิเตอร์สำคัญในรายงาน
+\end{itemize}
+
+% [รูปที่ 3: โครงสร้างข้อมูลจากสมการสู่กราฟใน Python]
+% ประเภทภาพ: Block Diagram
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.4
+% วัตถุประสงค์การเรียนรู้: แสดงความสัมพันธ์ระหว่างพารามิเตอร์ อาร์เรย์เวลา สมการสัญญาณ และกราฟ
+% คำอธิบายภาพ: แสดง blocks fs, T → t = np.arange(...) → v(t) → plt.plot(t,v) พร้อมตัวอย่าง 50 Hz sinusoid
+% องค์ประกอบที่ต้องมี: sampling frequency, time array, signal array, plot
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Clean engineering block diagram showing the Python numerical workflow for a sampled electrical waveform: sampling frequency fs and duration T, generate time array t, evaluate v(t)=Vm sin(2πft+phi), store voltage array, then plot time versus voltage with Matplotlib. Include a small sinusoidal output plot. Bilingual Thai-English labels, white background, vector textbook style, 16:9.
+% Alt Text: แผนภาพการสร้างอาร์เรย์เวลา คำนวณสัญญาณ และสร้างกราฟด้วย Python
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-03.png}
+    \caption{โครงสร้างข้อมูลจากสมการสู่กราฟใน Python}
+\end{figure}
+
+\subsubsection{7.4.3 SciPy: ระบบเชิงเส้นและการตอบสนอง}
+
+สำหรับระบบ LTI ต่อเนื่อง ถ้าฟังก์ชันถ่ายโอนเขียนเป็น
+
+\[
+H(s)=\frac{b_0s^m+\cdots+b_m}{a_0s^n+\cdots+a_n}
+\]
+
+สามารถเก็บสัมประสิทธิ์ numerator และ denominator แล้วใช้เครื่องมือใน \texttt{scipy.signal} เพื่อหาการตอบสนองแบบ step หรือ frequency response
+
+ตัวอย่าง RC low-pass
+
+\[
+H(s)=\frac{1}{RCs+1}
+\]
+
+หาก $R=1\ \text{k}\Omega$ และ $C=100\ \mu\text{F}$ จะได้ $RC=0.1$ s
+
+\begin{verbatim}
+from scipy import signal
+import matplotlib.pyplot as plt
+
+R = 1000.0
+C = 100e-6
+sys = signal.TransferFunction([1], [R*C, 1])
+t, y = signal.step(sys)
+
+plt.plot(t, y)
+plt.xlabel("Time (s)")
+plt.ylabel("Normalized output")
+plt.title("RC Low-Pass Step Response")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+ผลลัพธ์ควรมีแนวโน้มเข้าใกล้ 1 เมื่อเวลามากขึ้น ซึ่งสอดคล้องกับคำตอบทางทฤษฎี
+
+\[
+y(t)=1-e^{-t/(RC)},\qquad t\ge0
+\]
+
+\subsubsection{7.4.4 SymPy: การคำนวณเชิงสัญลักษณ์}
+
+\begin{verbatim}
+import sympy as sp
+
+t, s, R, C = sp.symbols('t s R C', positive=True)
+f = sp.exp(-t/(R*C))
+F = sp.laplace_transform(f, t, s, noconds=True)
+print(sp.simplify(F))
+\end{verbatim}
+
+ผลเชิงสัญลักษณ์ควรสอดคล้องกับ
+
+\[
+\mathcal{L}\left\{e^{-t/(RC)}\right\}
+=\frac{1}{s+1/(RC)}
+\]
+
+หรือรูปที่สมมูลกัน
+
+\[
+\frac{RC}{RCs+1}
+\]
+
+\textbf{ข้อควรระวัง:} ผลจาก symbolic software อาจอยู่ในรูปที่ต่างจากคำตอบในตำรา แต่สมมูลกันทางพีชคณิต จึงควรใช้ \texttt{simplify}, \texttt{factor} หรือการแทนค่าตรวจสอบ
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.5 การใช้ MATLAB หรือ GNU Octave สำหรับงานคณิตศาสตร์วิศวกรรม}
+
+MATLAB และ GNU Octave ใช้แนวคิดเมทริกซ์และเวกเตอร์เป็นศูนย์กลาง จึงเหมาะกับงานวิศวกรรมที่ต้องจัดการข้อมูลจำนวนมาก สมการเชิงเส้น รูปคลื่น และการวิเคราะห์ความถี่ ไวยากรณ์พื้นฐานหลายส่วนคล้ายกัน แต่ความพร้อมของ toolbox/package และรายละเอียดของฟังก์ชันอาจแตกต่างกัน
+
+\subsubsection{7.5.1 การสร้างเวกเตอร์เวลาและรูปคลื่น}
+
+\begin{verbatim}
+fs = 5000;
+T = 0.1;
+t = 0:1/fs:T-1/fs;
+v = 311*sin(2*pi*50*t);
+
+plot(t,v);
+xlabel('Time (s)');
+ylabel('Voltage (V)');
+title('50-Hz Sinusoidal Voltage');
+grid on;
+\end{verbatim}
+
+\subsubsection{7.5.2 การคำนวณจำนวนเชิงซ้อน}
+
+\begin{verbatim}
+R = 20;
+L = 50e-3;
+C = 100e-6;
+f = 50;
+w = 2*pi*f;
+
+Z = R + 1i*(w*L - 1/(w*C));
+Zmag = abs(Z);
+Zang = angle(Z)*180/pi;
+\end{verbatim}
+
+\subsubsection{7.5.3 การใช้ FFT}
+
+\begin{verbatim}
+Y = fft(v);
+N = length(v);
+faxis = (0:N-1)*(fs/N);
+mag = abs(Y)/N;
+\end{verbatim}
+
+สำหรับสัญญาณจริง หากต้องการ single-sided spectrum ต้องจัดการการเลือกครึ่งสเปกตรัมและสเกลแอมพลิจูดอย่างถูกต้อง ไม่ควรนำ \texttt{abs(fft(v))} ไปอ่านเป็นขนาดแอมพลิจูดของฮาร์มอนิกทันทีโดยไม่พิจารณา normalization
+
+\subsubsection{7.5.4 MATLAB กับ GNU Octave}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l l}
+        \hline
+        \textbf{ประเด็น} & \textbf{MATLAB} & \textbf{GNU Octave} \\
+        \hline
+        ลักษณะ & ซอฟต์แวร์เชิงพาณิชย์ & ซอฟต์แวร์เสรี/โอเพนซอร์ส \\
+        รูปแบบคำสั่งพื้นฐาน & Matrix-oriented & คล้าย MATLAB ในงานพื้นฐานจำนวนมาก \\
+        Toolbox/Package & มี toolbox จำนวนมาก & ใช้ core functions และ packages \\
+        เหมาะกับการเรียน & ดี โดยเฉพาะเมื่อสถาบันมี license & ดีเมื่อเน้นเครื่องมือเปิดและเข้าถึงได้ \\
+        ข้อควรระวัง & ฟังก์ชันบางชนิดต้องมี toolbox & package บางส่วนต้องติดตั้งเพิ่ม และความเข้ากันได้ไม่สมบูรณ์ทุกกรณี \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\textbf{แนวทางสอนที่แนะนำ:} ใช้โจทย์เดียวกันใน Python และ MATLAB/Octave อย่างน้อยหนึ่งครั้ง เพื่อให้นักศึกษาเห็นว่าหลักคณิตศาสตร์เหมือนเดิม แม้ syntax ต่างกัน
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.6 การใช้ GeoGebra หรือเครื่องมือกราฟออนไลน์ในการสร้างความเข้าใจ}
+
+GeoGebra เหมาะกับการสำรวจแนวคิดแบบโต้ตอบ โดยเฉพาะเมื่อผู้เรียนต้องการเห็นผลของพารามิเตอร์ทันที เช่น เปลี่ยน $R$ หรือ $C$ แล้วกราฟ RC เปลี่ยนอย่างไร หรือเพิ่มจำนวนพจน์ในอนุกรมฟูเรียร์แล้วรูปคลื่นเข้าใกล้สี่เหลี่ยมอย่างไร
+
+\subsubsection{7.6.1 ตัวอย่างการสำรวจ RC response}
+
+กำหนด
+
+\[
+v_C(t)=V_s\left(1-e^{-t/(RC)}\right)
+\]
+
+สามารถสร้าง sliders สำหรับ $R$, $C$ และ $V_s$ แล้วสังเกตว่า time constant
+
+\[
+\tau=RC
+\]
+
+ส่งผลต่อความเร็วของการเปลี่ยนแปลงอย่างไร
+
+\subsubsection{7.6.2 ตัวอย่างการสำรวจ Fourier partial sum}
+
+สำหรับ square wave แบบ odd symmetry สามารถกำหนด
+
+\[
+S_N(t)=\frac{4A}{\pi}\sum_{k=0}^{N-1}\frac{1}{2k+1}\sin\left[(2k+1)\omega_0t\right]
+\]
+
+แล้วใช้ slider ของ $N$ เพื่อดูผลของจำนวนฮาร์มอนิก
+
+% [รูปที่ 4: หน้าจอแนวคิด GeoGebra สำหรับสำรวจ RC และ Fourier]
+% ประเภทภาพ: Technical Illustration / UI Concept
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.6
+% วัตถุประสงค์การเรียนรู้: แสดงแนวคิด slider-based exploration โดยไม่ผูกกับหน้าตาเวอร์ชันใดเวอร์ชันหนึ่ง
+% คำอธิบายภาพ: สองพาเนล ด้านซ้าย RC charging curve พร้อม sliders R และ C; ด้านขวา square-wave Fourier partial sum พร้อม slider N
+% องค์ประกอบที่ต้องมี: กราฟ, sliders, equation field, labels tau=RC and N harmonics
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Two-panel educational math software concept. Left panel: interactive RC charging curve vC(t)=Vs(1-exp(-t/RC)) with sliders for R and C and displayed time constant tau=RC. Right panel: Fourier partial-sum approximation of a square wave with slider N controlling the number of odd harmonics. Clean white background, bilingual Thai-English labels, precise engineering textbook vector style, 16:9.
+% Alt Text: ภาพแนวคิดการใช้ slider สำรวจผลของ R, C และจำนวนฮาร์มอนิกต่อกราฟ
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-04.png}
+    \caption{หน้าจอแนวคิด GeoGebra สำหรับสำรวจ RC และ Fourier}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+\subsection{7.7 การคำนวณจำนวนเชิงซ้อนและเฟสเซอร์ด้วยโปรแกรม}
+
+\subsubsection{7.7.1 จากจำนวนเชิงซ้อนสู่เฟสเซอร์}
+
+จำนวนเชิงซ้อนในรูปสี่เหลี่ยมเขียนได้เป็น
+
+\[
+Z=a+jb
+\]
+
+และแปลงเป็นรูปเชิงขั้วได้เป็น
+
+\[
+Z=|Z|\angle\theta
+\]
+
+เมื่อ
+
+\[
+|Z|=\sqrt{a^2+b^2}
+\]
+
+และ
+
+\[
+\theta=\operatorname{atan2}(b,a)
+\]
+
+การใช้ \texttt{atan2} มีความสำคัญกว่าการใช้เพียง $\tan^{-1}(b/a)$ เพราะสามารถระบุควอดแรนต์ของมุมได้ถูกต้อง
+
+\subsubsection{7.7.2 สมการอิมพีแดนซ์พื้นฐาน}
+
+สำหรับวงจรไซน์คงตัวที่ความถี่เชิงมุม $\omega$
+
+\[
+Z_R=R
+\]
+
+\[
+Z_L=j\omega L
+\]
+
+\[
+Z_C=\frac{1}{j\omega C}=-j\frac{1}{\omega C}
+\]
+
+โดย
+
+\begin{itemize}
+    \item $R$ หน่วยโอห์ม $(\Omega)$
+    \item $L$ หน่วยเฮนรี (H)
+    \item $C$ หน่วยฟารัด (F)
+    \item $\omega=2\pi f$ หน่วย rad/s
+\end{itemize}
+
+สมการเหล่านี้ใช้กับการวิเคราะห์ sinusoidal steady state และสมมติว่าระบบเชิงเส้นที่ความถี่เดียวกัน
+
+\subsubsection{7.7.3 การคำนวณอิมพีแดนซ์เป็นฟังก์ชันของความถี่}
+
+พิจารณาวงจร RLC อนุกรม
+
+\[
+Z(f)=R+j\left(2\pi fL-\frac{1}{2\pi fC}\right)
+\]
+
+เรโซแนนซ์เกิดเมื่อส่วนจินตภาพเป็นศูนย์
+
+\[
+2\pi f_0L=\frac{1}{2\pi f_0C}
+\]
+
+จึงได้
+
+\[
+f_0=\frac{1}{2\pi\sqrt{LC}}
+\]
+
+สำหรับ $L=50\ \text{mH}$ และ $C=100\ \mu\text{F}$
+
+\[
+f_0\approx\frac{1}{2\pi\sqrt{(0.05)(100\times10^{-6})}}
+\approx71.18\ \text{Hz}
+\]
+
+ที่ความถี่นี้อิมพีแดนซ์ในอุดมคติของวงจรอนุกรมจะมีส่วนรีแอกทีฟใกล้ศูนย์และ $|Z|$ ต่ำสุดใกล้ $R$
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+R = 20.0
+L = 50e-3
+C = 100e-6
+
+f = np.logspace(0, 3, 800)
+w = 2*np.pi*f
+Z = R + 1j*(w*L - 1/(w*C))
+
+plt.semilogx(f, np.abs(Z))
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("|Z| (ohm)")
+plt.title("Series RLC Impedance Magnitude")
+plt.grid(True, which="both")
+plt.show()
+\end{verbatim}
+
+% [รูปที่ 5: ขนาดอิมพีแดนซ์และมุมเฟสของวงจร RLC ตามความถี่]
+% ประเภทภาพ: Graph
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.7.3
+% วัตถุประสงค์การเรียนรู้: แสดงการเชื่อมโยงจำนวนเชิงซ้อนกับพฤติกรรมความถี่ของวงจร
+% คำอธิบายภาพ: กราฟสองส่วนแต่ไม่จำเป็นต้องอยู่ใน subplot เดียว: magnitude $|Z|$ และ phase $\angle Z$ เทียบความถี่แบบ logarithmic โดยทำเครื่องหมาย $f_0\approx71.18$ Hz
+% องค์ประกอบที่ต้องมี: แกนความถี่ Hz, magnitude ohm, phase degree, resonance marker
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Graph Generation Prompt: Plot the series RLC impedance Z(f)=20+j(2πf·0.05−1/(2πf·100e−6)) for f from 1 Hz to 1000 Hz on logarithmic frequency axes. Show magnitude |Z| in ohms and phase angle in degrees, clearly mark resonance f0≈71.18 Hz where the imaginary part crosses zero. Use precise axes, units, legends, white engineering textbook background, bilingual Thai-English labels, 16:9.
+% Alt Text: กราฟอิมพีแดนซ์ของวงจร RLC แสดงค่าต่ำสุดและมุมใกล้ศูนย์ที่ความถี่เรโซแนนซ์
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-05.png}
+    \caption{ขนาดอิมพีแดนซ์และมุมเฟสของวงจร RLC ตามความถี่}
+\end{figure}
+
+\subsubsection{7.7.4 การตรวจสอบเฟสเซอร์ด้วยหลักทางกายภาพ}
+
+ก่อนยอมรับผลลัพธ์จากโปรแกรม ควรตั้งคำถามต่อไปนี้
+
+\begin{itemize}
+    \item วงจรมีลักษณะ inductive หรือ capacitive?
+    \item กระแสควรนำหรือล้าหลังแรงดัน?
+    \item ขนาดกระแสควรอยู่ในช่วงใดจาก $I\approx V/|Z|$?
+    \item หาก $f$ เพิ่มมากขึ้น $X_L$ และ $X_C$ เปลี่ยนอย่างไร?
+\end{itemize}
+
+คำถามเหล่านี้เป็น \textbf{engineering sanity check} ที่ช่วยจับข้อผิดพลาดของหน่วยและเครื่องหมาย
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.8 การวิเคราะห์เวกเตอร์ด้วยโปรแกรม}
+
+\subsubsection{7.8.1 การคำนวณเวกเตอร์เชิงตัวเลข}
+
+ให้เวกเตอร์
+
+\[
+\mathbf{A}=2\hat{\mathbf{x}}-\hat{\mathbf{y}}+3\hat{\mathbf{z}}
+\]
+
+และ
+
+\[
+\mathbf{B}=4\hat{\mathbf{x}}+2\hat{\mathbf{y}}-\hat{\mathbf{z}}
+\]
+
+ดอตโปรดักต์คือ
+
+\[
+\mathbf{A}\cdot\mathbf{B}=2(4)+(-1)(2)+3(-1)=3
+\]
+
+ครอสโปรดักต์คือ
+
+\[
+\mathbf{A}\times\mathbf{B}
+=\begin{vmatrix}
+\hat{\mathbf{x}} & \hat{\mathbf{y}} & \hat{\mathbf{z}}\\
+2&-1&3\\
+4&2&-1
+\end{vmatrix}
+\]
+
+คำนวณด้วย NumPy ได้ดังนี้
+
+\begin{verbatim}
+import numpy as np
+
+A = np.array([2.0, -1.0, 3.0])
+B = np.array([4.0,  2.0, -1.0])
+
+dot_AB = np.dot(A, B)
+cross_AB = np.cross(A, B)
+
+print(dot_AB)
+print(cross_AB)
+\end{verbatim}
+
+การตรวจสอบที่ทำได้ทันทีคือ
+
+\[
+(\mathbf{A}\times\mathbf{B})\cdot\mathbf{A}=0
+\]
+
+และ
+
+\[
+(\mathbf{A}\times\mathbf{B})\cdot\mathbf{B}=0
+\]
+
+เพราะครอสโปรดักต์ต้องตั้งฉากกับทั้งสองเวกเตอร์
+
+\subsubsection{7.8.2 เกรเดียนต์เชิงสัญลักษณ์}
+
+ให้ศักย์ไฟฟ้าเชิงตัวอย่าง
+
+\[
+V(x,y,z)=3x^2y+2yz^2\quad \text{V}
+\]
+
+เกรเดียนต์คือ
+
+\[
+\nabla V=
+\frac{\partial V}{\partial x}\hat{\mathbf{x}}+
+\frac{\partial V}{\partial y}\hat{\mathbf{y}}+
+\frac{\partial V}{\partial z}\hat{\mathbf{z}}
+\]
+
+ดังนั้น
+
+\[
+\nabla V=
+6xy\hat{\mathbf{x}}+
+(3x^2+2z^2)\hat{\mathbf{y}}+
+4yz\hat{\mathbf{z}}
+\]
+
+สนามไฟฟ้าสัมพันธ์กับศักย์โดย
+
+\[
+\mathbf{E}=-\nabla V
+\]
+
+\textbf{ความหมายทางกายภาพ:} เครื่องหมายลบหมายถึงสนามไฟฟ้าชี้ไปในทิศที่ศักย์ลดลงเร็วที่สุด
+
+\begin{verbatim}
+import sympy as sp
+
+x, y, z = sp.symbols('x y z', real=True)
+V = 3*x**2*y + 2*y*z**2
+
+gradV = sp.Matrix([
+    sp.diff(V, x),
+    sp.diff(V, y),
+    sp.diff(V, z)
+])
+
+E = -gradV
+print(E)
+\end{verbatim}
+
+\subsubsection{7.8.3 ไดเวอร์เจนซ์และเคิร์ล}
+
+สำหรับสนามเวกเตอร์
+
+\[
+\mathbf{F}=F_x\hat{\mathbf{x}}+F_y\hat{\mathbf{y}}+F_z\hat{\mathbf{z}}
+\]
+
+ไดเวอร์เจนซ์คือ
+
+\[
+\nabla\cdot\mathbf{F}
+=\frac{\partial F_x}{\partial x}
++\frac{\partial F_y}{\partial y}
++\frac{\partial F_z}{\partial z}
+\]
+
+และเคิร์ลคือ
+
+\[
+\nabla\times\mathbf{F}
+=
+\begin{vmatrix}
+\hat{\mathbf{x}}&\hat{\mathbf{y}}&\hat{\mathbf{z}}\\
+\partial/\partial x&\partial/\partial y&\partial/\partial z\\
+F_x&F_y&F_z
+\end{vmatrix}
+\]
+
+การใช้ symbolic software เหมาะเมื่อส่วนประกอบของสนามเป็นฟังก์ชันของหลายตัวแปร แต่ผู้เรียนควรตรวจหนึ่งองค์ประกอบด้วยมือก่อนเพื่อป้องกันการกำหนดตัวแปรผิด
+
+% [รูปที่ 6: การวิเคราะห์สนามเวกเตอร์จากศักย์ด้วยโปรแกรม]
+% ประเภทภาพ: Concept Diagram / Vector Field
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.8
+% วัตถุประสงค์การเรียนรู้: เชื่อมโยงสมการศักย์ เกรเดียนต์ และทิศสนามไฟฟ้า
+% คำอธิบายภาพ: แสดงพื้นผิวศักย์แบบ contour/3D ทางซ้าย และลูกศรสนาม $\mathbf{E}=-\nabla V$ ทางขวา โดยลูกศรชี้จากศักย์สูงไปต่ำ
+% องค์ประกอบที่ต้องมี: equipotential contours, gradient arrow, electric-field arrow, coordinate axes
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Engineering mathematics illustration connecting electric potential and vector field. Show equipotential contours or a smooth potential surface V(x,y) and arrows for grad V pointing toward steepest increase, with electric field E=-grad V pointing in the opposite direction toward lower potential. Include coordinate axes and concise bilingual Thai-English labels. White background, clean vector textbook style, 16:9.
+% Alt Text: ภาพแสดงเกรเดียนต์ของศักย์และสนามไฟฟ้าที่ชี้ทิศตรงข้ามกับเกรเดียนต์
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-06.png}
+    \caption{การวิเคราะห์สนามเวกเตอร์จากศักย์ด้วยโปรแกรม}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.9 การสร้างและวิเคราะห์อนุกรมฟูเรียร์ด้วยโปรแกรม}
+
+\subsubsection{7.9.1 จุดเชื่อมระหว่าง Fourier series และ FFT}
+
+อนุกรมฟูเรียร์เป็นแบบจำลองเชิงคณิตศาสตร์ของฟังก์ชันเป็นคาบ ส่วน FFT เป็นอัลกอริทึมสำหรับคำนวณ DFT ของข้อมูลที่สุ่มตัวอย่างแล้ว ทั้งสองแนวคิดเกี่ยวข้องกับองค์ประกอบความถี่ แต่ไม่ควรถือว่าเหมือนกันทุกประการ
+
+สำหรับข้อมูล $x[n]$ จำนวน $N$ จุด DFT นิยามได้เป็น
+
+\[
+X[k]=\sum_{n=0}^{N-1}x[n]e^{-j2\pi kn/N}
+\]
+
+เมื่อ
+
+\begin{itemize}
+    \item $n$ คือดัชนีตัวอย่างในโดเมนเวลา
+    \item $k$ คือดัชนี bin ในโดเมนความถี่
+    \item $N$ คือจำนวนตัวอย่าง
+    \item $X[k]$ เป็นจำนวนเชิงซ้อน แสดงทั้งขนาดและเฟส
+\end{itemize}
+
+ถ้า sampling frequency เท่ากับ $f_s$ แกนความถี่สัมพันธ์กับ bin โดย
+
+\[
+f_k=\frac{k f_s}{N}
+\]
+
+และความละเอียดเชิงความถี่คือ
+
+\[
+\Delta f=\frac{f_s}{N}=\frac{1}{T_{\text{record}}}
+\]
+
+\subsubsection{7.9.2 เงื่อนไข Nyquist แบบพื้นฐาน}
+
+เพื่อหลีกเลี่ยง aliasing สำหรับสัญญาณที่มีองค์ประกอบความถี่สูงสุด $f_{\max}$ ควรมี
+
+\[
+f_s>2f_{\max}
+\]
+
+ในทางปฏิบัติงานจริงมักต้องใช้ sampling rate สูงกว่าค่าขั้นต่ำและมี anti-aliasing filter ก่อน ADC แต่ในบทนี้เน้นแนวคิดทางคณิตศาสตร์
+
+\subsubsection{ตัวอย่างที่ 3 FFT ของสัญญาณที่มี 50 Hz และ 150 Hz}
+
+\textbf{ตัวอย่างเพิ่มเติมเพื่อการเรียนรู้}
+
+กำหนด
+
+\[
+x(t)=10\sin(2\pi50t)+3\sin(2\pi150t)
+\]
+
+สุ่มด้วย $f_s=2000$ Hz เป็นเวลา 1 s
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+fs = 2000.0
+T = 1.0
+t = np.arange(0, T, 1/fs)
+
+x = 10*np.sin(2*np.pi*50*t) + 3*np.sin(2*np.pi*150*t)
+
+N = len(x)
+X = np.fft.rfft(x)
+freq = np.fft.rfftfreq(N, d=1/fs)
+
+amp = np.abs(X) / N
+amp[1:-1] *= 2
+
+plt.stem(freq, amp)
+plt.xlim(0, 300)
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("Amplitude")
+plt.title("Single-Sided Amplitude Spectrum")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\textbf{ผลที่คาดหวัง:} เห็นยอดเด่นใกล้ 50 Hz ที่แอมพลิจูดประมาณ 10 และ 150 Hz ที่แอมพลิจูดประมาณ 3
+
+\textbf{เหตุผลที่เลือก $T=1$ s:}
+
+\[
+\Delta f=\frac{1}{T}=1\ \text{Hz}
+\]
+
+ดังนั้น 50 และ 150 Hz ตรงกับ FFT bins พอดีในกรณีอุดมคตินี้ ทำให้การอ่านแอมพลิจูดง่ายขึ้น
+
+\subsubsection{7.9.3 spectral leakage}
+
+ถ้าช่วงเวลาที่บันทึกไม่ครอบคลุมจำนวนคาบที่ลงตัว สัญญาณที่ปลายซ้ายและขวาของ record อาจไม่ต่อเนื่องเมื่อนำไปมองเป็นคาบ ส่งผลให้พลังงานกระจายไปหลาย bins เรียกว่า \textbf{spectral leakage}
+
+จึงไม่ควรสรุปว่า “ยอด FFT ที่กระจายแปลว่าระบบมีหลายความถี่จริงเสมอ” ต้องพิจารณา
+
+\begin{itemize}
+    \item ความยาว record
+    \item sampling rate
+    \item window function
+    \item noise
+    \item frequency resolution
+\end{itemize}
+
+\subsubsection{7.9.4 การสร้าง Fourier partial sum ของ square wave}
+
+สำหรับ square wave แอมพลิจูด $\pm A$ ที่มี odd symmetry
+
+\[
+x(t)=\frac{4A}{\pi}\left[
+\sin(\omega_0t)+\frac{1}{3}\sin(3\omega_0t)+\frac{1}{5}\sin(5\omega_0t)+\cdots
+\right]
+\]
+
+ตัวอย่าง Python
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+A = 1.0
+f0 = 50.0
+w0 = 2*np.pi*f0
+
+t = np.linspace(0, 2/f0, 2000, endpoint=False)
+
+for N in [1, 3, 10, 50]:
+    y = np.zeros_like(t)
+    for k in range(N):
+        n = 2*k + 1
+        y += (4*A/np.pi) * np.sin(n*w0*t) / n
+    plt.plot(t, y, label=f"N={N}")
+
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.title("Square-Wave Fourier Partial Sums")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+ผู้เรียนควรสังเกตว่าเมื่อ $N$ เพิ่มขึ้น รูปคลื่นเข้าใกล้ square wave มากขึ้น แต่บริเวณ discontinuity ยังคงเกิด overshoot ในลักษณะ Gibbs phenomenon
+
+% [รูปที่ 7: จากสัญญาณโดเมนเวลาสู่ FFT spectrum]
+% ประเภทภาพ: Three-tier Engineering Illustration
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.9
+% วัตถุประสงค์การเรียนรู้: เชื่อมเวลา การสุ่มตัวอย่าง FFT และสเปกตรัม
+% คำอธิบายภาพ: ชั้นบนสัญญาณ $x(t)$ ที่มี 50 Hz และ 150 Hz; ชั้นกลาง sampled points พร้อม $f_s$; ชั้นล่าง single-sided spectrum ที่มียอด 50 และ 150 Hz
+% องค์ประกอบที่ต้องมี: time axis, sample markers, frequency axis, FFT arrows, peaks
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Three-tier engineering signal illustration. Top: continuous waveform x(t)=10 sin(2π50t)+3 sin(2π150t). Middle: uniformly sampled points at fs=2000 Hz with sample interval indicated. Bottom: single-sided FFT amplitude spectrum with clear peaks at 50 Hz amplitude 10 and 150 Hz amplitude 3. Show data-flow arrows from time signal to samples to FFT spectrum. Clean white-background textbook vector style, bilingual Thai-English labels, 16:9.
+% Graph Generation Prompt: Generate x(t)=10 sin(2π·50 t)+3 sin(2π·150 t) for 0≤t<1 s, fs=2000 Hz. Plot a short time segment and a single-sided FFT amplitude spectrum from 0–300 Hz. Mark 50 Hz and 150 Hz peaks and label units.
+% Alt Text: ภาพสามระดับแสดงสัญญาณเวลา การสุ่มตัวอย่าง และสเปกตรัม FFT ที่มีองค์ประกอบ 50 และ 150 เฮิรตซ์
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-07.png}
+    \caption{จากสัญญาณโดเมนเวลาสู่ FFT spectrum}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.10 การคำนวณการแปลงลาปลาซและการวิเคราะห์วงจรด้วยโปรแกรม}
+
+\subsubsection{7.10.1 นิยามและขอบเขต}
+
+การแปลงลาปลาซแบบ unilateral ที่ใช้ในงานวงจรเขียนเป็น
+
+\[
+F(s)=\mathcal{L}\{f(t)\}
+=\int_{0^-}^{\infty} f(t)e^{-st}\,dt
+\]
+
+เมื่อ
+
+\[
+s=\sigma+j\omega
+\]
+
+การใช้โปรแกรม symbolic เหมาะกับ
+
+\begin{itemize}
+    \item หา Laplace transform และ inverse Laplace transform
+    \item จัดรูปเศษส่วนย่อย
+    \item ตรวจสมการคำตอบจากการแก้มือ
+    \item แก้สมการเชิงอนุพันธ์พร้อมเงื่อนไขเริ่มต้นในกรณีที่รองรับ
+\end{itemize}
+
+\subsubsection{7.10.2 ตัวอย่างพื้นฐาน: Laplace ของสัญญาณเอ็กซ์โพเนนเชียล}
+
+ให้
+
+\[
+f(t)=e^{-at}u(t),\qquad a>0
+\]
+
+จากนิยาม
+
+\[
+F(s)=\int_0^\infty e^{-at}e^{-st}\,dt
+=\int_0^\infty e^{-(s+a)t}\,dt
+\]
+
+จึงได้
+
+\[
+F(s)=\frac{1}{s+a}
+\]
+
+โดยมีเงื่อนไขการลู่เข้าที่เกี่ยวข้องกับส่วนจริงของ $s$
+
+SymPy
+
+\begin{verbatim}
+import sympy as sp
+
+t, s, a = sp.symbols('t s a', positive=True)
+f = sp.exp(-a*t)
+F = sp.laplace_transform(f, t, s, noconds=True)
+print(F)
+\end{verbatim}
+
+MATLAB Symbolic
+
+\begin{verbatim}
+syms t s a positive
+f = exp(-a*t);
+F = laplace(f,t,s);
+\end{verbatim}
+
+\subsubsection{7.10.3 การวิเคราะห์ RC low-pass}
+
+พิจารณาวงจร RC ที่รับแรงดันอินพุต $v_i(t)$ และวัดเอาต์พุตที่ตัวเก็บประจุ $v_C(t)$
+
+จาก KVL
+
+\[
+v_i(t)=Ri(t)+v_C(t)
+\]
+
+และ
+
+\[
+i(t)=C\frac{dv_C(t)}{dt}
+\]
+
+จึงได้
+
+\[
+RC\frac{dv_C(t)}{dt}+v_C(t)=v_i(t)
+\]
+
+ถ้าเงื่อนไขเริ่มต้นเป็นศูนย์และแปลงลาปลาซ
+
+\[
+(RCs+1)V_C(s)=V_i(s)
+\]
+
+ดังนั้นฟังก์ชันถ่ายโอนคือ
+
+\[
+H(s)=\frac{V_C(s)}{V_i(s)}=\frac{1}{RCs+1}
+\]
+
+\textbf{สมมติฐาน:} อุปกรณ์เป็นอุดมคติ ระบบเป็นเชิงเส้น และนิยาม transfer function ใช้ zero initial conditions
+
+\subsubsection{ตัวอย่างที่ 4 เปรียบเทียบ symbolic solution กับ numerical step response}
+
+\textbf{ตัวอย่างเพิ่มเติมเพื่อการเรียนรู้}
+
+กำหนด $R=1\ \text{k}\Omega$, $C=100\ \mu\text{F}$ และ step input ขนาด 5 V
+
+time constant คือ
+
+\[
+\tau=RC=(1000)(100\times10^{-6})=0.1\ \text{s}
+\]
+
+คำตอบเชิงทฤษฎี
+
+\[
+v_C(t)=5\left(1-e^{-t/0.1}\right)u(t)
+\]
+
+ที่ $t=\tau=0.1$ s
+
+\[
+v_C(\tau)=5(1-e^{-1})\approx3.161\ \text{V}
+\]
+
+หรือประมาณ 63.2\% ของค่าสุดท้าย
+
+\textbf{Python: symbolic + numerical comparison}
+
+\begin{verbatim}
+import numpy as np
+import sympy as sp
+import matplotlib.pyplot as plt
+from scipy import signal
+
+# symbolic
+s, t = sp.symbols('s t', positive=True)
+R = 1000.0
+C = 100e-6
+Vs = 5.0
+
+H = 1/(R*C*s + 1)
+Vc_s = H * Vs/s
+Vc_t = sp.inverse_laplace_transform(Vc_s, s, t)
+print(sp.simplify(Vc_t))
+
+# numerical LTI step response (unit step, then scale by Vs)
+sys = signal.TransferFunction([1], [R*C, 1])
+t_num = np.linspace(0, 0.5, 500)
+t_out, y_unit = signal.step(sys, T=t_num)
+y_num = Vs*y_unit
+
+# analytical numeric curve
+v_exact = Vs*(1 - np.exp(-t_num/(R*C)))
+
+plt.plot(t_out, y_num, label="SciPy step")
+plt.plot(t_num, v_exact, "--", label="Analytical")
+plt.xlabel("Time (s)")
+plt.ylabel("Capacitor voltage (V)")
+plt.title("RC Step Response: Numerical vs Analytical")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\textbf{การตรวจสอบ 4 จุด}
+
+\begin{enumerate}
+    \item $v_C(0^+)\approx0$ V เมื่อเริ่มจากตัวเก็บประจุไม่มีประจุ
+    \item $v_C(\tau)\approx3.16$ V
+    \item $v_C(5\tau)$ ควรใกล้ 5 V มาก
+    \item กราฟ numerical และ analytical ควรทับกันเกือบทั้งหมดในกรณีนี้
+\end{enumerate}
+
+\subsubsection{7.10.4 ฟังก์ชันถ่ายโอน โพล และความหมายเชิงกายภาพ}
+
+สำหรับ
+
+\[
+H(s)=\frac{1}{RCs+1}
+\]
+
+โพลคือรากของ denominator
+
+\[
+RCs+1=0
+\]
+
+จึงได้
+
+\[
+p=-\frac{1}{RC}
+\]
+
+เมื่อ $R>0$ และ $C>0$ โพลอยู่ทางซ้ายของระนาบ $s$ สอดคล้องกับการตอบสนองที่ลดทอนและระบบอันดับหนึ่งที่เสถียรภายใต้แบบจำลองนี้
+
+โปรแกรมสามารถหาค่าโพลได้ง่าย แต่ผู้เรียนต้องตีความว่า \textbf{ตำแหน่งโพลสัมพันธ์กับอัตราการเปลี่ยนแปลงของ transient} ไม่ใช่เพียงตัวเลขที่โปรแกรมแสดง
+
+% [รูปที่ 8: กระบวนการวิเคราะห์วงจร RC จากโดเมนเวลาไปยังผลตอบสนอง]
+% ประเภทภาพ: Flowchart / Block Diagram
+% ตำแหน่งที่แนะนำ: หัวข้อ 7.10.3
+% วัตถุประสงค์การเรียนรู้: เชื่อม KVL → ODE → Laplace → transfer function → pole → step response
+% คำอธิบายภาพ: วงจร RC low-pass ทางซ้าย ต่อด้วยสมการ $RC\dot v_C+v_C=v_i$, แปลงเป็น $H(s)=1/(RCs+1)$, แสดง pole $-1/RC$, และกราฟ step response
+% องค์ประกอบที่ต้องมี: R, C, input/output, differential equation, s-domain, pole marker, exponential response
+% ภาษาของป้ายกำกับ: ไทยและอังกฤษ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Engineering education flow diagram for an RC low-pass circuit. Show the physical RC circuit with input vi(t) and capacitor output vC(t), derive RC dvC/dt + vC = vi, transform to H(s)=1/(RCs+1), show pole p=-1/RC on the negative real s-axis, and show the exponential step response vC(t)=Vs(1-exp(-t/RC)). Bilingual Thai-English labels, clean white textbook vector style, 16:9.
+% Alt Text: แผนภาพเชื่อมวงจร RC สมการเชิงอนุพันธ์ ฟังก์ชันถ่ายโอน โพล และกราฟการตอบสนองขั้นบันได
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-08.png}
+    \caption{กระบวนการวิเคราะห์วงจร RC จากโดเมนเวลาไปยังผลตอบสนอง}
+\end{figure}
+
+\subsubsection{7.10.5 ตัวอย่างประยุกต์: วงจร RLC อันดับสอง}
+
+วงจร RLC อนุกรมที่วัดแรงดันตัวเก็บประจุสามารถมีฟังก์ชันถ่ายโอนรูป
+
+\[
+H(s)=\frac{1/LC}{s^2+(R/L)s+1/LC}
+\]
+
+เทียบกับรูปมาตรฐานอันดับสอง
+
+\[
+H(s)=\frac{\omega_n^2}{s^2+2\zeta\omega_ns+\omega_n^2}
+\]
+
+จึงระบุได้ว่า
+
+\[
+\omega_n=\frac{1}{\sqrt{LC}}
+\]
+
+และ
+
+\[
+2\zeta\omega_n=\frac{R}{L}
+\]
+
+หรือ
+
+\[
+\zeta=\frac{R}{2}\sqrt{\frac{C}{L}}
+\]
+
+โปรแกรมช่วย sweep ค่า $R$ เพื่อดูการเปลี่ยนจาก underdamped ไป critical/overdamped ได้อย่างชัดเจน
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import signal
+
+L = 50e-3
+C = 100e-6
+R_values = [5, 20, 50]
+
+t = np.linspace(0, 0.2, 1200)
+
+for R in R_values:
+    num = [1/(L*C)]
+    den = [1, R/L, 1/(L*C)]
+    sys = signal.TransferFunction(num, den)
+    tout, y = signal.step(sys, T=t)
+    plt.plot(tout, y, label=f"R={R} ohm")
+
+plt.xlabel("Time (s)")
+plt.ylabel("Normalized capacitor voltage")
+plt.title("RLC Step Response for Different R")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\textbf{สิ่งที่ควรสังเกต:} เมื่อ $R$ เพิ่ม ค่า damping ratio เพิ่มขึ้น การสั่นลดลง แต่ระบบอาจตอบสนองช้าลง จึงต้องตีความจากทั้ง overshoot และ settling behavior
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.11 การจัดทำรายงานผลการคำนวณทางวิศวกรรม}
+
+ผลลัพธ์ที่ดีไม่ใช่เพียงรูปกราฟสวยหรือคำตอบสุดท้าย แต่ต้องทำให้ผู้อ่านตรวจสอบที่มาได้ รายงานการคำนวณอย่างน้อยควรมีองค์ประกอบต่อไปนี้
+
+\subsubsection{7.11.1 โครงสร้างรายงานที่แนะนำ}
+
+\begin{enumerate}
+    \item \textbf{ชื่อปัญหาและวัตถุประสงค์}
+    ระบุว่าต้องการคำนวณหรือศึกษาพฤติกรรมใด
+    \item \textbf{แบบจำลองและสมมติฐาน}
+    แสดงวงจร สมการ และข้อสมมติ เช่น linear, ideal component, zero initial condition
+    \item \textbf{ข้อมูลนำเข้าและหน่วย}
+    จัดตาราง $R$, $L$, $C$, $V$, $f$, $f_s$, $T$ เป็นต้น
+    \item \textbf{วิธีคำนวณ}
+    ระบุเครื่องมือ ไลบรารี ฟังก์ชัน และขั้นตอนที่สำคัญ
+    \item \textbf{ผลลัพธ์}
+    แสดงค่าตัวเลข ตาราง และกราฟพร้อมหน่วย
+    \item \textbf{การตรวจสอบ}
+    เปรียบเทียบกับค่าจากมือ/สมการวิเคราะห์/พฤติกรรมปลายขอบ
+    \item \textbf{อภิปรายผล}
+    อธิบายสิ่งที่กราฟหรือค่าคำนวณบอกเกี่ยวกับระบบ
+    \item \textbf{ข้อจำกัด}
+    เช่น sampling, ideal model, numerical precision, missing parasitics
+    \item \textbf{สรุป}
+    ตอบวัตถุประสงค์โดยตรง
+    \item \textbf{ไฟล์ประกอบ}
+    แนบ script/notebook/data file เพื่อให้ทำซ้ำได้
+\end{enumerate}
+
+\subsubsection{7.11.2 ตารางพารามิเตอร์ตัวอย่าง}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l r r l l}
+        \hline
+        \textbf{พารามิเตอร์} & \textbf{สัญลักษณ์} & \textbf{ค่า} & \textbf{หน่วย} & \textbf{แหล่งที่มา/หมายเหตุ} \\
+        \hline
+        ความต้านทาน & $R$ & 1000 & $\Omega$ & ค่ากำหนด \\
+        ความจุ & $C$ & 100 & $\mu$F & ค่ากำหนด \\
+        แรงดัน step & $V_s$ & 5 & V & ค่ากำหนด \\
+        time constant & $\tau$ & 0.1 & s & คำนวณจาก $RC$ \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{7.11.3 การรายงานกราฟ}
+
+กราฟควรตอบคำถามได้ว่า
+
+\begin{itemize}
+    \item แกน $x$ คืออะไรและหน่วยอะไร?
+    \item แกน $y$ คืออะไรและหน่วยอะไร?
+    \item เส้นแต่ละเส้นแทนกรณีใด?
+    \item มีพารามิเตอร์ใดคงที่?
+    \item มีค่าจุดสำคัญใด เช่น $f_0$, $\tau$, peak หรือ cutoff?
+    \item ข้อสรุปจากกราฟคืออะไร?
+\end{itemize}
+
+ไม่ควรใส่กราฟโดยไม่มีคำอธิบาย เช่น “จากรูปที่ 8 พบว่าเมื่อ $R$ เพิ่ม การสั่นลดลง สอดคล้องกับค่า damping ratio ที่เพิ่มขึ้น”
+
+\subsubsection{7.11.4 การรายงานตัวเลขและ significant figures}
+
+หากค่าพารามิเตอร์มีความแม่นยำจำกัด ไม่ควรรายงานคำตอบทศนิยมจำนวนมากเกินความจำเป็น ตัวอย่างเช่น $R=1.0\ \text{k}\Omega$ และ $C=100\ \mu\text{F}$ ไม่ได้ทำให้ $\tau=0.1000000000$ s มีความหมายทางกายภาพมากขึ้น
+
+\subsubsection{7.11.5 หลักความสามารถทำซ้ำ}
+
+รายงานควรทำให้ผู้ตรวจสามารถ
+
+\begin{enumerate}
+    \item ทราบสมการที่ใช้
+    \item ทราบค่าพารามิเตอร์
+    \item ทราบเครื่องมือหรือไลบรารี
+    \item รันไฟล์ต้นฉบับได้
+    \item ได้กราฟหรือคำตอบสอดคล้องกับรายงาน
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{7.12 กิจกรรมปฏิบัติและแบบฝึกหัดบูรณาการ}
+
+\subsubsection{กิจกรรมที่ 1: มือ–โปรแกรม–เหตุผลทางกายภาพ}
+
+\textbf{ผลลัพธ์การเรียนรู้ที่เกี่ยวข้อง:} CLO2, CLO5 \\
+\textbf{ระยะเวลา:} 30–40 นาที \\
+\textbf{รูปแบบ:} คู่ \\
+\textbf{อุปกรณ์:} เครื่องคิดเลขและ Python หรือ MATLAB/Octave
+
+\textbf{โจทย์:} ใช้วงจร RLC ในตัวอย่างที่ 1
+
+\textbf{ขั้นตอน}
+
+\begin{enumerate}
+    \item คนที่ 1 คำนวณ $Z$ และ $I$ ด้วยเครื่องคิดเลข
+    \item คนที่ 2 คำนวณด้วยโปรแกรม
+    \item สลับกันตรวจหน่วยและมุมเฟส
+    \item อธิบายว่ากระแสนำหรือล้าหลังแรงดันจากค่า $X_L-X_C$
+    \item เปลี่ยนความถี่เป็น 100 Hz แล้วทำนาย “ก่อนคำนวณ” วงจรจะมีลักษณะ inductive หรือ capacitive
+    \item ใช้โปรแกรมยืนยันการทำนาย
+\end{enumerate}
+
+\textbf{ผลลัพธ์ที่คาดหวัง:} ผู้เรียนเชื่อมคำตอบเชิงตัวเลขกับพฤติกรรมวงจร ไม่มองจำนวนเชิงซ้อนเป็นเพียงรูปแบบข้อมูล
+
+\textbf{การประเมิน:} ความถูกต้อง 40\%, เหตุผลทางกายภาพ 40\%, การตรวจหน่วยและการสื่อสาร 20\%
+
+\subsubsection{กิจกรรมที่ 2: Fourier Explorer}
+
+\textbf{ผลลัพธ์การเรียนรู้ที่เกี่ยวข้อง:} CLO3, CLO5 \\
+\textbf{ระยะเวลา:} 45–60 นาที \\
+\textbf{รูปแบบ:} กลุ่ม 3 คน \\
+\textbf{อุปกรณ์:} Python/MATLAB/Octave หรือ GeoGebra
+
+\textbf{โจทย์:} ศึกษา square-wave Fourier partial sum ที่ $N=1,3,5,15,50$
+
+\textbf{ภารกิจ}
+
+\begin{itemize}
+    \item สร้างกราฟทุกกรณี
+    \item ระบุว่าฮาร์มอนิกใดถูกใช้
+    \item อภิปรายการเปลี่ยนแปลงของรูปคลื่นเมื่อ $N$ เพิ่ม
+    \item ขยายบริเวณ discontinuity และอธิบาย Gibbs phenomenon เชิงคุณภาพ
+    \item เปรียบเทียบข้อดีของ GeoGebra slider กับ script
+\end{itemize}
+
+\subsubsection{กิจกรรมที่ 3: RC Computational Report}
+
+\textbf{ผลลัพธ์การเรียนรู้ที่เกี่ยวข้อง:} CLO4, CLO5, CLO6 \\
+\textbf{ระยะเวลา:} 60–90 นาทีในชั้นเรียนและเก็บงานต่อได้ตามความเหมาะสม \\
+\textbf{รูปแบบ:} รายบุคคลหรือคู่
+
+\textbf{โจทย์:} สำหรับ RC low-pass $R=2.2\ \text{k}\Omega$, $C=47\ \mu\text{F}$ และ step input 5 V
+
+ผู้เรียนต้อง
+
+\begin{enumerate}
+    \item คำนวณ $\tau$ ด้วยมือ
+    \item สร้าง $H(s)$
+    \item หา step response ด้วยโปรแกรม
+    \item ระบุ $v_C(\tau)$ และ $v_C(5\tau)$ จากกราฟ
+    \item เปรียบเทียบกับสมการ analytical
+    \item อธิบายความคลาดเคลื่อนจาก numerical sampling หากมี
+    \item จัดทำรายงานย่อ 2–4 หน้า
+\end{enumerate}
+
+\subsubsection{Mini Project: “One Problem, Three Tools”}
+
+ให้ผู้เรียนเลือกหนึ่งหัวข้อจาก
+
+\begin{itemize}
+    \item เฟสเซอร์และอิมพีแดนซ์ตามความถี่
+    \item เวกเตอร์และสนาม
+    \item Fourier/FFT
+    \item Laplace/RC/RLC
+\end{itemize}
+
+แล้วแก้ปัญหาด้วยอย่างน้อย 3 วิธี เช่น
+
+\begin{enumerate}
+    \item คำนวณด้วยมือ
+    \item Python
+    \item MATLAB/Octave หรือ GeoGebra
+\end{enumerate}
+
+จากนั้นเปรียบเทียบ
+
+\begin{itemize}
+    \item ความเร็ว
+    \item ความโปร่งใสของขั้นตอน
+    \item ความง่ายในการสร้างกราฟ
+    \item ความง่ายในการตรวจสอบคำตอบ
+    \item ข้อจำกัดของแต่ละเครื่องมือ
+\end{itemize}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+\section{8. ความเข้าใจผิดที่พบบ่อย}
+
+\subsection{8.1 “โปรแกรมให้คำตอบแล้ว แปลว่าคำตอบถูก”}
+
+ไม่ถูกต้อง โปรแกรมคำนวณตามคำสั่งที่ได้รับ หากกำหนดสมการผิด หน่วยผิด หรือ sampling ผิด โปรแกรมก็จะคำนวณสิ่งที่ผิดนั้นอย่างสม่ำเสมอ วิธีแก้คือใช้ \textbf{independent check} เช่น คำนวณหนึ่งจุดด้วยมือ ตรวจ limiting behavior หรือใช้เครื่องมืออีกชนิดตรวจซ้ำ
+
+\subsection{8.2 “ผล symbolic ที่หน้าตาต่างกันคือคนละคำตอบ”}
+
+นิพจน์
+
+\[
+\frac{1}{s+1/(RC)}
+\]
+
+และ
+
+\[
+\frac{RC}{RCs+1}
+\]
+
+เป็นสมการสมมูลกัน โปรแกรมแต่ละตัวอาจจัดรูปไม่เหมือนกัน ผู้เรียนควรจัดรูปหรือใช้การแทนค่าตรวจสอบก่อนสรุปว่าไม่ตรงกัน
+
+\subsection{8.3 “FFT คือ Fourier series โดยตรง”}
+
+FFT เป็นอัลกอริทึมคำนวณ DFT ของข้อมูลไม่ต่อเนื่องที่มีจำนวนตัวอย่างจำกัด ส่วน Fourier series เป็นการแทนฟังก์ชันเป็นคาบด้วยอนุกรมของฮาร์มอนิก แม้มีความเชื่อมโยงด้านความถี่ แต่เงื่อนไขและการตีความต่างกัน
+
+\subsection{8.4 “FFT peak เท่ากับแอมพลิจูดสัญญาณเสมอ”}
+
+ไม่เสมอ ต้องพิจารณา normalization, one-sided/two-sided spectrum, window, record length และตำแหน่งความถี่เทียบกับ FFT bins
+
+\subsection{8.5 “Sampling rate สูงที่สุดเสมอดีที่สุด”}
+
+sampling rate ที่สูงขึ้นช่วยครอบคลุมความถี่สูงขึ้น แต่เพิ่มจำนวนข้อมูล ภาระคำนวณ และอาจไม่ได้เพิ่ม frequency resolution หากระยะเวลาบันทึกไม่เปลี่ยน ความละเอียดความถี่ขึ้นกับ
+
+\[
+\Delta f=\frac{1}{T_{\text{record}}}
+\]
+
+จึงต้องออกแบบทั้ง $f_s$ และ $T_{\text{record}}$
+
+\subsection{8.6 “หน่วยเป็นสิ่งที่โปรแกรมดูแลให้”}
+
+โค้ดตัวเลขทั่วไปมักเห็นเพียงค่าตัวเลข เช่น \texttt{100e-6} โดยไม่รู้ว่านั่นคือฟารัด ถ้าผู้ใช้ใส่ \texttt{100} โปรแกรมก็อาจตีความเป็น 100 โดยไม่มีคำเตือน ดังนั้นควรตั้งชื่อตัวแปรและ comment ให้ชัดเจน
+
+\subsection{8.7 “มุม phase จากโปรแกรมใช้ได้ทันทีทุกกรณี”}
+
+ต้องตรวจหน่วยของมุมว่าคืนค่าเป็น radian หรือ degree และต้องระวัง phase wrapping เช่น $181^\circ$ กับ $-179^\circ$ อาจแทนทิศทางเกือบเดียวกัน
+
+\subsection{8.8 “กราฟที่ smooth แปลว่าแบบจำลองแม่นยำ”}
+
+ความเรียบของเส้นขึ้นกับจำนวนจุดและ interpolation แต่ความแม่นยำของแบบจำลองขึ้นกับสมมติฐานทางกายภาพ เช่น วงจรจริงมี ESR, parasitic inductance, tolerances และ bandwidth ของอุปกรณ์ ซึ่งอาจไม่อยู่ในแบบจำลองอุดมคติ
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{9. การประยุกต์ใช้ในงานจริง}
+
+\subsection{9.1 การตรวจสอบ power quality เบื้องต้น}
+
+ข้อมูลแรงดันหรือกระแสจากเครื่องมือวัดสามารถนำเข้าโปรแกรมเพื่อ
+
+\begin{enumerate}
+    \item ตรวจ sampling information
+    \item ตัดช่วงข้อมูลที่สนใจ
+    \item ลบ DC offset หากมีเหตุผลรองรับ
+    \item คำนวณ FFT
+    \item อ่าน fundamental และ harmonic components
+    \item คำนวณตัวชี้วัด เช่น THD ตามนิยามที่กำหนด
+    \item สร้างกราฟเพื่อรายงาน
+\end{enumerate}
+
+หลักสำคัญคือข้อมูลจริงมี noise, leakage และความคลาดเคลื่อนของ sensor จึงไม่ควรตีความเหมือนสัญญาณสังเคราะห์ที่สมบูรณ์แบบ
+
+\subsection{9.2 การออกแบบวงจรกรองเบื้องต้น}
+
+สำหรับ RC low-pass
+
+\[
+f_c=\frac{1}{2\pi RC}
+\]
+
+โปรแกรมช่วย sweep ค่า $R$ และ $C$ แล้วสร้างกราฟ $|H(j\omega)|$ เพื่อดูผลต่อ cutoff frequency ได้ นักศึกษาสามารถกำหนดช่วงค่าจากอุปกรณ์มาตรฐาน แล้วเลือกค่าที่เข้าใกล้เป้าหมายที่สุด
+
+\subsection{9.3 การตรวจสอบ transient ของวงจร}
+
+วงจร RC, RL และ RLC สามารถเริ่มจาก ODE แล้ว
+
+\begin{itemize}
+    \item ใช้ Laplace หา analytical solution
+    \item ใช้ SciPy/MATLAB คำนวณ step response
+    \item เปรียบเทียบกราฟ
+    \item วิเคราะห์ pole และ time constant
+\end{itemize}
+
+วิธีนี้เหมาะกับการตรวจการคำนวณและสร้าง intuition ก่อนใช้เครื่องมือจำลองวงจรเฉพาะทาง
+
+\subsection{9.4 การสำรวจสนามไฟฟ้าและสนามแม่เหล็ก}
+
+ถ้ามีศักย์ $V(x,y)$ หรือฟังก์ชันสนาม สามารถใช้ symbolic differentiation หา $\nabla V$, divergence หรือ curl และใช้กราฟ vector field/contour ช่วยให้เห็นทิศทางและความเข้มของสนาม
+
+\subsection{9.5 การเตรียมข้อมูลสำหรับรายงานและงานวิจัย}
+
+กระบวนการที่ดีควรแยก
+
+\begin{itemize}
+    \item raw data
+    \item processed data
+    \item script
+    \item figures
+    \item report
+\end{itemize}
+
+ออกจากกันอย่างมีระบบ และเก็บพารามิเตอร์สำคัญไว้ใน script หรือไฟล์ config เพื่อลดความผิดพลาดจากการแก้ตัวเลขหลายจุด
+
+% [รูปที่ 9: โครงสร้างแฟ้มงานสำหรับ computational engineering report]
+% ประเภทภาพ: Infographic
+% ตำแหน่งที่แนะนำ: หัวข้อ 9.5
+% วัตถุประสงค์การเรียนรู้: ส่งเสริม reproducibility และการจัดการไฟล์อย่างเป็นระบบ
+% คำอธิบายภาพ: โครงสร้าง project folder มี data_raw/, data_processed/, src/, figures/, report/, README และลูกศร workflow
+% องค์ประกอบที่ต้องมี: folder icons, script, CSV/data, plots, report
+% ภาษาของป้ายกำกับ: อังกฤษเป็นชื่อโฟลเดอร์และไทยอธิบายสั้น ๆ
+% สัดส่วนภาพ: 16:9
+% Image Generation Prompt: Clean engineering infographic showing a reproducible computational project folder structure: data_raw, data_processed, src, figures, report, and README. Show workflow arrows from raw measurements to processing scripts to figures and final technical report. Minimal bilingual Thai-English annotations, white background, professional vector textbook style, 16:9.
+% Alt Text: โครงสร้างโฟลเดอร์สำหรับเก็บข้อมูลดิบ โค้ด กราฟ และรายงานอย่างเป็นระบบ
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/figure-09.png}
+    \caption{โครงสร้างแฟ้มงานสำหรับ computational engineering report}
+\end{figure}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{10. สรุปท้ายบท}
+
+บทนี้ใช้โปรแกรมคำนวณเป็นเครื่องมือบูรณาการคณิตศาสตร์วิศวกรรมไฟฟ้าจากบทก่อนหน้า โดยสาระสำคัญสรุปได้ดังนี้
+
+\begin{enumerate}
+    \item \textbf{เครื่องมือแต่ละชนิดมีจุดเด่นต่างกัน}
+    เครื่องคิดเลขเหมาะกับการตรวจค่าเร็ว Python เหมาะกับการคำนวณเชิงตัวเลข/ข้อมูลและขยายได้ด้วยไลบรารี MATLAB/Octave เหมาะกับงานเมทริกซ์และงานวิศวกรรมแบบสคริปต์ ส่วน GeoGebra เหมาะกับการสำรวจกราฟและแนวคิดแบบโต้ตอบ
+    \item \textbf{Numerical และ Symbolic เป็นคนละแนวทางที่เสริมกัน}
+    numerical ให้ค่าประมาณจากข้อมูล ส่วน symbolic ให้รูปสมการ ผู้เรียนควรเลือกให้เหมาะกับปัญหา
+    \item \textbf{จำนวนเชิงซ้อนเป็นฐานสำคัญของการคำนวณเฟสเซอร์และสเปกตรัม}
+    โปรแกรมช่วยแปลง rectangular/polar และคำนวณอิมพีแดนซ์ได้รวดเร็ว แต่ต้องตรวจหน่วยมุมและความหมายทางกายภาพ
+    \item \textbf{เวกเตอร์และ field operations สามารถคำนวณทั้งเชิงตัวเลขและสัญลักษณ์}
+    การตรวจ orthogonality, gradient, divergence และ curl ช่วยเชื่อมคณิตศาสตร์กับสนามไฟฟ้าและสนามแม่เหล็ก
+    \item \textbf{FFT ต้องใช้ความเข้าใจเรื่อง sampling}
+    ความสัมพันธ์หลักคือ
+
+    \[
+    \Delta f=\frac{f_s}{N}=\frac{1}{T_{\text{record}}}
+    \]
+
+    และต้องพิจารณา Nyquist, leakage, normalization และ one-sided/two-sided spectrum
+    \item \textbf{Laplace และ transfer function เชื่อมสมการวงจรกับการตอบสนองของระบบ}
+    โปรแกรม symbolic ช่วยหาทรานส์ฟอร์ม ส่วน numerical tools ช่วยสร้าง response curve และตรวจ analytical solution
+    \item \textbf{การตรวจสอบผลเป็นส่วนหนึ่งของการคำนวณ}
+    ใช้การคำนวณด้วยมือ limiting behavior หน่วย และหลักฟิสิกส์เป็นตัวตรวจ
+    \item \textbf{รายงานที่ดีต้องทำซ้ำได้}
+    ต้องระบุสมการ พารามิเตอร์ หน่วย เครื่องมือ วิธีคำนวณ กราฟ การตรวจสอบ และข้อจำกัด
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{11. คำถามทบทวน}
+
+\begin{enumerate}
+    \item เพราะเหตุใดโปรแกรมคำนวณจึงไม่สามารถทดแทนความเข้าใจในแบบจำลองทางคณิตศาสตร์ได้?
+    \item Numerical computation และ symbolic computation แตกต่างกันอย่างไร และยกตัวอย่างงานวิศวกรรมไฟฟ้าที่เหมาะกับแต่ละแบบ
+    \item เหตุใดการใช้ \texttt{atan2} จึงเหมาะกับการหามุมของจำนวนเชิงซ้อนมากกว่าการใช้ $\tan^{-1}(b/a)$ เพียงอย่างเดียว?
+    \item ถ้าใช้ Python คำนวณ phase แล้วได้ค่าเป็น radian แต่ผู้เรียนตีความเป็น degree ผลจะผิดในลักษณะใด?
+    \item อธิบายความสัมพันธ์ระหว่าง sampling frequency, จำนวนตัวอย่าง, record duration และ frequency resolution
+    \item เพราะเหตุใด FFT amplitude จึงต้องพิจารณา normalization ก่อนเทียบกับแอมพลิจูดจริงของสัญญาณ?
+    \item อธิบาย spectral leakage และยกตัวอย่างสาเหตุที่ทำให้เกิด
+    \item การหา Laplace transform ด้วยโปรแกรม symbolic ควรตรวจสอบคำตอบด้วยวิธีใดได้บ้าง?
+    \item สำหรับวงจร RC low-pass ถ้ากราฟ step response จากโปรแกรมลดลงจาก 1 ไป 0 ควรสงสัยจุดใดของแบบจำลองหรือการกำหนด input/output?
+    \item รายงานผลการคำนวณที่ “ทำซ้ำได้” ควรมีข้อมูลอะไรอย่างน้อย 5 รายการ?
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{12. แบบฝึกหัดท้ายบท}
+
+\begin{quote}
+\textbf{คำแนะนำ:} แบบฝึกหัดแบ่งเป็นระดับพื้นฐาน วิเคราะห์ และประยุกต์ใช้ตามลำดับ ให้ผู้เรียนแสดงสมการ หน่วย วิธีใช้โปรแกรม และการตรวจสอบผล ไม่ให้ส่งเฉพาะผลลัพธ์จากหน้าจอ
+\end{quote}
+
+\subsection{12.1 ระดับพื้นฐาน — 5 ข้อ}
+
+\subsubsection{ข้อ 1 จำนวนเชิงซ้อน}
+
+กำหนด
+
+\[
+Z=8-j6
+\]
+
+\begin{enumerate}
+    \item หา $|Z|$ และ $\angle Z$ ด้วยมือ
+    \item ตรวจคำตอบด้วย Python หรือเครื่องคิดเลขวิศวกรรม
+    \item แปลงมุมเป็น degree
+\end{enumerate}
+
+\subsubsection{ข้อ 2 เฟสเซอร์กระแส}
+
+กำหนด
+
+\[
+V=120\angle 20^\circ\ \text{V},\qquad Z=15\angle -30^\circ\ \Omega
+\]
+
+หาก
+
+\[
+I=\frac{V}{Z}
+\]
+
+จงหาขนาดและมุมของกระแส และตรวจด้วยโปรแกรม
+
+\subsubsection{ข้อ 3 เวกเตอร์}
+
+กำหนด
+
+\[
+\mathbf{A}=[1,2,-2],\qquad \mathbf{B}=[3,-1,4]
+\]
+
+ใช้ NumPy หรือ MATLAB/Octave หา
+
+\begin{enumerate}
+    \item $\mathbf{A}\cdot\mathbf{B}$
+    \item $\mathbf{A}\times\mathbf{B}$
+    \item ตรวจว่า cross product ตั้งฉากกับ $\mathbf{A}$ และ $\mathbf{B}$
+\end{enumerate}
+
+\subsubsection{ข้อ 4 สัญญาณไซน์}
+
+สร้างสัญญาณ
+
+\[
+v(t)=100\sin(2\pi60t+30^\circ)
+\]
+
+ช่วง $0\le t\le0.05$ s ด้วย sampling frequency 5 kHz แล้วสร้างกราฟที่มีชื่อแกนและหน่วยครบถ้วน
+
+\subsubsection{ข้อ 5 Laplace เชิงสัญลักษณ์}
+
+ใช้ SymPy หรือ MATLAB Symbolic หา
+
+\[
+\mathcal{L}\{3e^{-2t}\}
+\]
+
+และตรวจคำตอบจากตารางลาปลาซ
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{12.2 ระดับวิเคราะห์ — 5 ข้อ}
+
+\subsubsection{ข้อ 6 อิมพีแดนซ์ตามความถี่}
+
+วงจร RLC อนุกรมมี
+
+\[
+R=10\ \Omega,\qquad L=20\ \text{mH},\qquad C=220\ \mu\text{F}
+\]
+
+\begin{enumerate}
+    \item คำนวณ $f_0$ ด้วยมือ
+    \item ใช้โปรแกรม sweep $f=10$ ถึง 1000 Hz
+    \item สร้างกราฟ $|Z(f)|$
+    \item ระบุความถี่ที่ $|Z|$ ต่ำสุดจากข้อมูลเชิงตัวเลข
+    \item อภิปรายความแตกต่างระหว่างค่าทฤษฎีและค่าที่อ่านจากกราฟ
+\end{enumerate}
+
+\subsubsection{ข้อ 7 Gradient และสนามไฟฟ้า}
+
+กำหนดศักย์
+
+\[
+V(x,y)=5x^2+3xy-2y^2\quad \text{V}
+\]
+
+\begin{enumerate}
+    \item ใช้การหาอนุพันธ์ด้วยมือหา $\nabla V$
+    \item ใช้ SymPy ตรวจสอบ
+    \item หา $\mathbf{E}=-\nabla V$ ที่จุด $(x,y)=(1,2)$
+    \item อธิบายทิศของสนามเทียบกับการเพิ่มของศักย์
+\end{enumerate}
+
+\subsubsection{ข้อ 8 Frequency resolution}
+
+ระบบเก็บข้อมูลด้วย
+
+\[
+f_s=4000\ \text{Hz}
+\]
+
+กรณี A บันทึก 0.25 s และกรณี B บันทึก 2 s
+
+\begin{enumerate}
+    \item หา $N$ ของแต่ละกรณี
+    \item หา $\Delta f$
+    \item ถ้าต้องแยกสัญญาณ 100 Hz และ 102 Hz กรณีใดเหมาะกว่า เพราะเหตุใด?
+\end{enumerate}
+
+\subsubsection{ข้อ 9 FFT และ normalization}
+
+สร้าง
+
+\[
+x(t)=4\sin(2\pi100t)
+\]
+
+ที่ $f_s=2000$ Hz เป็นเวลา 1 s แล้ว
+
+\begin{enumerate}
+    \item คำนวณ \texttt{rfft}
+    \item สร้าง single-sided amplitude spectrum
+    \item อธิบายเหตุผลที่ต้องคูณ 2 สำหรับ bins ด้านบวกที่ไม่ใช่ DC และ Nyquist ตามเงื่อนไขที่เกี่ยวข้อง
+    \item ตรวจว่า peak ใกล้ 100 Hz มีค่าแอมพลิจูดประมาณ 4
+\end{enumerate}
+
+\subsubsection{ข้อ 10 RC step response}
+
+กำหนด
+
+\[
+R=4.7\ \text{k}\Omega,\qquad C=22\ \mu\text{F},\qquad V_s=10\ \text{V}
+\]
+
+\begin{enumerate}
+    \item หา $\tau$
+    \item เขียน $H(s)$
+    \item หา $v_C(t)$ สำหรับ step input ด้วยมือ
+    \item ใช้โปรแกรมสร้างกราฟช่วง $0$ ถึง $5\tau$
+    \item เปรียบเทียบค่าที่ $t=\tau$ และ $t=5\tau$
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{12.3 ระดับประยุกต์ใช้ — 3 ข้อ}
+
+\subsubsection{ข้อ 11 วิเคราะห์ฮาร์มอนิกจากข้อมูลสังเคราะห์}
+
+สร้างสัญญาณแรงดัน
+
+\[
+v(t)=311\sin(2\pi50t)+20\sin(2\pi150t)+10\sin(2\pi250t)
+\]
+
+โดยใช้ $f_s=5000$ Hz และช่วงเวลา 1 s
+
+\begin{enumerate}
+    \item สร้าง time-domain plot ช่วง 0–0.06 s
+    \item สร้าง single-sided spectrum 0–500 Hz
+    \item ระบุ fundamental และ harmonics
+    \item อภิปรายว่าเหตุใด 150 และ 250 Hz จึงสัมพันธ์กับฮาร์มอนิกลำดับที่ 3 และ 5 ของ 50 Hz
+    \item หากลด record duration เหลือ 0.1 s จะเกิดผลต่อ frequency resolution อย่างไร?
+\end{enumerate}
+
+\subsubsection{ข้อ 12 เปรียบเทียบวิธีหาการตอบสนองวงจร}
+
+สำหรับ RC low-pass ที่ $R=1.5\ \text{k}\Omega$, $C=68\ \mu\text{F}$ และ input step 5 V ให้หาการตอบสนองด้วย 3 วิธี
+
+\begin{enumerate}
+    \item analytical equation
+    \item SymPy inverse Laplace
+    \item SciPy หรือ MATLAB numerical step response
+\end{enumerate}
+
+สร้างตารางเปรียบเทียบค่าที่ $t=0$, $\tau$, $2\tau$, $5\tau$ และอภิปรายความแตกต่าง
+
+\subsubsection{ข้อ 13 โครงงานย่อยเลือกเครื่องมือ}
+
+เลือกปัญหาหนึ่งจาก จำนวนเชิงซ้อน/เฟสเซอร์, vector field, Fourier/FFT หรือ Laplace circuit แล้ว
+
+\begin{enumerate}
+    \item ระบุวัตถุประสงค์
+    \item ระบุสมการและสมมติฐาน
+    \item เลือกเครื่องมืออย่างน้อย 2 ชนิด พร้อมเหตุผล
+    \item คำนวณหรือสร้างกราฟ
+    \item ตรวจสอบผลอย่างน้อย 2 วิธี
+    \item สรุปว่าเครื่องมือใดเหมาะกับงานมากกว่าและเพราะเหตุใด
+\end{enumerate}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{12.4 แนวคำตอบและเฉลยแบบฝึกหัด}
+
+\begin{quote}
+ส่วนนี้เหมาะสำหรับผู้สอนหรือใช้หลังจากผู้เรียนส่งงานแล้ว
+\end{quote}
+
+\subsection{เฉลยข้อ 1}
+
+ให้
+
+\[
+Z=8-j6
+\]
+
+ขนาด
+
+\[
+|Z|=\sqrt{8^2+(-6)^2}=10
+\]
+
+มุม
+
+\[
+\theta=\operatorname{atan2}(-6,8)\approx-36.87^\circ
+\]
+
+ดังนั้น
+
+\[
+Z=10\angle-36.87^\circ
+\]
+
+ตัวอย่าง Python
+
+\begin{verbatim}
+import cmath, math
+z = 8 - 6j
+print(abs(z))
+print(math.degrees(cmath.phase(z)))
+\end{verbatim}
+
+\textbf{ตรวจความสมเหตุสมผล:} $Z$ อยู่ควอดแรนต์ที่ 4 เพราะส่วนจริงบวกและส่วนจินตภาพลบ จึงต้องได้มุมลบ
+
+\subsection{เฉลยข้อ 2}
+
+\[
+I=\frac{120\angle20^\circ}{15\angle-30^\circ}
+\]
+
+หารขนาดและลบมุม
+
+\[
+|I|=\frac{120}{15}=8\ \text{A}
+\]
+
+\[
+\angle I=20^\circ-(-30^\circ)=50^\circ
+\]
+
+จึงได้
+
+\[
+I=8\angle50^\circ\ \text{A}
+\]
+
+\textbf{ข้อผิดพลาดที่พบบ่อย:} บวกมุมของตัวหารแทนการลบมุม หรือใช้ degree โดยไม่แปลงเป็น radian ในฟังก์ชัน trigonometric ของโปรแกรม
+
+\subsection{เฉลยข้อ 3}
+
+ให้
+
+\[
+\mathbf{A}=[1,2,-2],\quad \mathbf{B}=[3,-1,4]
+\]
+
+ดอตโปรดักต์
+
+\[
+\mathbf{A}\cdot\mathbf{B}
+=1(3)+2(-1)+(-2)(4)=3-2-8=-7
+\]
+
+ครอสโปรดักต์
+
+\[
+\mathbf{A}\times\mathbf{B}
+=
+\begin{vmatrix}
+\hat x&\hat y&\hat z\\
+1&2&-2\\
+3&-1&4
+\end{vmatrix}
+\]
+
+ได้
+
+\[
+\mathbf{A}\times\mathbf{B}=[6,-10,-7]
+\]
+
+ตรวจ
+
+\[
+[6,-10,-7]\cdot[1,2,-2]=6-20+14=0
+\]
+
+และ
+
+\[
+[6,-10,-7]\cdot[3,-1,4]=18+10-28=0
+\]
+
+ดังนั้น cross product ตั้งฉากกับทั้งสองเวกเตอร์
+
+\subsection{เฉลยข้อ 4}
+
+แปลงเฟส 30° เป็นเรเดียน
+
+\[
+30^\circ=\frac{\pi}{6}\ \text{rad}
+\]
+
+ตัวอย่าง Python
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+fs = 5000
+T = 0.05
+t = np.arange(0, T, 1/fs)
+v = 100*np.sin(2*np.pi*60*t + np.deg2rad(30))
+
+plt.plot(t,v)
+plt.xlabel("Time (s)")
+plt.ylabel("Voltage (V)")
+plt.title("60-Hz Sinusoid, phase = 30 deg")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+จำนวนตัวอย่างโดยประมาณ
+
+\[
+N=f_sT=5000(0.05)=250
+\]
+
+\subsection{เฉลยข้อ 5}
+
+จากตาราง
+
+\[
+\mathcal{L}\{e^{-at}\}=\frac{1}{s+a}
+\]
+
+ดังนั้น
+
+\[
+\mathcal{L}\{3e^{-2t}\}=\frac{3}{s+2}
+\]
+
+SymPy
+
+\begin{verbatim}
+import sympy as sp
+
+t, s = sp.symbols('t s', positive=True)
+F = sp.laplace_transform(3*sp.exp(-2*t), t, s, noconds=True)
+print(F)
+\end{verbatim}
+
+\subsection{เฉลยข้อ 6}
+
+กำหนด
+
+\[
+R=10\ \Omega,\quad L=0.02\ \text{H},\quad C=220\times10^{-6}\ \text{F}
+\]
+
+เรโซแนนซ์
+
+\[
+f_0=\frac{1}{2\pi\sqrt{LC}}
+\]
+
+แทนค่า
+
+\[
+LC=(0.02)(220\times10^{-6})=4.4\times10^{-6}
+\]
+
+\[
+\sqrt{LC}\approx2.0976\times10^{-3}
+\]
+
+จึงได้
+
+\[
+f_0\approx75.86\ \text{Hz}
+\]
+
+ตัวอย่างโค้ด
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+R = 10.0
+L = 20e-3
+C = 220e-6
+f = np.linspace(10, 1000, 5000)
+w = 2*np.pi*f
+Z = R + 1j*(w*L - 1/(w*C))
+
+idx = np.argmin(np.abs(Z))
+print(f[idx], np.abs(Z[idx]))
+
+plt.plot(f, np.abs(Z))
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("|Z| (ohm)")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+ค่าที่อ่านจากข้อมูลอาจไม่ตรง 75.86 Hz พอดี เพราะ grid ความถี่เป็นค่าจำกัด หากเพิ่มจำนวนจุดหรือคำนวณที่ $f_0$ โดยตรงจะใกล้ค่าทฤษฎีมากขึ้น
+
+\subsection{เฉลยข้อ 7}
+
+\[
+V(x,y)=5x^2+3xy-2y^2
+\]
+
+ดังนั้น
+
+\[
+\frac{\partial V}{\partial x}=10x+3y
+\]
+
+\[
+\frac{\partial V}{\partial y}=3x-4y
+\]
+
+จึงได้
+
+\[
+\nabla V=(10x+3y)\hat x+(3x-4y)\hat y
+\]
+
+สนามไฟฟ้า
+
+\[
+\mathbf{E}=-(10x+3y)\hat x-(3x-4y)\hat y
+\]
+
+ที่ $(1,2)$
+
+\[
+\mathbf{E}=-(10+6)\hat x-(3-8)\hat y
+\]
+
+\[
+\boxed{\mathbf{E}=-16\hat x+5\hat y\ \text{V/m}}
+\]
+
+ทิศของ $\mathbf{E}$ ตรงข้ามกับทิศที่ศักย์เพิ่มเร็วที่สุด
+
+\subsection{เฉลยข้อ 8}
+
+กรณี A
+
+\[
+N_A=f_sT=4000(0.25)=1000
+\]
+
+\[
+\Delta f_A=\frac{1}{0.25}=4\ \text{Hz}
+\]
+
+กรณี B
+
+\[
+N_B=4000(2)=8000
+\]
+
+\[
+\Delta f_B=\frac{1}{2}=0.5\ \text{Hz}
+\]
+
+ต้องการแยก 100 และ 102 Hz ซึ่งห่างกัน 2 Hz กรณี B เหมาะกว่าเพราะความละเอียด 0.5 Hz ขณะที่กรณี A มี bin spacing 4 Hz จึงแยกสององค์ประกอบนี้ได้ยากกว่า
+
+\subsection{เฉลยข้อ 9}
+
+สำหรับ $T=1$ s
+
+\[
+N=2000
+\]
+
+และ
+
+\[
+\Delta f=1\ \text{Hz}
+\]
+
+100 Hz จึงตรงกับ bin ได้ดี ตัวอย่าง
+
+\begin{verbatim}
+import numpy as np
+
+fs = 2000.0
+T = 1.0
+t = np.arange(0, T, 1/fs)
+x = 4*np.sin(2*np.pi*100*t)
+
+N = len(x)
+X = np.fft.rfft(x)
+f = np.fft.rfftfreq(N, 1/fs)
+A = np.abs(X)/N
+A[1:-1] *= 2
+
+k = np.argmax(A)
+print(f[k], A[k])
+\end{verbatim}
+
+แนวคิด normalization: DFT ของสัญญาณจริงกระจายองค์ประกอบไซน์/โคไซน์ไปยังความถี่บวกและลบ ใน single-sided spectrum จึงรวมพลังของคู่ความถี่โดยคูณสองใน bins ที่เหมาะสม ส่วน DC และ Nyquist ต้องจัดการตามโครงสร้างข้อมูลและเงื่อนไขของ $N$
+
+\subsection{เฉลยข้อ 10}
+
+\[
+R=4700\ \Omega,\quad C=22\times10^{-6}\ \text{F}
+\]
+
+\[
+\tau=RC=4700(22\times10^{-6})=0.1034\ \text{s}
+\]
+
+ฟังก์ชันถ่ายโอน
+
+\[
+H(s)=\frac{1}{0.1034s+1}
+\]
+
+สำหรับ step 10 V
+
+\[
+v_C(t)=10\left(1-e^{-t/0.1034}\right)
+\]
+
+ที่ $t=\tau$
+
+\[
+v_C(\tau)=10(1-e^{-1})\approx6.321\ \text{V}
+\]
+
+ที่ $t=5\tau$
+
+\[
+v_C(5\tau)=10(1-e^{-5})\approx9.933\ \text{V}
+\]
+
+กราฟจากโปรแกรมควรผ่านค่าดังกล่าวโดยประมาณ
+
+\subsection{เฉลยข้อ 11}
+
+สัญญาณประกอบด้วย
+
+\begin{itemize}
+    \item 50 Hz แอมพลิจูด 311 V → fundamental
+    \item 150 Hz แอมพลิจูด 20 V → $3\times50$ Hz = 3rd harmonic
+    \item 250 Hz แอมพลิจูด 10 V → $5\times50$ Hz = 5th harmonic
+\end{itemize}
+
+เมื่อ $T=1$ s
+
+\[
+\Delta f=1\ \text{Hz}
+\]
+
+ถ้าลดเป็น $T=0.1$ s
+
+\[
+\Delta f=10\ \text{Hz}
+\]
+
+จึงมี frequency resolution หยาบขึ้น แม้ sampling rate เดิมยังคงครอบคลุมความถี่เหล่านี้ได้
+
+ตัวอย่างโค้ด
+
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+fs = 5000.0
+T = 1.0
+t = np.arange(0, T, 1/fs)
+v = (311*np.sin(2*np.pi*50*t)
+     + 20*np.sin(2*np.pi*150*t)
+     + 10*np.sin(2*np.pi*250*t))
+
+N = len(v)
+V = np.fft.rfft(v)
+f = np.fft.rfftfreq(N, 1/fs)
+A = np.abs(V)/N
+A[1:-1] *= 2
+
+plt.plot(t, v)
+plt.xlim(0, 0.06)
+plt.xlabel("Time (s)")
+plt.ylabel("Voltage (V)")
+plt.grid(True)
+plt.show()
+
+plt.stem(f, A)
+plt.xlim(0, 500)
+plt.xlabel("Frequency (Hz)")
+plt.ylabel("Amplitude (V)")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\subsection{เฉลยข้อ 12}
+
+\[
+R=1500\ \Omega,\quad C=68\times10^{-6}\ \text{F}
+\]
+
+\[
+\tau=RC=1500(68\times10^{-6})=0.102\ \text{s}
+\]
+
+คำตอบ analytical
+
+\[
+v_C(t)=5(1-e^{-t/0.102})
+\]
+
+ค่ามาตรฐาน
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l l r}
+        \hline
+        \textbf{เวลา} & \textbf{นิพจน์} & \textbf{$v_C$ โดยประมาณ} \\
+        \hline
+        $0$ & $5(1-e^0)$ & 0 V \\
+        $\tau$ & $5(1-e^{-1})$ & 3.161 V \\
+        $2\tau$ & $5(1-e^{-2})$ & 4.323 V \\
+        $5\tau$ & $5(1-e^{-5})$ & 4.966 V \\
+        \hline
+    \end{tabular}
+\end{table}
+
+SymPy ควรให้รูปสมการสมมูล และ SciPy/MATLAB step response ควรให้ค่าที่ใกล้เคียงเมื่อใช้ time grid ละเอียดพอ
+
+\textbf{การอภิปราย:} ความต่างเล็กน้อยในค่าที่อ่านจากกราฟมักเกิดจากการที่ sample time ไม่ตรงกับ $\tau$, $2\tau$, $5\tau$ พอดี หรือเกิดจากการ interpolation/precision ไม่ใช่เพราะทฤษฎีต่างกัน
+
+\subsection{แนวคำตอบข้อ 13}
+
+เป็นโจทย์เปิด ไม่มีคำตอบตัวเลขตายตัว แต่รายงานที่ดีควรมี
+
+\begin{itemize}
+    \item ปัญหาที่อยู่ในขอบเขตบท
+    \item สมการถูกต้อง
+    \item หน่วยครบ
+    \item เหตุผลการเลือกเครื่องมือ
+    \item ผลคำนวณหรือกราฟที่ตรวจสอบได้
+    \item การตรวจอย่างน้อยสองวิธี เช่น มือ + software, analytical + numerical, limiting behavior + second tool
+    \item ข้อจำกัดและข้อสรุปที่สัมพันธ์กับวัตถุประสงค์
+\end{itemize}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{13. ข้อเสนอแนะสำหรับผู้สอน}
+
+\subsection{13.1 ลำดับการสอน 2 สัปดาห์ที่แนะนำ}
+
+\subsubsection{สัปดาห์ที่ 14: เครื่องมือและการคำนวณพื้นฐาน}
+
+\textbf{ช่วงที่ 1:} บทบาทและหลัก verification \\
+เริ่มจากโจทย์ RLC ตัวอย่างเดียวกัน ให้ผู้เรียนคำนวณด้วยมือก่อน แล้วใช้เครื่องคิดเลข/Python เพื่อยืนยัน
+
+\textbf{ช่วงที่ 2:} NumPy, Matplotlib และจำนวนเชิงซ้อน \\
+เปลี่ยนจากค่าความถี่เดียวเป็น sweep ความถี่ เพื่อให้เห็นเหตุผลว่าทำไมต้องใช้โปรแกรม
+
+\textbf{ช่วงที่ 3:} SymPy และ vector \\
+ใช้ gradient ตัวอย่างสั้น ๆ และตรวจด้วยมือหนึ่งองค์ประกอบ
+
+\subsubsection{สัปดาห์ที่ 15: Fourier, Laplace และรายงาน}
+
+\textbf{ช่วงที่ 1:} sampling + FFT \\
+ให้สร้างสัญญาณสองความถี่ที่รู้คำตอบก่อน เพื่อให้ผู้เรียนเห็น peak ที่ควรเกิด
+
+\textbf{ช่วงที่ 2:} RC symbolic vs numerical \\
+ใช้โจทย์ RC เดียวกันใน SymPy และ SciPy/MATLAB แล้ววางกราฟทับกัน
+
+\textbf{ช่วงที่ 3:} mini report \\
+ให้นักศึกษาจัดทำรายงานย่อที่มีสมการ กราฟ การตรวจสอบ และข้อจำกัด
+
+\subsection{13.2 จุดที่ผู้เรียนมักมีปัญหา}
+
+\begin{enumerate}
+    \item radian กับ degree
+    \item prefix ของหน่วย เช่น m, $\mu$, k
+    \item การสร้าง time vector ให้จำนวนจุดถูกต้อง
+    \item การตีความ FFT bins
+    \item normalization ของ spectrum
+    \item symbolic answer ที่อยู่คนละรูป
+    \item การกำหนด numerator/denominator ของ transfer function ผิดลำดับ
+    \item การลืม zero initial condition เมื่อใช้ transfer function
+    \item การส่ง screenshot แทนการอธิบายวิธีคำนวณ
+    \item การรายงานกราฟโดยไม่มีหน่วย
+\end{enumerate}
+
+\subsection{13.3 วิธีประเมินระหว่างเรียน}
+
+ใช้คำถามสั้นก่อนรันโปรแกรม เช่น
+
+\begin{itemize}
+    \item “ก่อนคำนวณ คิดว่ามุม $Z$ เป็นบวกหรือลบ?”
+    \item “ก่อน FFT ควรเห็น peak ที่ความถี่ใด?”
+    \item “ถ้าเพิ่ม $R$ ใน RLC การสั่นควรเพิ่มหรือลด?”
+    \item “ถ้าเพิ่ม record duration แต่ $f_s$ คงเดิม $\Delta f$ เปลี่ยนอย่างไร?”
+\end{itemize}
+
+คำถามแบบ prediction ช่วยแยกผู้เรียนที่เข้าใจระบบออกจากผู้เรียนที่เพียงรันโค้ดได้
+
+\subsection{13.4 Rubric งานรายงานย่อ}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l r l}
+        \hline
+        \textbf{เกณฑ์} & \textbf{น้ำหนัก} & \textbf{ตัวบ่งชี้} \\
+        \hline
+        แบบจำลองและสมการ & 20\% & สมการถูกต้อง ระบุสมมติฐาน \\
+        การใช้เครื่องมือ & 20\% & เลือกคำสั่งเหมาะสม โค้ดเป็นระเบียบ \\
+        ผลลัพธ์และกราฟ & 20\% & หน่วย แกน legend และค่าจุดสำคัญครบ \\
+        การตรวจสอบ & 20\% & มีมือ/ทฤษฎี/เหตุผลทางกายภาพตรวจซ้ำ \\
+        การอภิปรายและข้อจำกัด & 10\% & แปลผล ไม่ใช่เพียงบรรยายกราฟ \\
+        การสื่อสารและ reproducibility & 10\% & ไฟล์ครบ ทำซ้ำได้ อ้างอิงแหล่งข้อมูล \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{14. สื่อและแหล่งเรียนรู้เพิ่มเติม}
+
+\subsection{14.1 สื่อแนะนำ}
+
+\subsubsection{Python Software Foundation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} Python complex numbers, \texttt{cmath}
+    \item \textbf{คำค้นแนะนำ:} \texttt{Python cmath complex polar phase}
+    \item \textbf{จุดประสงค์:} ตรวจ syntax และฟังก์ชันสำหรับจำนวนเชิงซ้อน
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ก่อนกิจกรรมเฟสเซอร์
+\end{itemize}
+
+\subsubsection{NumPy Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} Discrete Fourier Transform, \texttt{numpy.fft}, \texttt{rfft}, \texttt{rfftfreq}
+    \item \textbf{คำค้นแนะนำ:} \texttt{NumPy FFT rfft frequency bins}
+    \item \textbf{จุดประสงค์:} ตรวจความหมายของ FFT functions และการสร้างแกนความถี่
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ก่อนกิจกรรม Fourier/FFT
+\end{itemize}
+
+\subsubsection{SciPy Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} \texttt{scipy.signal}, \texttt{TransferFunction}, \texttt{step}, \texttt{freqresp}
+    \item \textbf{คำค้นแนะนำ:} \texttt{SciPy signal continuous transfer function step response}
+    \item \textbf{จุดประสงค์:} เรียนรู้การแทนระบบ LTI และการตอบสนอง
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ก่อนกิจกรรม RC/RLC
+\end{itemize}
+
+\subsubsection{Matplotlib Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} Pyplot tutorial, line plot, stem plot, labeling
+    \item \textbf{คำค้นแนะนำ:} \texttt{Matplotlib pyplot plot stem xlabel ylabel}
+    \item \textbf{จุดประสงค์:} สร้างกราฟที่มีองค์ประกอบครบสำหรับรายงาน
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} สัปดาห์แรกของบท
+\end{itemize}
+
+\subsubsection{SymPy Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} symbolic mathematics, Laplace transform, inverse Laplace transform
+    \item \textbf{คำค้นแนะนำ:} \texttt{SymPy laplace\_transform inverse\_laplace\_transform}
+    \item \textbf{จุดประสงค์:} ตรวจการคำนวณเชิงสัญลักษณ์และเปรียบเทียบกับการทำมือ
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ก่อนกิจกรรม Laplace
+\end{itemize}
+
+\subsubsection{MathWorks Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} MATLAB \texttt{fft}, symbolic \texttt{laplace}, \texttt{ilaplace}
+    \item \textbf{คำค้นแนะนำ:} \texttt{MATLAB fft laplace ilaplace}
+    \item \textbf{จุดประสงค์:} เรียนรู้คำสั่งมาตรฐานในสภาพแวดล้อม MATLAB
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} เมื่อสถาบันหรือผู้เรียนใช้ MATLAB
+\end{itemize}
+
+\subsubsection{GNU Octave Documentation}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} vectors, matrices, plotting, FFT
+    \item \textbf{คำค้นแนะนำ:} \texttt{GNU Octave manual fft plot complex}
+    \item \textbf{จุดประสงค์:} ใช้เป็นทางเลือกโอเพนซอร์สสำหรับการคำนวณแบบ matrix-oriented
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ใช้คู่กับตัวอย่าง MATLAB
+\end{itemize}
+
+\subsubsection{GeoGebra Team}
+
+\begin{itemize}
+    \item \textbf{หัวข้อที่ควรค้น:} Graphing Calculator, CAS Calculator, sliders
+    \item \textbf{คำค้นแนะนำ:} \texttt{GeoGebra Graphing Calculator slider CAS}
+    \item \textbf{จุดประสงค์:} สำรวจผลของพารามิเตอร์ต่อกราฟแบบ interactive
+    \item \textbf{ช่วงเวลาที่เหมาะสม:} ก่อนหรือระหว่างกิจกรรม Fourier Explorer และ RC response
+\end{itemize}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{15. เอกสารอ้างอิงท้ายบท}
+
+\begin{quote}
+รูปแบบอ้างอิง: APA 7 โดยรายการเว็บไซต์ใช้เอกสารทางการของผู้พัฒนาซอฟต์แวร์ และควรตรวจสอบวันที่เข้าถึง/รายละเอียดเวอร์ชันอีกครั้งก่อนจัดพิมพ์ฉบับเผยแพร่
+\end{quote}
+
+\subsection{15.1 เอกสารหลักที่ผู้ใช้แนบ}
+
+โครงสร้างเอกสารประกอบการสอน รายวิชา 5571102 คณิตศาสตร์วิศวกรรมไฟฟ้า. (2569). \textit{โครงสร้างเอกสารประกอบการสอนและแผนการจัดการเรียนรู้รายสัปดาห์}.
+
+Prompt กลางสำหรับออกแบบเอกสารประกอบการสอนระดับอุดมศึกษา. (ม.ป.ป.). \textit{แนวทางออกแบบเอกสารประกอบการสอนแบบ Topic-Based Design Mode}.
+
+Module A. (ม.ป.ป.). \textit{ภาพประกอบและ Prompt สร้างภาพ}.
+
+Module B. (ม.ป.ป.). \textit{สมการและตัวอย่างคำนวณ}.
+
+Module E. (ม.ป.ป.). \textit{แบบฝึกหัดและเฉลย}.
+
+Module F. (ม.ป.ป.). \textit{OBE และการประเมินผล}.
+
+Module H. (ม.ป.ป.). \textit{สื่อ วิดีโอ และเอกสารอ้างอิง}.
+
+\subsection{15.2 หนังสือและตำรา}
+
+Kreyszig, E. (2011). \textit{Advanced engineering mathematics} (10th ed.). Wiley.
+
+Oppenheim, A. V., Willsky, A. S., \& Nawab, S. H. (1997). \textit{Signals and systems} (2nd ed.). Prentice Hall.
+
+Alexander, C. K., \& Sadiku, M. N. O. (2017). \textit{Fundamentals of electric circuits} (6th ed.). McGraw-Hill Education.
+
+Chapra, S. C., \& Canale, R. P. (2015). \textit{Numerical methods for engineers} (7th ed.). McGraw-Hill Education.
+
+\subsection{15.3 คู่มือและเอกสารทางเทคนิคอย่างเป็นทางการ}
+
+Python Software Foundation. (2026). \textit{Python documentation: cmath—Mathematical functions for complex numbers}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+NumPy Developers. (2026). \textit{NumPy documentation: Discrete Fourier Transform and numpy.fft}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+SciPy Community. (2026). \textit{SciPy documentation: Signal processing (scipy.signal), continuous-time systems, step and frequency response}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+Matplotlib Development Team. (2026). \textit{Matplotlib documentation: Pyplot and plotting APIs}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+SymPy Development Team. (2026). \textit{SymPy documentation: Symbolic mathematics and Laplace transforms}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+MathWorks. (2026). \textit{MATLAB documentation: FFT, Laplace transform, and inverse Laplace transform}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+GNU Project. (2026). \textit{GNU Octave documentation}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+GeoGebra Team. (2026). \textit{GeoGebra Graphing Calculator and Calculator Suite documentation}. เอกสารทางการออนไลน์ ตรวจสอบเมื่อ 19 สิงหาคม 2026.
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{ภาคผนวก A: Quick Reference สำหรับ Python}
+
+\subsection{A.1 จำนวนเชิงซ้อน}
+
+\begin{verbatim}
+import cmath
+import math
+
+z = 3 + 4j
+mag = abs(z)
+phase_rad = cmath.phase(z)
+phase_deg = math.degrees(phase_rad)
+r, phi = cmath.polar(z)
+z2 = cmath.rect(r, phi)
+\end{verbatim}
+
+\subsection{A.2 NumPy array และสัญญาณ}
+
+\begin{verbatim}
+import numpy as np
+
+fs = 5000
+T = 1.0
+t = np.arange(0, T, 1/fs)
+x = np.sin(2*np.pi*50*t)
+\end{verbatim}
+
+\subsection{A.3 FFT แบบสัญญาณจริง}
+
+\begin{verbatim}
+N = len(x)
+X = np.fft.rfft(x)
+f = np.fft.rfftfreq(N, d=1/fs)
+A = np.abs(X)/N
+A[1:-1] *= 2
+\end{verbatim}
+
+\begin{quote}
+\textbf{หมายเหตุ:} สูตร normalization ต้องพิจารณาว่า $N$ เป็นเลขคู่/คี่ และมี Nyquist bin หรือไม่ ตัวอย่างนี้ใช้เพื่อการเรียนรู้ในกรณีพื้นฐาน
+\end{quote}
+
+\subsection{A.4 กราฟ}
+
+\begin{verbatim}
+import matplotlib.pyplot as plt
+
+plt.plot(t, x)
+plt.xlabel("Time (s)")
+plt.ylabel("Amplitude")
+plt.grid(True)
+plt.show()
+\end{verbatim}
+
+\subsection{A.5 Symbolic Laplace}
+
+\begin{verbatim}
+import sympy as sp
+
+t, s = sp.symbols('t s', positive=True)
+f = sp.exp(-2*t)
+F = sp.laplace_transform(f, t, s, noconds=True)
+f_back = sp.inverse_laplace_transform(F, s, t)
+\end{verbatim}
+
+\subsection{A.6 SciPy transfer function}
+
+\begin{verbatim}
+from scipy import signal
+
+num = [1]
+den = [0.1, 1]
+sys = signal.TransferFunction(num, den)
+t, y = signal.step(sys)
+\end{verbatim}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{ภาคผนวก B: Quick Reference สำหรับ MATLAB / GNU Octave}
+
+\subsection{B.1 Complex}
+
+\begin{verbatim}
+z = 3 + 4i;
+mag = abs(z);
+phase_rad = angle(z);
+phase_deg = phase_rad*180/pi;
+\end{verbatim}
+
+\subsection{B.2 สัญญาณและกราฟ}
+
+\begin{verbatim}
+fs = 5000;
+T = 1;
+t = 0:1/fs:T-1/fs;
+x = sin(2*pi*50*t);
+plot(t,x);
+xlabel('Time (s)');
+ylabel('Amplitude');
+grid on;
+\end{verbatim}
+
+\subsection{B.3 FFT}
+
+\begin{verbatim}
+N = length(x);
+X = fft(x);
+f = (0:N-1)*(fs/N);
+\end{verbatim}
+
+\subsection{B.4 MATLAB Symbolic Laplace}
+
+\begin{verbatim}
+syms t s
+f = exp(-2*t);
+F = laplace(f,t,s);
+f2 = ilaplace(F,s,t);
+\end{verbatim}
+
+\begin{quote}
+สำหรับ GNU Octave ความพร้อมของ symbolic operations ขึ้นกับ packages ที่ติดตั้ง จึงควรตรวจคู่มือและ package documentation ของระบบที่ใช้จริง
+\end{quote}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{ภาคผนวก C: Checklist ก่อนส่งงานคำนวณ}
+
+\begin{itemize}
+    \item {}[ ] ระบุโจทย์และวัตถุประสงค์ชัดเจน
+    \item {}[ ] สมการสอดคล้องกับระบบจริง
+    \item {}[ ] ระบุสมมติฐาน
+    \item {}[ ] ใช้หน่วย SI อย่างสม่ำเสมอ
+    \item {}[ ] แปลง prefix m, µ, k, M ถูกต้อง
+    \item {}[ ] ตรวจ degree/radian
+    \item {}[ ] ระบุ sampling frequency และ record duration เมื่อมีสัญญาณ
+    \item {}[ ] ตรวจ frequency resolution เมื่อใช้ FFT
+    \item {}[ ] กำหนด normalization ของ spectrum ชัดเจน
+    \item {}[ ] กราฟมีชื่อแกนและหน่วย
+    \item {}[ ] ตรวจคำตอบอย่างน้อยหนึ่งวิธีที่เป็นอิสระจากโปรแกรมหลัก
+    \item {}[ ] อธิบายความหมายทางวิศวกรรมของผลลัพธ์
+    \item {}[ ] ระบุข้อจำกัดของแบบจำลอง
+    \item {}[ ] แนบ script/notebook หรือไฟล์ต้นฉบับที่จำเป็น
+    \item {}[ ] รายงานสามารถทำซ้ำได้จากข้อมูลที่ให้
+\end{itemize}
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\textbf{จบบทที่ 8 โปรแกรมคำนวณทางคณิตศาสตร์สำหรับวิศวกรรมไฟฟ้า}
