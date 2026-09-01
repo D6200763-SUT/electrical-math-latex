@@ -2,8 +2,8 @@
 
 \textbf{ชื่อบทภาษาอังกฤษ:} Laplace Transform\\
 \textbf{รายวิชา:} คณิตศาสตร์วิศวกรรมไฟฟ้า (Electrical Engineering Mathematics)\\
-\textbf{รหัสวิชา:} 5571102\\
-\textbf{สาขาวิชา:} เทคโนโลยีวิศวกรรมไฟฟ้า\\
+\textbf{รหัสวิชา:} 5571102
+
 
 \begin{quote}
 \textbf{ขอบเขตของบท:} บทนี้ปูพื้นฐานการแปลงลาปลาซตั้งแต่นิยาม ตารางคู่การแปลง สมบัติ การแปลงผกผัน เศษส่วนย่อย ฟังก์ชันขั้นบันไดหนึ่งหน่วย ฟังก์ชันอิมพัลส์ การแก้สมการเชิงอนุพันธ์ และความสัมพันธ์กับระบบเชิงเส้น เพื่อเตรียมเข้าสู่บทที่ 7 ซึ่งจะประยุกต์ใช้กับวงจร RC, RL, RLC และฟังก์ชันถ่ายโอนอย่างเป็นระบบ
@@ -54,7 +54,8 @@
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l}
+    \small
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.26\textwidth} >{\raggedright\arraybackslash}p{0.25\textwidth} X}
         \hline
         \textbf{คำศัพท์ภาษาไทย} & \textbf{English} & \textbf{ความหมายโดยย่อ} \\
         \hline
@@ -73,7 +74,7 @@
         ระบบเชิงเส้นไม่แปรตามเวลา & Linear Time-Invariant System, LTI & ระบบที่เป็นเชิงเส้นและสมบัติไม่เปลี่ยนตามการเลื่อนเวลา \\
         คอนโวลูชัน & Convolution & การรวมผลตอบสนองของระบบต่อองค์ประกอบย่อยของอินพุต \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 
@@ -93,51 +94,53 @@
 
 \subsubsection{4.1 ตารางเชื่อมโยง OBE: ผลลัพธ์–เนื้อหา–กิจกรรม–การประเมิน}
 
+\begingroup
+\hbadness=10000
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l l l}
+    \small
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.18\textwidth} >{\raggedright\arraybackslash}p{0.15\textwidth} >{\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}p{0.17\textwidth} X}
         \hline
         \textbf{ผลลัพธ์การเรียนรู้ประจำบท} & \textbf{เนื้อหาที่เกี่ยวข้อง} & \textbf{กิจกรรมการเรียนรู้} & \textbf{วิธีประเมิน} & \textbf{หลักฐานการเรียนรู้} \\
         \hline
-        CLO6.1 อธิบายความหมายและความสำคัญของลาปลาซ & 6.1–6.2, การลู่เข้า, โดเมน $s$ & วิเคราะห์แผนภาพ time domain → $s$-domain และอภิปรายความหมาย & คำถามปากเปล่า/แบบทดสอบสั้น & คำตอบอธิบายด้วยภาษาของตนเอง \\
+        CLO6.1 อธิบายความหมายและความสำคัญของลาปลาซ & 6.1–6.2, การลู่เข้า, โดเมน $s$ & วิเคราะห์แผนภาพ time domain $\to$ $s$-domain และอภิปรายความหมาย & คำถามปากเปล่า/แบบทดสอบสั้น & คำตอบอธิบายด้วยภาษาของตนเอง \\
         CLO6.2 คำนวณลาปลาซของฟังก์ชันพื้นฐาน & 6.2–6.4 & คำนวณจากนิยามและเปรียบเทียบกับตาราง & แบบฝึกหัดรายบุคคล & ขั้นตอนคำนวณและคำตอบ $F(s)$ \\
         CLO6.3 หาลาปลาซผกผันด้วยเศษส่วนย่อย & 6.5–6.6 & แยกกรณีรากต่างกัน รากซ้ำ และพจน์กำลังสอง & แบบฝึกหัดวิเคราะห์ & การจัดรูปและสัมประสิทธิ์เศษส่วนย่อยที่ถูกต้อง \\
         CLO6.4 วิเคราะห์ step/impulse & 6.7–6.8 & เขียนฟังก์ชันชิ้นส่วนให้อยู่ในรูป unit step และพิจารณา impulse & ใบงานสั้น & สมการสัญญาณและลาปลาซของสัญญาณ \\
         CLO6.5 แก้สมการเชิงอนุพันธ์ด้วยลาปลาซ & 6.9, 6.11 & แก้ IVP แบบเป็นขั้นตอนและตรวจค่าเริ่มต้น & แบบฝึกหัด/ข้อสอบอัตนัย & $Y(s)$, การแยกเศษส่วนย่อย, $y(t)$ และการตรวจสอบ \\
         CLO6.6 เชื่อมโยงกับระบบเชิงเส้น & 6.10 & วิเคราะห์ input–system–output และคอนโวลูชัน & คำถามเชิงวิเคราะห์/กรณีศึกษา & แผนภาพความสัมพันธ์และคำอธิบายเชิงระบบ \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
+\endgroup
 
 
 
 \subsection{5. แผนผังเนื้อหาของบท}
 
-\begin{verbatim}
-ปัญหาในโดเมนเวลา
-    ↓
-นิยามการแปลงลาปลาซและเงื่อนไขการลู่เข้า
-    ↓
-ตารางคู่การแปลงพื้นฐาน
-    ↓
-สมบัติของการแปลงลาปลาซ
-    ↓
-การแปลงลาปลาซผกผัน
-    ↓
-การแยกเศษส่วนย่อย
-    ↓
-Unit Step และ Impulse
-    ↓
-แปลงสมการเชิงอนุพันธ์เป็นสมการพีชคณิตในโดเมน s
-    ↓
-แก้หา Y(s)
-    ↓
-Inverse Laplace → y(t)
-    ↓
-เชื่อมโยงกับระบบเชิงเส้นและเตรียมเข้าสู่การวิเคราะห์วงจรในบทที่ 7
-\end{verbatim}
-
-
+\begin{center}
+ ปัญหาในโดเมนเวลา\\
+    v\\
+นิยามการแปลงลาปลาซและเงื่อนไขการลู่เข้า\\
+    v\\
+ตารางคู่การแปลงพื้นฐาน\\
+    v\\
+สมบัติของการแปลงลาปลาซ\\
+    v\\
+การแปลงลาปลาซผกผัน\\
+    v\\
+การแยกเศษส่วนย่อย\\
+    v\\
+Unit Step และ Impulse\\
+    v\\
+แปลงสมการเชิงอนุพันธ์เป็นสมการพีชคณิตในโดเมน s\\
+    v\\
+แก้หา Y(s)\\
+    v\\
+Inverse Laplace -> y(t)\\
+    v\\
+เชื่อมโยงกับระบบเชิงเส้นและเตรียมเข้าสู่การวิเคราะห์วงจรในบทที่ 7\\
+\end{center}
 
 \subsection{6. บทนำ}
 
@@ -165,7 +168,7 @@ Inverse Laplace → y(t)
 
 \subsection{7.1 ความหมายและความสำคัญของการแปลงลาปลาซ}
 
-\subsubsection{7.1.1 จากโดเมนเวลาไปสู่โดเมน $s$}
+\subsubsection{\texorpdfstring{7.1.1 จากโดเมนเวลาไปสู่โดเมน $s$}{7.1.1 จากโดเมนเวลาไปสู่โดเมน s}}
 
 ให้ $f(t)$ เป็นสัญญาณหรือฟังก์ชันในโดเมนเวลา การแปลงลาปลาซสร้างฟังก์ชันใหม่ $F(s)$ โดย $s$ เป็นจำนวนเชิงซ้อน
 
@@ -203,7 +206,7 @@ e^{-st}=e^{-\sigma t}e^{-j\omega t}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-01.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-01.png}
     \caption{แนวคิดการเปลี่ยนจากโดเมนเวลาไปสู่โดเมนลาปลาซ}
 \end{figure}
 
@@ -221,7 +224,7 @@ e^{-st}=e^{-\sigma t}e^{-j\omega t}
 
 อย่างไรก็ตาม ลาปลาซไม่ใช่วิธีแทนทุกปัญหาโดยอัตโนมัติ หากระบบไม่เชิงเส้นอย่างรุนแรง สัมประสิทธิ์เปลี่ยนตามเวลา หรือฟังก์ชันไม่อยู่ในเงื่อนไขที่การแปลงลู่เข้า อาจต้องใช้วิธีอื่นร่วมด้วย
 
-\subsubsection{7.1.3 ข้อสังเกตเรื่องลาปลาซด้านเดียวและค่า ณ $t=0$}
+\subsubsection{\texorpdfstring{7.1.3 ข้อสังเกตเรื่องลาปลาซด้านเดียวและค่า ณ $t=0$}{7.1.3 ข้อสังเกตเรื่องลาปลาซด้านเดียวและค่า ณ t=0}}
 
 ในงานวิศวกรรมมักใช้ \textbf{การแปลงลาปลาซด้านเดียว (unilateral Laplace transform)} เพื่อวิเคราะห์ระบบตั้งแต่เวลาเริ่มต้นและนำเงื่อนไขเริ่มต้นมารวมในสมการ ประเด็นที่ต้องระวังคือการตีความขอบล่างของอินทิกรัลและค่าที่ $t=0$ เมื่อมีความไม่ต่อเนื่องหรืออิมพัลส์ตรงจุดกำเนิด งานของ Lundberg, Miller และ Trumper ชี้ให้เห็นว่าการใช้สัญกรณ์ $0^-$ หรือ $0^+$ ต้องสอดคล้องกันเพื่อไม่ให้เกิดความขัดแย้งในการคำนวณอิมพัลส์และเงื่อนไขเริ่มต้น
 
@@ -280,7 +283,7 @@ e^{-st}=e^{-\sigma t}e^{-j\omega t}
 
 สำหรับบทนี้ ROC ใช้เพื่อสร้างความเข้าใจว่าฟังก์ชัน $F(s)$ ไม่ได้มีเพียงนิพจน์พีชคณิต แต่ยังมีเงื่อนไขของ $s$ ประกอบด้วย การวิเคราะห์ ROC เชิงลึกจะมีความสำคัญมากขึ้นในรายวิชาสัญญาณและระบบ
 
-\subsubsection{7.2.3 ตัวอย่างจากนิยาม: $f(t)=1$}
+\subsubsection{\texorpdfstring{7.2.3 ตัวอย่างจากนิยาม: $f(t)=1$}{7.2.3 ตัวอย่างจากนิยาม: f(t)=1}}
 
 \textbf{ตัวอย่างที่ 6.1 — ตัวอย่างพื้นฐาน}\\
 จงหา $\mathcal{L}\{1\}$ จากนิยาม
@@ -308,7 +311,7 @@ F(s)=\left[-\frac{1}{s}e^{-st}\right]_0^{\infty}
 \textbf{5) ตรวจสอบความสมเหตุสมผล} นิพจน์มีมิติของเวลา เพราะ $1/s$ มีหน่วยวินาทีเมื่อ $s$ มีหน่วย $\mathrm{s}^{-1}$\\
 \textbf{6) แปลความหมาย} ฟังก์ชันคงที่ในเวลาเปลี่ยนเป็นฟังก์ชันที่แปรผกผันกับ $s$
 
-\subsubsection{7.2.4 ตัวอย่างจากนิยาม: $f(t)=e^{-3t}$}
+\subsubsection{\texorpdfstring{7.2.4 ตัวอย่างจากนิยาม: $f(t)=e^{-3t}$}{7.2.4 ตัวอย่างจากนิยาม: f(t)=exp(-3t)}}
 
 \textbf{ตัวอย่างที่ 6.2 — ตัวอย่างพื้นฐาน}\\
 จงหา $\mathcal{L}\{e^{-3t}\}$
@@ -352,7 +355,7 @@ F(s)=\left[-\frac{1}{s}e^{-st}\right]_0^{\infty}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-02.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-02.png}
     \caption{ผลของตัวประกอบน้ำหนัก $e^{-\sigma t}$ ต่อการลู่เข้าของอินทิกรัลลาปลาซ}
 \end{figure}
 
@@ -394,10 +397,10 @@ F(s)=\left[-\frac{1}{s}e^{-st}\right]_0^{\infty}
 คู่การแปลงจำนวนมากสามารถจัดเป็นครอบครัวได้ เช่น
 
 \begin{itemize}
-    \item พหุนามเวลา $t^n$ ↔ กำลังของ $1/s$
-    \item เอกซ์โพเนนเชียล $e^{at}$ ↔ ตัวประกอบ $1/(s-a)$
-    \item ไซน์และโคไซน์ ↔ พหุนามกำลังสอง $s^2+\omega^2$
-    \item การหน่วงเวลา ↔ ตัวคูณ $e^{-as}$
+    \item พหุนามเวลา $t^n$ $\leftrightarrow$ กำลังของ $1/s$
+    \item เอกซ์โพเนนเชียล $e^{at}$ $\leftrightarrow$ ตัวประกอบ $1/(s-a)$
+    \item ไซน์และโคไซน์ $\leftrightarrow$ พหุนามกำลังสอง $s^2+\omega^2$
+    \item การหน่วงเวลา $\leftrightarrow$ ตัวคูณ $e^{-as}$
 \end{itemize}
 
 การจำแบบครอบครัวช่วยให้ผู้เรียนจัดรูป inverse Laplace ได้เร็วและลดความผิดพลาดจากการเทียบตารางแบบตรงตัว
@@ -450,7 +453,7 @@ F(s)=\left[-\frac{1}{s}e^{-st}\right]_0^{\infty}
 \textbf{เงื่อนไข:} $F(s)$ และ $G(s)$ ต้องลู่เข้าในบริเวณที่มีช่วงร่วมกัน\\
 \textbf{ความหมายทางวิศวกรรม:} เป็นรากฐานของการใช้ superposition กับระบบเชิงเส้น
 
-\subsubsection{7.4.2 การเลื่อนในโดเมน $s$ (First Shifting Theorem)}
+\subsubsection{\texorpdfstring{7.4.2 การเลื่อนในโดเมน $s$ (First Shifting Theorem)}{7.4.2 การเลื่อนในโดเมน s (First Shifting Theorem)}}
 
 ถ้า $\mathcal{L}\{f(t)\}=F(s)$ แล้ว
 
@@ -505,7 +508,7 @@ F(s)=\left[-\frac{1}{s}e^{-st}\right]_0^{\infty}
 
 \textbf{ความหมายทางวิศวกรรม:} เงื่อนไขเริ่มต้นปรากฏขึ้นในสมการหลังแปลงโดยอัตโนมัติ นี่คือเหตุผลสำคัญที่ลาปลาซเหมาะกับ initial-value problems
 
-\subsubsection{7.4.5 ลาปลาซของอนุพันธ์อันดับ $n$}
+\subsubsection{\texorpdfstring{7.4.5 ลาปลาซของอนุพันธ์อันดับ $n$}{7.4.5 ลาปลาซของอนุพันธ์อันดับ n}}
 
 \[
 \boxed{\mathcal{L}\{f^{(n)}(t)\} =s^nF(s)-s^{n-1}f(0)-s^{n-2}f'(0)-\cdots-f^{(n-1)}(0)}
@@ -535,7 +538,7 @@ g(t)=\int_0^t f(\tau)d\tau
 
 การอินทิเกรตในโดเมนเวลาเทียบได้กับการหารด้วย $s$ ในโดเมนลาปลาซภายใต้เงื่อนไขที่เหมาะสม
 
-\subsubsection{7.4.7 การคูณด้วย $t$}
+\subsubsection{\texorpdfstring{7.4.7 การคูณด้วย $t$}{7.4.7 การคูณด้วย t}}
 
 \[
 \boxed{\mathcal{L}\{t f(t)\}=-\frac{dF(s)}{ds}}
@@ -871,7 +874,7 @@ F(s)=\frac{3}{s}-\frac{3}{s+1}-\frac{2}{(s+1)^2}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-03.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-03.png}
     \caption{ขั้นตอนเลือกวิธีหาลาปลาซผกผันและเศษส่วนย่อย}
 \end{figure}
 
@@ -965,7 +968,7 @@ f(t)=5[u(t-1)-u(t-3)]
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-04.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-04.png}
     \caption{Unit Step และพัลส์สี่เหลี่ยมจากผลต่างของ Unit Step}
 \end{figure}
 
@@ -1094,7 +1097,7 @@ F(s)=4e^{-2s}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-05.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-05.png}
     \caption{แนวคิดอิมพัลส์จากพัลส์แคบที่มีพื้นที่คงที่หนึ่งหน่วย}
 \end{figure}
 
@@ -1132,7 +1135,7 @@ F(s)=4e^{-2s}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-06.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-06.png}
     \caption{กระบวนการแก้ Initial-Value Problem ด้วยการแปลงลาปลาซ}
 \end{figure}
 
@@ -1433,7 +1436,7 @@ y(t)=\int_0^t e^{-2(t-\tau)}(1)d\tau
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-07.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter6/figure-07.png}
     \caption{ความสัมพันธ์ Input–System–Output ระหว่างโดเมนเวลาและโดเมน s}
 \end{figure}
 
@@ -1571,9 +1574,9 @@ f(t)=
 \textbf{ตรวจสอบเชิงช่วงเวลา:}
 
 \begin{itemize}
-    \item $t<1$: ทั้งสอง step เป็นศูนย์ → $f=0$
-    \item $1\le t<4$: step แรกเป็น 1 → $f=3$
-    \item $t\ge4$: ทั้งสองเป็น 1 → $f=3-2=1$
+    \item $t<1$: ทั้งสอง step เป็นศูนย์ $\to f=0$
+    \item $1\le t<4$: step แรกเป็น 1 $\to f=3$
+    \item $t\ge4$: ทั้งสองเป็น 1 $\to f=3-2=1$
 \end{itemize}
 
 \subsubsection{ตัวอย่างที่ 6.16 — ODE ที่มีพัลส์ช่วงจำกัด}
@@ -1632,7 +1635,7 @@ g(t)=5(1-e^{-2t})
 
 หัวข้อบังคับของรายวิชากำหนดให้มี “กิจกรรมการเรียนรู้และแบบฝึกหัดท้ายบท” ในบทนี้ โดยเนื่องจากไม่ได้เปิดใช้ Module C แบบเต็ม จึงออกแบบกิจกรรมให้กระชับและใช้เพื่อเสริมเนื้อหาหลัก ส่วนแบบฝึกหัดฉบับเต็มอยู่ในหัวข้อ 12
 
-\subsubsection{กิจกรรมสั้นที่ 1: จับคู่ Time Domain กับ $s$-Domain}
+\subsubsection{\texorpdfstring{กิจกรรมสั้นที่ 1: จับคู่ Time Domain กับ $s$-Domain}{กิจกรรมสั้นที่ 1: จับคู่ Time Domain กับ s-Domain}}
 
 ผู้สอนเตรียมบัตร 12 ใบ แบ่งเป็นฟังก์ชันเวลา 6 ใบและฟังก์ชันลาปลาซ 6 ใบ เช่น $1$, $t$, $e^{-2t}$, $\sin 3t$, $u(t-2)$, $\delta(t-1)$ ให้ผู้เรียนจับคู่และอธิบาย “สัญญาณบอกใบ้” ของแต่ละคู่ เช่น ตัวประกอบ $e^{-2s}$ หมายถึงการหน่วงเวลา
 
@@ -1664,7 +1667,7 @@ g(t)=5(1-e^{-2t})
 
 \subsection{8. ความเข้าใจผิดที่พบบ่อย}
 
-\subsubsection{8.1 คิดว่า $s$ คือความถี่ $\omega$ โดยตรง}
+\subsubsection{\texorpdfstring{8.1 คิดว่า $s$ คือความถี่ $\omega$ โดยตรง}{8.1 คิดว่า s คือความถี่ omega โดยตรง}}
 
 \textbf{ความเข้าใจที่คลาดเคลื่อน:} $s$ กับ $j\omega$ เป็นสิ่งเดียวกันเสมอ\\
 \textbf{แนวคิดที่ถูกต้อง:} $s=\sigma+j\omega$ เป็นตัวแปรเชิงซ้อนทั่วไป การแทน $s=j\omega$ เป็นกรณีเฉพาะที่ต้องมีเงื่อนไขเหมาะสมและมักเกิดในการเชื่อมกับการตอบสนองเชิงความถี่
@@ -1687,7 +1690,7 @@ g(t)=5(1-e^{-2t})
 
 หากเงื่อนไขเริ่มต้นเป็นศูนย์จึงลดรูปเหลือ $sY$
 
-\subsubsection{8.3 ใช้ Time Shift แต่ไม่เปลี่ยนตัวแปรภายในเป็น $t-a$}
+\subsubsection{\texorpdfstring{8.3 ใช้ Time Shift แต่ไม่เปลี่ยนตัวแปรภายในเป็น $t-a$}{8.3 ใช้ Time Shift แต่ไม่เปลี่ยนตัวแปรภายในเป็น t-a}}
 
 ผู้เรียนมักเห็น $u(t-a)f(t)$ แล้วเขียน $e^{-as}F(s)$ ทันที ซึ่งไม่ถูกต้องเสมอ ต้องจัดฟังก์ชันให้อยู่ในรูป
 
@@ -1711,7 +1714,7 @@ u(t-a)g(t-a)
 
 Partial fractions มาตรฐานใช้กับ proper rational function จึงต้องตรวจดีกรีก่อนทุกครั้ง
 
-\subsubsection{8.6 คิดว่า $\delta(t)$ เป็นพัลส์ที่มี “ค่าอนันต์” แบบตัวเลขธรรมดา}
+\subsubsection{\texorpdfstring{8.6 คิดว่า $\delta(t)$ เป็นพัลส์ที่มี “ค่าอนันต์” แบบตัวเลขธรรมดา}{8.6 คิดว่า delta(t) เป็นพัลส์ที่มี ค่าอนันต์ แบบตัวเลขธรรมดา}}
 
 จุดสำคัญของ $\delta(t)$ คือคุณสมบัติผ่านอินทิกรัลและพื้นที่ ไม่ควรจัดการเหมือนฟังก์ชันค่าจริงธรรมดาที่ $t=0$
 
@@ -1719,7 +1722,7 @@ Partial fractions มาตรฐานใช้กับ proper rational functi
 
 หากคำตอบสั่นต่อเนื่องหรือไม่ลู่เข้า การคำนวณ $\lim_{s\to0}sF(s)$ แบบกลไกอาจให้ข้อสรุปที่ผิด
 
-\subsubsection{8.8 ได้ $Y(s)$ แล้วหยุด}
+\subsubsection{\texorpdfstring{8.8 ได้ $Y(s)$ แล้วหยุด}{8.8 ได้ Y(s) แล้วหยุด}}
 
 ในการแก้ปัญหาโดเมนเวลา $Y(s)$ เป็นขั้นกลาง ต้อง inverse Laplace และตรวจเงื่อนไขเริ่มต้นจึงถือว่าคำตอบสมบูรณ์
 
@@ -1769,7 +1772,8 @@ Impulse response เป็นแนวคิดสำคัญมาก เพ�
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l}
+    \small
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.30\textwidth} >{\raggedright\arraybackslash}p{0.28\textwidth} X}
         \hline
         \textbf{สถานการณ์} & \textbf{การแทนทางคณิตศาสตร์} & \textbf{เครื่องมือ Laplace ที่ใช้} \\
         \hline
@@ -1780,7 +1784,7 @@ Impulse response เป็นแนวคิดสำคัญมาก เพ�
         ระบบอันดับสอง & ODE อันดับสอง & derivative transform + completing square \\
         ระบบ LTI & $y=x*h$ & convolution theorem \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 
@@ -1814,7 +1818,7 @@ F(s)=\int_0^\infty f(t)e^{-st}dt
 \begin{enumerate}
     \item Inverse Laplace ในงานวิศวกรรมระดับต้นทำได้ด้วย table lookup, completing the square และ partial fractions
     \item Unit step ใช้แทนการเปิด/ปิดอินพุตตามเวลา ส่วน impulse ใช้แทนอินพุตเชิงอุดมคติที่มีพื้นที่จำกัดและช่วงเวลาสั้นมาก
-    \item วิธีแก้ ODE ด้วยลาปลาซคือ แปลง → ใส่ initial conditions → แก้ $Y(s)$ → จัดรูป → inverse → ตรวจคำตอบ
+    \item วิธีแก้ ODE ด้วยลาปลาซคือ แปลง $\to$ ใส่ initial conditions $\to$ แก้ $Y(s)$ $\to$ จัดรูป $\to$ inverse $\to$ ตรวจคำตอบ
     \item Convolution ในเวลาเปลี่ยนเป็นการคูณในโดเมน $s$
 \end{enumerate}
 
@@ -1844,7 +1848,7 @@ F(s)=\int_0^\infty f(t)e^{-st}dt
     \item ให้เหตุผลว่าทำไมการใช้ Final Value Theorem จึงต้องตรวจเงื่อนไขก่อนเสมอ
 \end{enumerate}
 
-
+\newpage
 
 \subsection{12. แบบฝึกหัดท้ายบท}
 
@@ -1983,7 +1987,7 @@ x(t)=u(t)-u(t-2)
 
 จงหา $Y(s)$ และ $y(t)$ โดยใช้สมบัติลาปลาซ พร้อมอธิบายความสัมพันธ์กับ convolution
 
-
+\newpage
 
 \subsection{13. ข้อเสนอแนะสำหรับผู้สอน}
 
@@ -1992,7 +1996,7 @@ x(t)=u(t)-u(t-2)
 \textbf{สัปดาห์ที่ 11}
 
 \begin{itemize}
-    \item 20 นาที: Motivation จาก ODE ในงานไฟฟ้าและแนวคิด time domain → $s$-domain
+    \item 20 นาที: Motivation จาก ODE ในงานไฟฟ้าและแนวคิด time domain $\to$ $s$-domain
     \item 35 นาที: นิยาม การลู่เข้า และคู่การแปลงจากนิยาม 2 ตัวอย่าง
     \item 35 นาที: ตารางพื้นฐานและสมบัติเชิงเส้น/$s$-shift
     \item 40 นาที: derivative rules และการใช้ initial conditions
@@ -2120,7 +2124,7 @@ x(t)=u(t)-u(t-2)
     \item \textbf{ช่วงเวลาที่เหมาะสม:} ใช้เป็นตำราหลักหรืออ่านเสริมตลอดบท
 \end{itemize}
 
-
+\newpage
 
 \subsection{15. เอกสารอ้างอิง}
 
