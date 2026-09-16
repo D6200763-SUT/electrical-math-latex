@@ -2,14 +2,7 @@
 
 \textbf{ชื่อบทภาษาอังกฤษ:} Applications of the Laplace Transform in Electrical Circuit Analysis\\
 \textbf{รายวิชา:} คณิตศาสตร์วิศวกรรมไฟฟ้า (Electrical Engineering Mathematics)\\
-\textbf{รหัสวิชา:} 5571102\\
-\textbf{จำนวนหน่วยกิต:} ไม่ระบุในเอกสารโครงสร้างรายวิชา\\
-\textbf{ระดับผู้เรียน:} นักศึกษาระดับปริญญาตรี สาขาวิชาเทคโนโลยีวิศวกรรมไฟฟ้า\\
-\textbf{สัปดาห์ตามแผนการจัดการเรียนรู้:} สัปดาห์ที่ 13\\
-\textbf{จำนวนชั่วโมงที่แนะนำ:} 3 ชั่วโมงบรรยายและฝึกวิเคราะห์โจทย์ (ข้อเสนอเพื่อให้สอดคล้องกับแผน 1 สัปดาห์)\\
-\textbf{ความยาวเป้าหมาย:} 25–30 หน้า A4\\
-\textbf{รูปแบบการเรียน:} บรรยายร่วมกับตัวอย่างคำนวณ การวิเคราะห์วงจร และกิจกรรมอภิปราย\\
-\textbf{โหมดการออกแบบ:} Topic-Based Design Mode
+\textbf{รหัสวิชา:} 5571102
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
 
@@ -48,7 +41,7 @@
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l}
+    \begin{tabularx}{\textwidth}{L{0.22\textwidth} L{0.22\textwidth} Y}
         \hline
         \textbf{คำศัพท์ภาษาไทย} & \textbf{English term} & \textbf{ความหมายโดยย่อ} \\
         \hline
@@ -68,7 +61,7 @@
         อัตราส่วนการหน่วง & Damping Ratio & พารามิเตอร์ไร้มิติ $\zeta$ ที่บอกลักษณะ underdamped, critically damped หรือ overdamped \\
         สมการลักษณะเฉพาะ & Characteristic Equation & สมการที่ได้จากการตั้งพหุนามตัวส่วนเท่ากับศูนย์ ใช้หาโพลของระบบ \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
@@ -92,7 +85,9 @@
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l l l}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{L{0.18\textwidth} L{0.12\textwidth} L{0.21\textwidth} L{0.17\textwidth} Y}
         \hline
         \textbf{ผลลัพธ์การเรียนรู้ประจำบท} & \textbf{เนื้อหาที่เกี่ยวข้อง} & \textbf{กิจกรรมการเรียนรู้} & \textbf{วิธีประเมิน} & \textbf{หลักฐานการเรียนรู้} \\
         \hline
@@ -103,7 +98,7 @@
         CLO5 หา transfer function และ pole–zero & 7.9–7.10 & หา $G(s)$ จากวงจรและระบุราก & แบบฝึกหัดวิเคราะห์ & ฟังก์ชันถ่ายโอน แผนภาพ pole–zero และการตีความ \\
         CLO6 ประเมินเสถียรภาพเบื้องต้น & 7.10–9 & กรณีศึกษาเปรียบเทียบตำแหน่งโพล & แบบฝึกหัดระดับประยุกต์ & ข้อสรุปเสถียรภาพและเหตุผลจากตำแหน่งโพล \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
@@ -149,7 +144,7 @@ $\downarrow$\\
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-01.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-01.png}
     \caption{แผนภาพแนวคิดการวิเคราะห์วงจรด้วยการแปลงลาปลาซ}
 \end{figure}
 
@@ -267,7 +262,7 @@ i_L(0^+)=i_L(0^-)
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-02.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-02.png}
     \caption{ตัวแปรที่ต่อเนื่องของตัวเก็บประจุและตัวเหนี่ยวนำขณะสวิตช์}
 \end{figure}
 
@@ -425,7 +420,7 @@ R_{\text{crit}}=2\sqrt{\frac{L}{C}}
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
 
-\subsubsection{7.3 การแปลงวงจรจากโดเมนเวลาไปสู่โดเมน $s$}
+\subsubsection{7.3 การแปลงวงจรจากโดเมนเวลาไปสู่โดเมน \texorpdfstring{$s$}{s}}
 
 \paragraph{7.3.1 สมบัติการแปลงอนุพันธ์}
 
@@ -540,7 +535,7 @@ Z_C(s)=\frac{1}{sC}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-03.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-03.png}
     \caption{แบบจำลององค์ประกอบ R, L และ C ในโดเมนเวลาและโดเมน $s$}
 \end{figure}
 
@@ -601,7 +596,7 @@ I_s(s)=\frac{I_0}{s}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-04.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-04.png}
     \caption{ขั้นตอน 9 ขั้นในการวิเคราะห์วงจรสวิตช์ด้วยลาปลาซ}
 \end{figure}
 
@@ -659,7 +654,8 @@ I(s)=\frac{sC\,V_s(s)}{LCs^2+RCs+1}
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l}
+    \small
+    \begin{tabularx}{\textwidth}{L{0.19\textwidth} L{0.35\textwidth} Y}
         \hline
         \textbf{ประเด็น} & \textbf{$s$-Domain} & \textbf{Phasor / Sinusoidal Steady State} \\
         \hline
@@ -670,7 +666,7 @@ I(s)=\frac{sC\,V_s(s)}{LCs^2+RCs+1}
         อินพุต & รองรับ step, impulse, exponential, sinusoid ฯลฯ & เน้น sinusoid ที่ความถี่เดียว \\
         สภาวะเริ่มต้น & รวมได้โดยตรงผ่านสมบัติ Laplace & โดยทั่วไปถือว่าผ่าน transient แล้ว \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 ดังนั้นการแทน $s=j\omega$ เป็นเพียงกรณีพิเศษบนแกนจินตภาพที่ใช้ศึกษาการตอบสนองความถี่ ไม่ควรถือว่า phasor analysis และ Laplace analysis เป็นวิธีเดียวกันทุกประการ
@@ -856,7 +852,7 @@ t=(0.2)(2.9957)\approx0.599\,\text{s}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-05.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-05.png}
     \caption{การตอบสนองขั้นบันไดของวงจร RC}
 \end{figure}
 
@@ -1083,7 +1079,7 @@ t=-\tau\ln(0.1)=0.05(2.3026)=0.1151\,\text{s}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-06.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-06.png}
     \caption{การตอบสนองขั้นบันไดของวงจร RL}
 \end{figure}
 
@@ -1262,9 +1258,9 @@ R_{\text{crit}}=2\sqrt{\frac{L}{C}}
 ดังนั้น
 
 \begin{itemize}
-    \item $R=20\,\Omega<R_{\text{crit}}$ → \textbf{underdamped}
-    \item $R=100\,\Omega=R_{\text{crit}}$ → \textbf{critically damped}
-    \item $R=200\,\Omega>R_{\text{crit}}$ → \textbf{overdamped}
+    \item $R=20\,\Omega<R_{\text{crit}}$ $\to$ \textbf{underdamped}
+    \item $R=100\,\Omega=R_{\text{crit}}$ $\to$ \textbf{critically damped}
+    \item $R=200\,\Omega>R_{\text{crit}}$ $\to$ \textbf{overdamped}
 \end{itemize}
 
 สำหรับ $R=20\,\Omega$
@@ -1300,7 +1296,7 @@ R_{\text{crit}}=2\sqrt{\frac{L}{C}}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-07.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-07.png}
     \caption{เปรียบเทียบการตอบสนอง RLC แบบ underdamped, critically damped และ overdamped}
 \end{figure}
 
@@ -1455,7 +1451,9 @@ transient ประกอบด้วยพจน์ $e^{-\zeta\omega_nt}\sin\om
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l r r l}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{L{0.17\textwidth} L{0.18\textwidth} L{0.16\textwidth} L{0.13\textwidth} Y}
         \hline
         \textbf{แนวคิด} & \textbf{เน้นอะไร} & \textbf{เกี่ยวกับ initial condition} & \textbf{เกี่ยวกับ input} & \textbf{ลดลงเสมอหรือไม่} \\
         \hline
@@ -1466,7 +1464,7 @@ transient ประกอบด้วยพจน์ $e^{-\zeta\omega_nt}\sin\om
         Transient response & พฤติกรรมช่วงเปลี่ยนผ่าน & อาจเกี่ยวข้อง & อาจเกี่ยวข้อง & สำหรับระบบเสถียรจะลดลง \\
         Steady-state response & พฤติกรรมระยะยาว & ผลเริ่มต้นหายไปในระบบ asymptotically stable & ขึ้นกับอินพุต & คงอยู่ระยะยาว \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
@@ -1691,8 +1689,8 @@ e^{-\sigma t}[A\cos\omega_dt+B\sin\omega_dt]
 \]
 
 \begin{itemize}
-    \item $\sigma>0$ → ซองลดลง
-    \item $\omega_d$ → ความถี่การสั่น
+    \item $\sigma>0$ $\to$ ซองลดลง
+    \item $\omega_d$ $\to$ ความถี่การสั่น
 \end{itemize}
 
 \paragraph{7.10.3 เกณฑ์เสถียรภาพเบื้องต้น}
@@ -1792,7 +1790,7 @@ s=\frac{-6\pm j8}{2}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/figure-08.png}
+    \includegraphics[width=0.8\textwidth]{images/chapter7/figure-08.png}
     \caption{ความสัมพันธ์ระหว่างตำแหน่งโพลกับรูปการตอบสนองเวลา}
 \end{figure}
 
@@ -1869,7 +1867,7 @@ V_C(s)=\frac{V_0}{s(RCs+1)}
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l}
+    \begin{tabularx}{\textwidth}{L{0.41\textwidth} Y}
         \hline
         \textbf{ความเข้าใจผิด} & \textbf{แนวคิดที่ถูกต้อง} \\
         \hline
@@ -1886,7 +1884,7 @@ V_C(s)=\frac{V_0}{s(RCs+1)}
         11. Final Value Theorem ใช้ได้กับทุก $F(s)$ & ต้องตรวจสอบเงื่อนไขเสถียรภาพของ $sF(s)$ ก่อน \\
         12. การแยก natural/forced เหมือนกับ transient/steady-state ทุกกรณี & เป็นคนละมุมมอง แม้บางโจทย์ RC/RL step จะดูเหมือนตรงกัน \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \par\noindent\rule{\textwidth}{0.4pt}\par
@@ -2015,7 +2013,7 @@ G(s)=\frac{Y(s)}{X(s)}
 
 กิจกรรมต่อไปนี้ออกแบบให้ใช้ได้ภายในชั่วโมงบรรยายโดยไม่ต้องใช้อุปกรณ์ปฏิบัติการเฉพาะ และสัมพันธ์กับผลลัพธ์การเรียนรู้ของบท
 
-\subsubsection{กิจกรรมที่ 1: จากวงจรจริงสู่สมการและโดเมน $s$}
+\subsubsection{กิจกรรมที่ 1: จากวงจรจริงสู่สมการและโดเมน \texorpdfstring{$s$}{s}}
 
 ให้นักศึกษาทำงานเป็นคู่ รับแผนภาพวงจร RC หรือ RL ที่มีสวิตช์หนึ่งวงจร แล้วดำเนินการ 4 ขั้น ได้แก่ (1) ระบุ $0^-$ และ $0^+$ (2) เขียนสมการเวลา (3) แปลงเป็นสมการใน $s$ (4) อธิบายความหมายของโพล ใช้เวลาประมาณ 15 นาที จากนั้นเปรียบเทียบคำตอบระหว่างคู่
 
@@ -2407,9 +2405,9 @@ R_{crit}=2\sqrt{\frac{L}{C}}
 ดังนั้น
 
 \begin{itemize}
-    \item $R=10\,\Omega<63.25\,\Omega$ → underdamped
-    \item $R=63.25\,\Omega$ → critically damped
-    \item $R=100\,\Omega>63.25\,\Omega$ → overdamped
+    \item $R=10\,\Omega<63.25\,\Omega$ $\to$ underdamped
+    \item $R=63.25\,\Omega$ $\to$ critically damped
+    \item $R=100\,\Omega>63.25\,\Omega$ $\to$ overdamped
 \end{itemize}
 
 \subsubsection{เฉลยข้อ 9}
@@ -2689,7 +2687,9 @@ R=1.4\sqrt{1000}
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{r l l}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{L{0.16\textwidth} L{0.34\textwidth} Y}
         \hline
         \textbf{ช่วงเวลาโดยประมาณ} & \textbf{เนื้อหา/กิจกรรม} & \textbf{จุดเน้น} \\
         \hline
@@ -2701,7 +2701,7 @@ R=1.4\sqrt{1000}
         145–165 นาที & Transfer function, poles, zeros, stability & เชื่อมไปสู่วิชาระบบควบคุมและบทที่ 8 \\
         165–180 นาที & กิจกรรมอ่านกราฟ–ทายโพล + exit question & ประเมิน CLO4–CLO6 แบบ formative \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 ผู้สอนสามารถลดจำนวนขั้นคำนวณในตัวอย่างที่ 5 หากเวลาไม่เพียงพอ แล้วมอบเป็นโจทย์หลังเรียน โดยควรรักษาเวลาอภิปรายเรื่อง \textbf{initial conditions และ pole interpretation} เพราะเป็นสองจุดที่ผู้เรียนมักผิดมากที่สุด
@@ -2747,7 +2747,7 @@ R=1.4\sqrt{1000}
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l r l}
+    \begin{tabularx}{\textwidth}{L{0.34\textwidth} r Y}
         \hline
         \textbf{เกณฑ์} & \textbf{คะแนน} & \textbf{หลักฐานที่คาดหวัง} \\
         \hline
@@ -2757,7 +2757,7 @@ R=1.4\sqrt{1000}
         Inverse Laplace & 2 & แยกเศษส่วนและได้คำตอบเวลาอย่างถูกต้อง \\
         ตรวจสอบและตีความ & 2 & ตรวจ initial/final value, pole/time constant และอธิบายพฤติกรรมได้ \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 Rubric นี้ให้ความสำคัญกับ \textbf{กระบวนการวิเคราะห์} ไม่ใช่เฉพาะคำตอบสุดท้าย จึงสอดคล้องกับ CLO ที่ใช้คำกริยา “สร้างแบบจำลอง วิเคราะห์ คำนวณ และประเมิน”
@@ -2779,7 +2779,9 @@ Rubric นี้ให้ความสำคัญกับ \textbf{กระ�
 
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{l l l l l}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabularx}{\textwidth}{L{0.24\textwidth} L{0.15\textwidth} L{0.22\textwidth} Y L{0.15\textwidth}}
         \hline
         \textbf{องค์กร/ผู้จัดทำ} & \textbf{หัวข้อที่ควรค้น} & \textbf{คำค้นแนะนำ} & \textbf{จุดประสงค์ในการรับชม/อ่าน} & \textbf{ช่วงเวลาที่เหมาะสม} \\
         \hline
@@ -2789,7 +2791,7 @@ Rubric นี้ให้ความสำคัญกับ \textbf{กระ�
         MathWorks Documentation & Transfer function models, poles and zeros & \texttt{MathWorks transfer function models poles zeros} & ตรวจนิยาม transfer function และศัพท์ pole/zero ในบริบท continuous-time systems & ประกอบหัวข้อ 7.9–7.10 \\
         Control Tutorials for MATLAB and Simulink, University of Michigan & System modeling and system analysis & \texttt{CTMS system modeling transfer function poles zeros stability} & ดูตัวอย่างการตีความ pole locations กับ system response & หลังหัวข้อ 7.10 หรือเตรียมเข้าสู่วิชาระบบควบคุม \\
         \hline
-    \end{tabular}
+    \end{tabularx}
 \end{table}
 
 \subsubsection{15.1 แนวทางใช้สื่ออย่างมีเป้าหมาย}

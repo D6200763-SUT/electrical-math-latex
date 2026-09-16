@@ -1,0 +1,298 @@
+\section{แบบฝึกหัดเพิ่มเติมสำหรับเตรียมสอบปลายภาค}
+\subsection{บทที่ 6 การแปลงลาปลาซ (Laplace Transform)}
+
+\textbf{รายวิชา:} 5571102 คณิตศาสตร์วิศวกรรมไฟฟ้า\\
+\textbf{Electrical Engineering Mathematics}
+
+เอกสารชุดฝึกนี้จัดทำขึ้นโดยอ้างอิงแนวทางจาก \textbf{ตัวอย่างที่ 6.3, 6.4, 6.5, 6.6, 6.13} และ \textbf{แบบฝึกหัดท้ายบทข้อ 1, 2, 3, 6, 7} โดยกำหนดให้ระดับความยากของโจทย์ไม่เกินกรอบของตัวอย่างและแบบฝึกหัดต้นฉบับ ชุดฝึกที่ 3 เพิ่มจำนวนขั้นตอนในการจัดรูปและวิเคราะห์ แต่ยังใช้เทคนิคเดิมที่ปรากฏในบทเรียน
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\section{ชุดฝึกที่ 1}
+
+\subsection{ข้อ 1 — Laplace Transform โดยใช้สมบัติเชิงเส้นและตาราง}
+
+จงหา Laplace transform ของ
+
+\[
+f(t)=3+2t+4t^2
+\]
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.3 และแบบฝึกหัดท้ายบทข้อ 1
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 2 — Inverse Laplace จากตารางโดยตรง}
+
+จงหา inverse Laplace ของ
+
+\[
+F(s)=\frac{5}{s}+\frac{3}{s+2}-\frac{2}{s^2}
+\]
+
+\textbf{แนวอ้างอิง:} แบบฝึกหัดท้ายบทข้อ 3
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 3 — Inverse Laplace โดยใช้ Partial Fractions: รากจริงต่างกัน}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{4s+7}{(s+1)(s+3)}
+\right\}
+\]
+
+โดยแสดงขั้นตอนการแยกเศษส่วนย่อย
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.5, ตัวอย่าง 6.13 และแบบฝึกหัดท้ายบทข้อ 6
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 4 — Inverse Laplace โดยใช้ Partial Fractions: รากซ้ำ}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{s+5}{s(s+2)^2}
+\right\}
+\]
+
+โดยตั้งรูปเศษส่วนย่อยให้ครบทุกพจน์
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.6 และแบบฝึกหัดท้ายบทข้อ 7
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 5 — Inverse Laplace โดยการทำกำลังสองสมบูรณ์}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{2s+7}{s^2+4s+13}
+\right\}
+\]
+
+โดยจัดตัวส่วนให้อยู่ในรูปกำลังสองสมบูรณ์ก่อนเทียบตาราง
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.4
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\newpage
+
+\section{ชุดฝึกที่ 2}
+
+\subsection{ข้อ 1 — Laplace Transform ของ Exponential, Sine และ Cosine}
+
+จงหา Laplace transform ของ
+
+\[
+f(t)=4e^{-2t}-3\sin 4t+2\cos 4t
+\]
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.3 และแบบฝึกหัดท้ายบทข้อ 2
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 2 — Inverse Laplace จากตารางโดยตรง}
+
+จงหา inverse Laplace ของ
+
+\[
+F(s)=\frac{4}{s}-\frac{5}{s+3}+\frac{6}{s^2}
+\]
+
+\textbf{แนวอ้างอิง:} แบบฝึกหัดท้ายบทข้อ 3
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 3 — Inverse Laplace โดยใช้ Partial Fractions: รากจริงต่างกัน}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{5s+14}{(s+2)(s+4)}
+\right\}
+\]
+
+โดยแสดงขั้นตอนการหาสัมประสิทธิ์ของเศษส่วนย่อย
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.5, ตัวอย่าง 6.13 และแบบฝึกหัดท้ายบทข้อ 6
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 4 — Inverse Laplace โดยใช้ Partial Fractions: รากซ้ำ}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{3s+4}{s(s+2)^2}
+\right\}
+\]
+
+โดยตั้งเศษส่วนย่อยในรูปที่ถูกต้องก่อนหาค่าสัมประสิทธิ์
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.6 และแบบฝึกหัดท้ายบทข้อ 7
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 5 — Inverse Laplace โดยการทำกำลังสองสมบูรณ์}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{3s+11}{s^2+6s+13}
+\right\}
+\]
+
+โดยจัดตัวส่วนและตัวเศษให้สามารถเทียบกับรูป sine และ cosine ในตาราง Laplace ได้
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.4
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\newpage
+
+\section{ชุดฝึกที่ 3 — ระดับท้าทาย}
+
+\subsection{ข้อ 1 — Laplace Transform โดยใช้สมบัติเชิงเส้นและตาราง}
+
+จงหา Laplace transform ของ
+
+\[
+f(t)=3t^2-4e^{-2t}+5\sin 3t-2\cos 3t
+\]
+
+โดยแสดงการใช้สมบัติเชิงเส้นและคู่การแปลงของแต่ละพจน์
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.3 และแบบฝึกหัดท้ายบทข้อ 1–2
+
+\textbf{จุดที่ยากขึ้น:} มีฟังก์ชันหลายชนิดอยู่ในข้อเดียว แต่ยังเป็นการเทียบตารางโดยตรง
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 2 — Inverse Laplace โดยเทียบตารางหลายรูปแบบ}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{6}{s^3}
+-\frac{5}{s+4}
++\frac{4s}{s^2+16}
++\frac{12}{s^2+16}
+\right\}
+\]
+
+โดยแสดงการหา inverse Laplace ของแต่ละพจน์
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.3 และแบบฝึกหัดท้ายบทข้อ 3
+
+\textbf{จุดที่ยากขึ้น:} ต้องจำแนกรูป \(t^n\), exponential, sine และ cosine ภายในข้อเดียว
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 3 — Partial Fractions กรณีรากจริงต่างกัน 3 ราก}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{3s^2+3s+6}
+{s(s+1)(s+3)}
+\right\}
+\]
+
+โดยดำเนินการดังนี้
+
+\begin{enumerate}
+    \item ตั้งรูปเศษส่วนย่อยให้ถูกต้อง
+    \item หาค่าสัมประสิทธิ์ \(A,B,C\)
+    \item เขียน \(F(s)\) หลังแยกเศษส่วนย่อย
+    \item หา \(f(t)\)
+\end{enumerate}
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.5, ตัวอย่าง 6.13 และแบบฝึกหัดท้ายบทข้อ 6
+
+\textbf{จุดที่ยากขึ้น:} ตัวเศษเป็นพหุนามกำลังสองและมีรากต่างกัน 3 ราก แต่ใช้หลักการเดิม
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 4 — Partial Fractions กรณีมีรากซ้ำ}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{s^2+9s+8}
+{s(s+2)^2}
+\right\}
+\]
+
+โดยเริ่มจากการตั้ง
+
+\[
+\frac{s^2+9s+8}{s(s+2)^2}
+=
+\frac{A}{s}
++
+\frac{B}{s+2}
++
+\frac{C}{(s+2)^2}
+\]
+
+แล้วหาค่า \(A,B,C\) และหา inverse Laplace
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.6 และแบบฝึกหัดท้ายบทข้อ 7
+
+\textbf{จุดที่ยากขึ้น:} ต้องจัดการทั้งรากธรรมดาและรากซ้ำในโจทย์เดียว
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+\subsection{ข้อ 5 — Inverse Laplace โดยทำกำลังสองสมบูรณ์และจัดตัวเศษ}
+
+จงหา
+
+\[
+\mathcal{L}^{-1}
+\left\{
+\frac{4s+18}
+{s^2+6s+13}
+\right\}
+\]
+
+โดยดำเนินการดังนี้
+
+\begin{enumerate}
+    \item จัดตัวส่วนให้อยู่ในรูป
+    \[
+    (s+a)^2+\omega^2
+    \]
+    \item จัดตัวเศษให้อยู่ในรูปที่สัมพันธ์กับ \(s+a\)
+    \item แยกเป็นพจน์ cosine และ sine
+    \item หา inverse Laplace
+\end{enumerate}
+
+\textbf{แนวอ้างอิง:} ตัวอย่าง 6.4
+
+\textbf{จุดที่ยากขึ้น:} นักศึกษาต้องจัดทั้งตัวส่วนและตัวเศษเองก่อนเทียบตาราง
+
+\par\noindent\rule{\textwidth}{0.4pt}\par
+
+
